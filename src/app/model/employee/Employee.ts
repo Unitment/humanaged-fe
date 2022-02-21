@@ -17,5 +17,5 @@ export interface Employee {
   status: Status,
   account: Account,
   businessUnit: BusinessUnit,
-  projects: ProjectMember[]
+  projectMember: ProjectMember[]
 }

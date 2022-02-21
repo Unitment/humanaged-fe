@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http'
 
 import { BuManagementModule } from './components/bu-management/bu-management.module';
 import { EmployeeManagementModule } from './components/employee-management/employee-management.module';
@@ -24,6 +25,7 @@ import { AppComponent } from './app.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     BuManagementModule,
     BuManagementRoutingModule,
     EmployeeManagementModule,
@@ -33,7 +35,7 @@ import { AppComponent } from './app.component';
     ProjectMemberManagementModule,
     ProjectManagementRoutingModule,
     AccountManagementModule,
-    AccountManagementRoutingModule
+    AccountManagementRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

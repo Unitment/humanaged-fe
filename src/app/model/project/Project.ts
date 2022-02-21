@@ -9,5 +9,5 @@ export interface Project {
   endDate: string,
   description: string,
   state: ProjectState,
-  members: ProjectMember,
+  members: ProjectMember[],
 }

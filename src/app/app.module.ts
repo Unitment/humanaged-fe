@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { BuManagementModule } from './components/bu-management/bu-management.module';
+import { BuManagementModule} from './components/bu-management/bu-management.module';
 import { EmployeeManagementModule } from './components/employee-management/employee-management.module';
 import { ProjectManagementModule } from './components/project-management/project-management.module';
 import { ProjectMemberManagementModule } from './components/project-member-management/project-member-management.module';

@@ -7,6 +7,7 @@ import { ProjectMember } from 'src/app/model/projectMember/ProjectMember';
 import { BuService } from 'src/app/services/bu.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { ProjectMemberService } from 'src/app/services/project-member.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-parent-view',
@@ -27,6 +28,7 @@ export class ParentViewComponent implements OnInit {
   constructor(private buService:BuService
             , private pmService:ProjectMemberService
             , private employeeService: EmployeeService
+            , private router: Router
             ) { }
 
   ngOnInit(): void {
@@ -75,6 +77,10 @@ export class ParentViewComponent implements OnInit {
         alert(error.message);
       }
     )
+  }
+
+  public listChildPage(id:string){
+    this.router.navigate(['listProject',id]);
   }
   
 }

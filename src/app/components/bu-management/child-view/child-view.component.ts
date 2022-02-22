@@ -1,14 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { BusinessUnit } from 'src/app/model/businessUnit/BusinessUnit';
 import { Employee } from 'src/app/model/employee/Employee';
 import { Project } from 'src/app/model/project/Project';
 import { ProjectAndMember } from 'src/app/model/projectMember/ProjectAndMember';
 import { ProjectMember } from 'src/app/model/projectMember/ProjectMember';
-import { ProjectMemberKey } from 'src/app/model/projectMember/ProjectMemberKey';
-import { ProjectRole } from 'src/app/model/projectMember/ProjectRole';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { ProjectMemberService } from 'src/app/services/project-member.service';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-child-view',
@@ -17,23 +15,25 @@ import { ProjectMemberService } from 'src/app/services/project-member.service';
 })
 export class ChildViewComponent implements OnInit {
 
-  // public businessUnits: BusinessUnit[] = [];
-  // public pms: ProjectMember[]=[];
-  // public projectMembers: ProjectMember[]=[];
-  // public projectIds: ProjectMemberKey[] = [];
-  // public employeeIds: ProjectMemberKey[] = [];
-
   public projectAndMembers: ProjectAndMember[] = [];
 
   public PM !: Employee;
   public namePM!:string;
-  public PMid:string = '3';
+  public PMid!:string;
 
   showFiller = false;
 
-  constructor(private empService: EmployeeService, private pmService: ProjectMemberService) { }
+  constructor(
+    private empService: EmployeeService,
+    private pmService: ProjectMemberService,
+    private route: ActivatedRoute
+    ) { }
 
   ngOnInit(): void {
+    this.route.paramMap.subscribe((params : ParamMap) =>{
+      let id = parseInt(params.get('id')+'');
+      this.PMid = id+'';
+    })
     this.getPMById(this.PMid);
     this.getprojectAndMember(this.PMid);
     // this.getProjectByIdPM(this.PMid);
@@ -88,40 +88,4 @@ export class ChildViewComponent implements OnInit {
   public getAccountName(projectMember:ProjectMember):string{
     return projectMember.employee.account.accountName;
   }
-
-
-  // public getProjectByIdPM(id: string):void{
-  //   this.pmService.getProjectByIdPM(this.PMid).subscribe(
-  //     (response: ProjectMember[]) => {
-  //       this.pms = response;
-  //       this.pms.forEach(element => {
-  //         this.projectIds.push(element.projectMemberKey)
-  //       });
-  //     },
-  //     (error:HttpErrorResponse) => {
-  //       alert(error.message);
-  //     }
-  //   );
-  // }
-
-  // public getMemberByProjectId(id: string):boolean{
-  //   this.pmService.getMemberByProjectId(id).subscribe(
-  //     (response: ProjectMember[]) => {
-  //       this.projectMembers = response;
-  //       console.log(response);
-        
-  //       this.projectMembers.forEach(element => {
-  //         this.employeeIds.push(element.projectMemberKey)
-  //       });
-  //     },
-  //     (error:HttpErrorResponse) => {
-  //       alert(error.message);
-  //     }
-  //   );
-  //   if(this.employeeIds.length>0){
-  //     return true;
-  //   }else{
-  //     return false;
-  //   }
-  // }
 }

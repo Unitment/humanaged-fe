@@ -1,0 +1,110 @@
+<div class="parentViewBody">
+    <div class="div-left" style="float: left;">
+        <div style="padding-top: 20px;">
+            <mat-drawer-container class="container" autosize>
+                <mat-drawer #drawer class="sidenav" mode="side">
+                    <h3><b>Search PM</b></h3>
+                    <form class="search-pm-form">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                          <mat-label>PM Username</mat-label>
+                          <input matInput placeholder="TrangTTU">
+                        </mat-form-field>
+                        <button type="button" mat-icon-button>
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                          </button>
+                    </form><br>
+        
+                    <h3><b>Search Support</b></h3>
+                    <form class="search-support-form">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                          <mat-label>Support Username</mat-label>
+                          <input matInput placeholder="TrangTTU">
+                        </mat-form-field>
+                        <button type="button" mat-icon-button >
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                          </button>
+                      </form>
+                </mat-drawer>
+        
+                <div class="sidenav-content">
+                  <button class="button-show" type="button" mat-icon-button (click)="drawer.toggle()">
+                    <i class="fa-solid fa-caret-right"></i>
+                  </button>
+                </div>
+              </mat-drawer-container>
+        </div>
+    </div>
+    
+    <div class="div-right" style=" display: flow-root;">
+        <div class="tree">
+            <ul>
+                <li>
+                    <!-- start Node cha -->
+                    <div class="node">
+                        <p>BUL</p>
+                        
+                        <hr>
+                        <div class="avaAndName">
+                            <img src="\assets\images\MeoBeo.jpg" alt="img2"><a href="#">{{BUL}}</a>
+                        </div>
+                        <hr>
+                        <p class="description"><b>BU name: </b>{{BUName}}</p>
+                        <div class="oneButton">
+                            <button mat-stroked-button color="primary">ADD PM</button>
+                        </div>
+                    </div>
+                    <!-- end Node cha -->
+                    <!-- start node con tầng 2 -->
+                    <!-- <div class="tang2" > -->
+                        <ul>
+                            <li *ngFor="let pm of pmAccounts">
+                                <div class="node" style="display: flexbox;">
+                                    <p>PM</p>
+                                    <hr>
+                                    <div class="avaAndName">
+                                        <img src="\assets\images\MeoBeo.jpg" alt="img2"><a href="#">{{pm.account.accountName}}</a>
+                                    </div>
+                                    <hr>
+                                    <div class="oneButton">
+                                        <button mat-stroked-button color="primary">Projects</button>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- Node support tầng 2 -->
+                            <li>
+                                <div class="node">
+                                    <p>Support</p>
+                                    <hr>
+                                    <p class="description"><b>Description: </b>HTML is the standard markup language for creating Web pages. HTML describes the structure of a Web page, and consists of a series of elements. HTML elements tell the browser how to display the content.</p>
+                                    <hr>
+                                </div>
+                                    <ul>
+                                        <li *ngFor="let support of supports">
+                                            <div class="node">
+                                                <p>PM</p>
+                                                <hr>
+                                                <div class="avaAndName">
+                                                    <img src="\assets\images\MeoBeo.jpg" alt="img2"><a href="#">{{support.account.accountName}}</a>
+                                                </div>
+                                                <hr>
+                                                <div class="oneButton">
+                                                    <button mat-stroked-button color="warn">Remove</button>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                            </li>
+                        </ul>
+                        <!-- Thêm button more vào thì nhánh cây không cân nữa nên phải thêm padding-left: 40px trong class tang2 để cân -->
+                        <!-- <button class="moreButton" style="float: left;">More</button> -->
+                    <!-- </div> -->
+                    <!-- end node con tầng 2 -->
+                </li>
+            </ul>
+        </div>
+            
+            
+    </div>
+    
+    
+</div>

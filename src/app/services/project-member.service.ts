@@ -1,9 +1,32 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { ProjectAndMember } from '../model/projectMember/ProjectAndMember';
+import { ProjectMember } from '../model/projectMember/ProjectMember';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectMemberService {
 
-  constructor() { }
+  private apiServerUrl = environment.apiBaseUrl;
+  constructor(private http: HttpClient) { }
+
+  public getPMs():Observable<ProjectMember[]>{
+    return this.http.get<ProjectMember[]>(`${this.apiServerUrl}/api/projectMember/role/PM`);
+  }
+
+  public getProjectByIdPM(id:string):Observable<ProjectMember[]>{
+    return this.http.get<ProjectMember[]>(`${this.apiServerUrl}/api/projectMember/pm/${id}`);
+  }
+
+  public getMemberByProjectId(id: string):Observable<ProjectMember[]> {
+    const temp = this.http.get<ProjectMember[]>(`${this.apiServerUrl}/api/projectMember/projectId/${id}`);
+    // if(temp)
+    return temp;
+  }
+  public getProjectAndMember(id: string):Observable<ProjectAndMember[]>{
+    return this.http.get<ProjectAndMember[]>(`${this.apiServerUrl}/api/projectMember/projectAndMember/${id}`);
+  }
 }

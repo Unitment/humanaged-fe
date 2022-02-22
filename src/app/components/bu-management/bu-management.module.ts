@@ -13,7 +13,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatInputModule} from '@angular/material/input';
 import { ChildViewComponent } from './child-view/child-view.component';
 
-
+import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,10 @@ import { ChildViewComponent } from './child-view/child-view.component';
     MatGridListModule,
     MatInputModule,
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    Ng2SearchPipeModule
   ],
   exports: [ParentViewComponent, ChildViewComponent]
 })

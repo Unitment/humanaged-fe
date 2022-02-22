@@ -24,6 +24,8 @@ export class ParentViewComponent implements OnInit {
 
   showFiller = false;
   name: Account[] =[];
+  searchText:any;
+  searchText2:any;
 
   constructor(private buService:BuService
             , private pmService:ProjectMemberService
@@ -83,4 +85,17 @@ export class ParentViewComponent implements OnInit {
     this.router.navigate(['listProject',id]);
   }
   
+  // public searchPM(key:string):void{
+  //   const results: Employee[] = [];
+  //   this.pmAccounts.forEach(element => {
+  //     if(element.account.accountName.toLowerCase().indexOf(key.toLowerCase()) !== -1){
+  //       results.push(element);
+  //     }
+  //   });
+  //   console.log(results.length);
+  //   this.pmAccounts = results;
+  //   if(results.length==0 || !key){
+  //     this.getPM();
+  //   }
+  // }
 }

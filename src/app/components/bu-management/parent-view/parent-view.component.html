@@ -7,7 +7,8 @@
                     <form class="search-pm-form">
                         <mat-form-field class="example-full-width" appearance="fill">
                           <mat-label>PM Username</mat-label>
-                          <input matInput placeholder="TrangTTU">
+                          <input name="searchPM" type="search" matInput placeholder="TrangTTU" [(ngModel)]="searchText2" >
+                          <!-- <input name="key" id="searchPM" type="search" (ngModelChange)="searchPM(key.value)" matInput placeholder="TrangTTU" #key="ngModel" ngModel > -->
                         </mat-form-field>
                         <button type="button" mat-icon-button>
                             <i class="fa-solid fa-magnifying-glass"></i>
@@ -18,7 +19,7 @@
                     <form class="search-support-form">
                         <mat-form-field class="example-full-width" appearance="fill">
                           <mat-label>Support Username</mat-label>
-                          <input matInput placeholder="TrangTTU">
+                          <input type="search" matInput placeholder="TrangTTU" [(ngModel)]="searchText" name="searchSupport">
                         </mat-form-field>
                         <button type="button" mat-icon-button >
                             <i class="fa-solid fa-magnifying-glass"></i>
@@ -57,7 +58,7 @@
                     <!-- start node con tầng 2 -->
                     <!-- <div class="tang2" > -->
                         <ul>
-                            <li *ngFor="let pm of pmAccounts">
+                            <li *ngFor="let pm of pmAccounts | filter:searchText2">
                                 <div class="node" style="display: flexbox;">
                                     <p>PM</p>
                                     <hr>
@@ -79,7 +80,7 @@
                                     <hr>
                                 </div>
                                     <ul>
-                                        <li *ngFor="let support of supports">
+                                        <li *ngFor="let support of supports | filter:searchText">
                                             <div class="node">
                                                 <p>PM</p>
                                                 <hr>

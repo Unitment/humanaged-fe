@@ -1,3 +1,5 @@
 export enum ProjectRole{
-    MEMBER, LEADER, PM
+    MEMBER = 'MEMBER',
+    LEADER = 'LEADER',
+    PM = 'PM'
 }

@@ -1,3 +1,5 @@
 export enum ProjectState{
-    PENDING, PROCESSING, CLOSED
+    PENDING = 'PENDING',
+    PROCESSING = 'PROCESSING',
+    CLOSED = 'CLOSED'
 }

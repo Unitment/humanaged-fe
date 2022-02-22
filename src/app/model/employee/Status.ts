@@ -1,3 +1,4 @@
 export enum Status{
-    PENDING, WORKING
+    PENDING = 'PENDING',
+    WORKING = 'WORKING'
 }

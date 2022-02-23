@@ -1,0 +1,17 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { Employee } from '../model/employee/Employee';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class EmployeeService {
+
+  constructor(private httpClient: HttpClient) { }
+
+  public getDetailEmployee(empId: string): Observable<Employee> {
+    return this.httpClient.get<Employee>(`${environment.apiBaseUrl}/employee/${empId}`);
+  }
+}

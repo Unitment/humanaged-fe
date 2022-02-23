@@ -12,16 +12,16 @@
                     </form>
                     <hr>
                     <h3><b>Filter Project</b></h3>
-                    <h4><b>By State</b></h4>
+                    <h4 style="margin-bottom: 0; margin-top: 12px;"><b>By State</b></h4>
                     <mat-checkbox class="example-margin" [checked]="checkProcessing" (change)="[checkProcessing = !checkProcessing, setFilterByState()]">Processing</mat-checkbox>
                     <mat-checkbox class="example-margin" [checked]="checkClosed" (change)="[checkClosed = !checkClosed, setFilterByState()]" style="padding-left: 20px;">Closed</mat-checkbox><br>
                     <mat-checkbox class="example-margin" [checked]="checkPending" (change)="[checkPending = !checkPending, setFilterByState()]">Pending</mat-checkbox>
                     <br>
-                    <h4><b>Order by</b></h4>
+                    <h4 style="margin-bottom: 0; margin-top: 12px;"><b>Order by</b></h4>
                     <mat-form-field appearance="fill">
                         <mat-label>Order by</mat-label>
-                        <mat-select [(ngModel)]="selectedValue" name="option">
-                          <mat-option *ngFor="let op of ops" [value]="op.value">
+                        <mat-select [(ngModel)]="selectedValue" name="option" (selectionChange)="changeClient($event.value)">
+                          <mat-option name="choose" *ngFor="let op of ops" [value]="op.value">
                             {{op.viewValue}}
                           </mat-option>
                         </mat-select>
@@ -65,6 +65,7 @@
                                     <hr>
                                     <p class="description"><b>Description: </b>{{pAm.project.description}}</p>
                                     <p class="description"><b>State: </b>{{pAm.project.state}}</p>
+                                    <p class="description"><b>start date: </b>{{pAm.project.startDate}}</p>
                                     <div class="twoButton">
                                         <button mat-stroked-button color="primary" class="buttonLeft">Add mem</button>
                                         <button mat-stroked-button color="warn" class="buttonRight">Remove</button>

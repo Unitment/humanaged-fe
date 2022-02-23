@@ -30,10 +30,10 @@ export class ChildViewComponent implements OnInit {
   checkPending:boolean = false;
   ops = [
   {value: 'a-to-z', viewValue: 'A to Z'},
-  {value: 'x-to-a', viewValue: 'Z to A'},
+  {value: 'z-to-a', viewValue: 'Z to A'},
   {value: 'old-to-new', viewValue: 'Oldest to Newest'},
   {value: 'new-to-old', viewValue: 'Newest to Oldest'}
-]
+  ]
 
   constructor(
     private empService: EmployeeService,
@@ -110,20 +110,27 @@ export class ChildViewComponent implements OnInit {
       this.projectAndMembers.forEach(element => {
         if(this.checkProcessing && element.project.state.toString() === 'PROCESSING'){
           this.displayProject.push(element);
-      console.log('checkProcessing '+ this.checkProcessing);
-
         }
         if(this.checkClosed && element.project.state.toString() === 'CLOSED'){
           this.displayProject.push(element);
-      console.log('checkClosed '+ this.checkClosed);
-
         }
         if(this.checkPending && element.project.state.toString() === 'PENDING'){
           this.displayProject.push(element);
-      console.log('checkPending '+ this.checkPending);
-
         }
       });
     }
   }
+
+  public changeClient(event:any){
+    switch(event){
+      case 'a-to-z': this.displayProject.sort((a,b) => a.project.name.localeCompare(b.project.name));
+      break;
+      case 'z-to-a': this.displayProject.sort((a,b) => a.project.name.localeCompare(b.project.name)*-1);
+      break;
+      case 'old-to-new': this.displayProject.sort((b, a) => new Date(b.project.startDate).getTime() - new Date(a.project.startDate).getTime());
+      break;
+      case 'new-to-old': this.displayProject.sort((a, b) => new Date(b.project.startDate).getTime() - new Date(a.project.startDate).getTime());
+      break;
+    }
+}
 }

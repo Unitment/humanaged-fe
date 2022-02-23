@@ -16,12 +16,24 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 export class ChildViewComponent implements OnInit {
 
   public projectAndMembers: ProjectAndMember[] = [];
+  public displayProject: ProjectAndMember[] = [];
 
   public PM !: Employee;
   public namePM!:string;
   public PMid!:string;
 
   showFiller = false;
+  searchText:any;
+  selectedValue:any;
+  checkProcessing:boolean = false;
+  checkClosed:boolean = false;
+  checkPending:boolean = false;
+  ops = [
+  {value: 'a-to-z', viewValue: 'A to Z'},
+  {value: 'x-to-a', viewValue: 'Z to A'},
+  {value: 'old-to-new', viewValue: 'Oldest to Newest'},
+  {value: 'new-to-old', viewValue: 'Newest to Oldest'}
+]
 
   constructor(
     private empService: EmployeeService,
@@ -56,6 +68,7 @@ export class ChildViewComponent implements OnInit {
     this.pmService.getProjectAndMember(id).subscribe(
       (response: ProjectAndMember[]) => {
         this.projectAndMembers = response;
+        this.displayProject = this.projectAndMembers;
         // alert(this.projectAndMembers.length)
       },
       (error:HttpErrorResponse) => {
@@ -87,5 +100,30 @@ export class ChildViewComponent implements OnInit {
 
   public getAccountName(projectMember:ProjectMember):string{
     return projectMember.employee.account.accountName;
+  }
+
+  public setFilterByState(){
+    if(!this.checkProcessing&&!this.checkClosed&&!this.checkPending){
+      this.displayProject = this.projectAndMembers;
+    }else{
+      this.displayProject = [];
+      this.projectAndMembers.forEach(element => {
+        if(this.checkProcessing && element.project.state.toString() === 'PROCESSING'){
+          this.displayProject.push(element);
+      console.log('checkProcessing '+ this.checkProcessing);
+
+        }
+        if(this.checkClosed && element.project.state.toString() === 'CLOSED'){
+          this.displayProject.push(element);
+      console.log('checkClosed '+ this.checkClosed);
+
+        }
+        if(this.checkPending && element.project.state.toString() === 'PENDING'){
+          this.displayProject.push(element);
+      console.log('checkPending '+ this.checkPending);
+
+        }
+      });
+    }
   }
 }

@@ -15,6 +15,6 @@ export class EmployeeService {
     return this.http.get<Employee>(`${this.apiServerUrl}/api/employee/id/${id}`);
   }
   public getSupports():Observable<Employee[]>{
-    return this.http.get<Employee[]>(`${this.apiServerUrl}/api/employee/PENDING`);
+    return this.http.get<Employee[]>(`${this.apiServerUrl}/api/employee/SUPPORT`);
   }
 }

@@ -1,0 +1,28 @@
+<div class="dialog-container">
+    <div id="left">
+        <div class="name-container">
+            <div class="name">{{project.name}}</div>
+            <div class="sub-name">{{project.description}}</div>
+        </div>
+    </div>
+    
+    <div class="vertical-line"></div>
+    
+    <div id="right">
+        <div class="info info-label">Start date</div>
+        <div class="info prj-sd">{{project.startDate}}</div>
+        <div class="info info-label">End date</div>
+        <div class="info prj-ed">{{project.endDate}}</div>
+        <div class="info info-label">Member</div>
+        <div class="info info-list emp-projects">
+            <ul>
+                <li *ngFor="let pm of project.projectMember">
+                    <div class="info-list-item emp-project"><a href="">{{pm.employee.name}}</a></div>
+                    <div class="label emp-project-role">{{pm.role}}</div>
+                </li>
+            </ul>
+        </div>
+        <div class="info info-label">State</div>
+        <div class="info prj-state">{{[project.state]}}</div>
+    </div>
+</div>

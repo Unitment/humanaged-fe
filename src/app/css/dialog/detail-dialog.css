@@ -1,0 +1,116 @@
+.dialog-container{
+    display: flex;
+    align-items: center;
+    height: 620px;
+}
+
+#left{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 0 40px;
+    width: 35%;
+}
+
+#right{
+    flex: 1;
+    padding: 0 75px;
+    height: 440px;
+}
+
+.emp-avatar-container{
+    display:flex;
+    flex-direction: row;
+}
+
+.emp-avatar{  
+    border: 8px solid #BDBDBD;
+    border-radius: 50%;
+    width: 229px;
+    height: 229px;
+}
+
+.emp-avatar img{
+    width: 100%;
+    border-radius: 50%;
+}
+
+.name-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 10px;
+}
+
+.name{
+    font-size: 35px;
+    line-height: 40px;
+    color: #6E41E2;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sub-name{
+    font-size: 20px;
+    line-height: 30px;
+}
+
+.vertical-line{
+    border-left: 1px solid black;
+    height: 500px;
+}
+
+.info{
+    font-size: 20px;
+    line-height: 44px;
+}
+
+.info-label{
+    font-weight: bold;
+}
+
+.info-list ul{
+    max-height: 132px;
+    margin: 0;
+
+    overflow-y: auto;
+}
+
+.info-list li{
+    display: flex;
+    align-items: center;
+}
+
+.info-list-item a{
+    color: #000000;
+    text-decoration: none;
+}
+
+.info-list-item{
+    width: 429px;
+    
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.info-list-item a:hover, .info-list-item a:hover{
+    color: #6E41E2;
+    text-decoration: none;
+}
+
+.label{
+    display: inline-block;
+    padding: 0 7px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 18px;
+    border: 1px solid transparent;
+    border-radius: 2em;
+    margin: 0 auto;
+
+    color: #57606a;
+    border-color: #d0d7de;
+}
+

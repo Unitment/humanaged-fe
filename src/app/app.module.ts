@@ -14,6 +14,7 @@ import { EmployeeManagementRoutingModule } from './routing/employee-management-r
 import { ProjectManagementRoutingModule } from './routing/project-management-routing.module';
 import { AccountManagementModule } from './components/account-management/account-management.module';
 import { AccountManagementRoutingModule } from './routing/account-management-routing.module';
+import { NavbarManagementModule } from './components/navbar-management/navbar-management.module';
 
 import { AppComponent } from './app.component';
 
@@ -36,7 +37,8 @@ import { AppComponent } from './app.component';
     ProjectManagementRoutingModule,
     AccountManagementModule,
     AccountManagementRoutingModule,
-    NavbarManagementRoutingModule
+    NavbarManagementRoutingModule,
+    NavbarManagementModule
   ],
   providers: [],
   bootstrap: [AppComponent],

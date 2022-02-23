@@ -16,7 +16,6 @@
 #right{
     flex: 1;
     padding: 0 75px;
-    height: 440px;
 }
 
 .emp-avatar-container{
@@ -74,13 +73,21 @@
 .info-list ul{
     max-height: 132px;
     margin: 0;
+    padding: 0;
 
     overflow-y: auto;
 }
 
+/* .info-list ul::-webkit-scrollbar{
+    display: none;
+} */
+
 .info-list li{
     display: flex;
     align-items: center;
+
+    border: #000000 solid;
+    border-width: 0 0 1px 0;
 }
 
 .info-list-item a{

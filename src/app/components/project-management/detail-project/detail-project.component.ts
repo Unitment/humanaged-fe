@@ -13,42 +13,18 @@ import { DetailProjectDialogComponent } from './detail-project-dialog/detail-pro
 })
 export class DetailProjectComponent implements OnInit {
 
-  constructor(private dialog: MatDialog, private projectService: ProjectService) { }
+  constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
 
   openProjectDetailDialog(prjId: string){
-    let dialog = this.dialog.open(DetailProjectDialogComponent, {
+    this.dialog.open(DetailProjectDialogComponent, {
       height: "668px",
       width:"1125px",
       minHeight: "668px",
-      minWidth: "1125px"
-      });
-    this.projectService.getDetailProject(prjId).subscribe(p => {
-      let pml = p.projectMember;
-
-      pml.sort((a, b) => {
-        console.log(a, " ", b)
-        if(a.role == ProjectRole.PM){
-          console.log("case 1: bigger");
-          return -1;
-        }
-        else if(a.role == ProjectRole.LEADER && b.role != ProjectRole.PM){
-          console.log("case 2: bigger");
-          return -1;
-        }
-        else if (a.role == b.role){
-          console.log("case 3: equal");
-          return 0;
-        }
-        else{
-          console.log("case 4: smaller")
-          return 1;
-        }
-      })
-
-      dialog.componentInstance.project = p;
+      minWidth: "1125px",
+      data: {prjId: prjId}
     });
   }
 

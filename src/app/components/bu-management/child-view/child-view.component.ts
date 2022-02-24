@@ -18,16 +18,16 @@ export class ChildViewComponent implements OnInit {
   public projectAndMembers: ProjectAndMember[] = [];
   public displayProject: ProjectAndMember[] = [];
 
-  public PM !: Employee;
-  public namePM!:string;
-  public PMid!:string;
+  public PM: Employee;
+  public namePM: string;
+  public PMid: string;
 
   showFiller = false;
-  searchText:any;
-  selectedValue:any;
-  checkProcessing:boolean = false;
-  checkClosed:boolean = false;
-  checkPending:boolean = false;
+  searchText: any;
+  selectedValue: any;
+  checkProcessing: boolean = false;
+  checkClosed: boolean = false;
+  checkPending: boolean = false;
   ops = [
   {value: 'a-to-z', viewValue: 'A to Z'},
   {value: 'z-to-a', viewValue: 'Z to A'},

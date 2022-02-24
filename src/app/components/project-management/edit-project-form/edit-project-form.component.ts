@@ -84,7 +84,7 @@ export class EditProjectFormComponent implements OnInit {
     }
   }
 
-  project: Project = {};
+  project: Project;
   isLoading: boolean = false;
   matcher = new MyErrorStateMatcher();
 

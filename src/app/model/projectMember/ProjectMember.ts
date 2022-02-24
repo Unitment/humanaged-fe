@@ -5,7 +5,7 @@ import {ProjectRole} from "./ProjectRole";
 
 export interface ProjectMember {
   projectMemberKey: ProjectMemberKey,
-  employee?: Employee,
-  project?: Project,
+  employee: Employee,
+  project: Project,
   role: ProjectRole,
 }

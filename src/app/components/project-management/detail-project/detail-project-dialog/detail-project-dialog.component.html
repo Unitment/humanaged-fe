@@ -16,7 +16,7 @@
         <div class="info info-label">Member</div>
         <div class="info info-list emp-projects">
             <ul>
-                <li *ngFor="let pm of project.projectMember">
+                <li *ngFor="let pm of project.projectMembers">
                     <div class="info-list-item emp-project"><a (click)="EmployeeDetailClick(pm.employee.id)">{{pm.employee.name}}</a></div>
                     <div class="label emp-project-role">{{pm.role}}</div>
                 </li>

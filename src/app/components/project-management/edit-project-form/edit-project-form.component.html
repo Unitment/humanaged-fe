@@ -1,0 +1,189 @@
+<div class="modal-background" [style.display]="isLoading ? 'block' : 'none'">
+  <div class="modal" [style.display]="isLoading ? 'block' : 'none'">
+    <div
+      class="h-100 d-flex flex-column justify-content-center align-items-center"
+    >
+      <h4>Loading...</h4>
+      <mat-spinner [style.display]="isLoading ? 'block' : 'none'"></mat-spinner>
+    </div>
+  </div>
+</div>
+<div class="container d-flex justify-content-center">
+  <div>
+    <h2 class="form-title">Edit Project</h2>
+    <p class="form-title-detail">
+      standard out details project information, Member in project
+    </p>
+    <button
+      mat-stroked-button
+      color="warn"
+      [style.display]="projectId ? 'block' : 'none'"
+      (click)="onDeleteClick($event)"
+    >
+      Delete project
+    </button>
+    <form [formGroup]="projectForm" class="example-form">
+      <h5 class="form-group-title">Project Information</h5>
+      <div formGroupName="projectInfo">
+        <mat-form-field class="example-full-width" appearance="standard">
+          <mat-label>Project name</mat-label>
+          <input
+            type="text"
+            matInput
+            formControlName="name"
+            [errorStateMatcher]="matcher"
+            placeholder="Name"
+          />
+          <mat-error
+            *ngIf="projectForm.get('projectInfo.name')?.hasError('required')"
+          >
+            Project name is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="standard">
+          <mat-label>State</mat-label>
+          <mat-select formControlName="state" [errorStateMatcher]="matcher">
+            <mat-option>--</mat-option>
+            <mat-option *ngFor="let state of projectState" [value]="state">
+              {{ state }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="projectForm.get('projectInfo.state')?.hasError('required')"
+            >Please choose project state
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="standard">
+          <mat-label>Start date</mat-label>
+          <input
+            type="date"
+            matInput
+            formControlName="startDate"
+            [errorStateMatcher]="matcher"
+          />
+          <mat-error
+            *ngIf="
+              projectForm.get('projectInfo.startDate')?.hasError('required')
+            "
+          >
+            Start date is <strong>required</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="standard">
+          <mat-label>End date</mat-label>
+          <input
+            type="date"
+            matInput
+            formControlName="endDate"
+            [errorStateMatcher]="matcher"
+          />
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+          <mat-label>Textarea</mat-label>
+          <textarea
+            matInput
+            formControlName="description"
+            [errorStateMatcher]="matcher"
+            style="height: 50px; max-height: 100px"
+          ></textarea>
+          <mat-error
+            *ngIf="
+              projectForm.get('projectInfo.description')?.hasError('maxlength')
+            "
+          >
+            Max length is <strong>500 characters</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div formArrayName="employeesInProject">
+        <h5 class="form-group-title">Employee in project</h5>
+        <div
+          class="employeeProject"
+          *ngFor="let employee of employeesInProject.controls; index as i"
+        >
+          <ng-container [formGroupName]="i">
+            <mat-form-field class="example-full-width" appearance="standard">
+              <mat-label>Employee ID</mat-label>
+              <input
+                type="text"
+                matInput
+                formControlName="employeeName"
+                [errorStateMatcher]="matcher"
+                placeholder="Employee name"
+              />
+              <mat-error
+                *ngIf="
+                  employeesInProject
+                    .at(i)
+                    .get('employeeName')
+                    ?.hasError('required')
+                "
+              >
+                Employee Id is <strong>required</strong>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field
+              appearance="standard"
+              [ngStyle]="{ 'margin-left': '45px' }"
+            >
+              <mat-label>Role</mat-label>
+              <mat-select
+                formControlName="employeeRole"
+                [errorStateMatcher]="matcher"
+              >
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let role of projectRole" [value]="role">
+                  {{ role }}
+                </mat-option>
+              </mat-select>
+              <mat-error
+                *ngIf="
+                  employeesInProject
+                    .at(i)
+                    .get('employeeRole')
+                    ?.hasError('required')
+                "
+                >Please choose Employee role
+              </mat-error>
+            </mat-form-field>
+            <button mat-button (click)="openDialog(i, $event)">X</button>
+          </ng-container>
+        </div>
+        <div class="pl-5">
+          <button mat-button color="primary" (click)="addEmployee($event)">
+            + Add more Employee
+          </button>
+        </div>
+      </div>
+      <div class="">
+        <input
+          type="file"
+          style="display: inline-block"
+          (change)="incomingFile($event)"
+          placeholder="Upload file"
+          accept=".xlsx"
+        />
+        <button type="button" class="btn btn-info" (click)="Upload()">
+          Upload
+        </button>
+      </div>
+
+      <div class="mt-4 d-flex justify-content-around">
+        <button mat-stroked-button (click)="goBack($event)">Cancel</button>
+        <button
+          mat-flat-button
+          color="primary"
+          (click)="onSubmit($event)"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

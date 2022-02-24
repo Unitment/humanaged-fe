@@ -1,0 +1,8 @@
+<h2 mat-dialog-title>Do you want to remove {{data.name}}</h2>
+<div mat-dialog-content>
+  <p>This action can not be undone.</p>
+</div>
+<div mat-dialog-actions>
+  <button mat-flat-button (click)="onNoClick()" >Cancel</button>
+  <button mat-flat-button color="warn" [mat-dialog-close]="data">Yes</button>
+</div>

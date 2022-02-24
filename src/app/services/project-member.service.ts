@@ -9,8 +9,8 @@ import { ProjectMember } from '../model/projectMember/ProjectMember';
   providedIn: 'root'
 })
 export class ProjectMemberService {
-
   private apiServerUrl = environment.apiBaseUrl;
+
   constructor(private http: HttpClient) { }
 
   public getPMs():Observable<ProjectMember[]>{

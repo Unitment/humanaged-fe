@@ -9,6 +9,7 @@ import { Employee } from '../model/employee/Employee';
 })
 export class EmployeeService {
   private apiServerUrl = environment.apiBaseUrl;
+  
   constructor(private http: HttpClient) {}
 
   public getDetailEmployee(empId: string): Observable<Employee> {

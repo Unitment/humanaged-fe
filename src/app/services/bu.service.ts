@@ -8,8 +8,8 @@ import { BusinessUnit } from '../model/businessUnit/BusinessUnit';
   providedIn: 'root'
 })
 export class BuService {
-
   private apiServerUrl = environment.apiBaseUrl;
+  
   constructor(private http: HttpClient) { }
 
   public getBusinessUnits():Observable<BusinessUnit[]>{

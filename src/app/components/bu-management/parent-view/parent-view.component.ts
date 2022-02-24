@@ -18,15 +18,22 @@ export class ParentViewComponent implements OnInit {
   public businessUnits: BusinessUnit[]=[];
   public pms: ProjectMember[]=[];
   public pmAccounts: Employee[]=[];
+  public displayPmAccounts: Employee[]=[];
   public supports: Employee[]=[];
-  public BUL!:string;
-  public BUName!:string;
+  public displaySupports: Employee[]=[];
+  public BUL:string='';
+  public BUName:string='';
 
   showFiller = false;
   name: Account[] =[];
-  searchText:any;
   searchText2:any;
-
+  ops = [
+    {value: 'pm', viewValue: 'Only PM'},
+    {value: 'sp', viewValue: 'Only Support'},
+    {value: 'both', viewValue: 'PM and Support'},
+  ]
+  textValue: string = '';
+  selectedValue: string = 'both';
   constructor(private buService:BuService
             , private pmService:ProjectMemberService
             , private employeeService: EmployeeService
@@ -62,6 +69,8 @@ export class ParentViewComponent implements OnInit {
         });
         const expected = new Set();
         this.pmAccounts = this.pmAccounts.filter(item => !expected.has(JSON.stringify(item)) ? expected.add(JSON.stringify(item)) : false);
+        this.displayPmAccounts = this.pmAccounts;
+
       },
       (error:HttpErrorResponse) => {
         alert(error.message);
@@ -74,6 +83,7 @@ export class ParentViewComponent implements OnInit {
     this.employeeService.getSupports().subscribe(
       (response: Employee[]) => {
         this.supports = response;
+        this.displaySupports = this.supports;
       },
       (error:HttpErrorResponse) => {
         alert(error.message);
@@ -81,21 +91,49 @@ export class ParentViewComponent implements OnInit {
     )
   }
 
-  public listChildPage(id:string){
-    this.router.navigate(['listProject',id]);
+  public searchPM(key:string):void{
+    this.displayPmAccounts = [];
+    this.pmAccounts.forEach(element => {
+      if(element.account.accountName.toLowerCase().indexOf(key.toLowerCase()) !== -1){
+        this.displayPmAccounts.push(element);
+      }
+    });
   }
-  
-  // public searchPM(key:string):void{
-  //   const results: Employee[] = [];
-  //   this.pmAccounts.forEach(element => {
-  //     if(element.account.accountName.toLowerCase().indexOf(key.toLowerCase()) !== -1){
-  //       results.push(element);
-  //     }
-  //   });
-  //   console.log(results.length);
-  //   this.pmAccounts = results;
-  //   if(results.length==0 || !key){
-  //     this.getPM();
-  //   }
-  // }
+
+  public searchSupport(key:string):void{
+    this.displaySupports = [];
+    this.supports.forEach(element => {
+      if(element.account.accountName.toLowerCase().indexOf(key.toLowerCase()) !== -1){
+        this.displaySupports.push(element);
+      }
+    });
+  }
+
+  searchAccount(){
+    switch(this.selectedValue){
+      case 'pm': this.searchPM(this.textValue);
+        this.searchSupport('*');
+        break;
+      case 'sp': this.searchSupport(this.textValue);
+        this.searchPM('*');
+        break;
+      case 'both': this.searchPM(this.textValue);
+        this.searchSupport(this.textValue);
+        break;
+    }
+  }
+
+  public changeClient(event:string){
+    switch(event){
+      case 'pm': this.searchPM(this.textValue);
+        this.searchSupport('*');
+        break;
+      case 'sp': this.searchSupport(this.textValue);
+        this.searchPM('*');
+        break;
+      case 'both': this.searchPM(this.textValue);
+        this.searchSupport(this.textValue);
+        break;
+    }
+  }
 }

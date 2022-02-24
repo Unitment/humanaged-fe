@@ -14,19 +14,19 @@ export class ProjectMemberService {
   constructor(private http: HttpClient) { }
 
   public getPMs():Observable<ProjectMember[]>{
-    return this.http.get<ProjectMember[]>(`${this.apiServerUrl}/api/projectMember/role/PM`);
+    return this.http.get<ProjectMember[]>(`${this.apiServerUrl}/projectMember/role/PM`);
   }
 
   public getProjectByIdPM(id:string):Observable<ProjectMember[]>{
-    return this.http.get<ProjectMember[]>(`${this.apiServerUrl}/api/projectMember/pm/${id}`);
+    return this.http.get<ProjectMember[]>(`${this.apiServerUrl}/projectMember/pm/${id}`);
   }
 
   public getMemberByProjectId(id: string):Observable<ProjectMember[]> {
-    const temp = this.http.get<ProjectMember[]>(`${this.apiServerUrl}/api/projectMember/projectId/${id}`);
+    const temp = this.http.get<ProjectMember[]>(`${this.apiServerUrl}/projectMember/projectId/${id}`);
     // if(temp)
     return temp;
   }
   public getProjectAndMember(id: string):Observable<ProjectAndMember[]>{
-    return this.http.get<ProjectAndMember[]>(`${this.apiServerUrl}/api/projectMember/projectAndMember/${id}`);
+    return this.http.get<ProjectAndMember[]>(`${this.apiServerUrl}/projectMember/projectAndMember/${id}`);
   }
 }

@@ -16,10 +16,10 @@ export class EmployeeService {
   }
 
   public getEmployeeById(id: string):Observable<Employee>{
-    return this.http.get<Employee>(`${this.apiServerUrl}/api/employee/id/${id}`);
+    return this.http.get<Employee>(`${this.apiServerUrl}/employee/id/${id}`);
   }
-  
+
   public getSupports():Observable<Employee[]>{
-    return this.http.get<Employee[]>(`${this.apiServerUrl}/api/employee/SUPPORT`);
+    return this.http.get<Employee[]>(`${this.apiServerUrl}/employee/SUPPORT`);
   }
 }

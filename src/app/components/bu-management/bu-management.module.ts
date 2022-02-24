@@ -7,11 +7,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { BuManagementRoutingModule } from '../../routing/bu-management-routing.module';
 import { ParentViewComponent } from './parent-view/parent-view.component';
 
-import {MatButtonModule} from '@angular/material/button';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatInputModule} from '@angular/material/input';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ChildViewComponent } from './child-view/child-view.component';
 
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';

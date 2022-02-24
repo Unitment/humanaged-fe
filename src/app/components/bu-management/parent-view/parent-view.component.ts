@@ -47,7 +47,7 @@ export class ParentViewComponent implements OnInit {
         this.BUName = this.businessUnits[0].name;
       },
       (error:HttpErrorResponse) => {
-        alert(error.message);
+        console.log(error.message);
       }
     )
   }
@@ -64,7 +64,7 @@ export class ParentViewComponent implements OnInit {
         this.pmAccounts = this.pmAccounts.filter(item => !expected.has(JSON.stringify(item)) ? expected.add(JSON.stringify(item)) : false);
       },
       (error:HttpErrorResponse) => {
-        alert(error.message);
+        console.log(error.message);
       }
     )
 
@@ -76,7 +76,7 @@ export class ParentViewComponent implements OnInit {
         this.supports = response;
       },
       (error:HttpErrorResponse) => {
-        alert(error.message);
+        console.log(error.message);
       }
     )
   }

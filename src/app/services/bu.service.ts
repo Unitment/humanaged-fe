@@ -13,6 +13,6 @@ export class BuService {
   constructor(private http: HttpClient) { }
 
   public getBusinessUnits():Observable<BusinessUnit[]>{
-    return this.http.get<BusinessUnit[]>(`${this.apiServerUrl}/api/bu/all`);
+    return this.http.get<BusinessUnit[]>(`${this.apiServerUrl}/bu/all`);
   }
 }

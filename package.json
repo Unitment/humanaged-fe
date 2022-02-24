@@ -34,6 +34,7 @@
     "save": "^2.4.0",
     "tslib": "^2.3.0",
     "webpack": "^5.66.0",
+    "xlsx": "^0.18.2",
     "zone.js": "~0.11.4"
   },
   "devDependencies": {

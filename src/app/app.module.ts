@@ -15,6 +15,7 @@ import { AccountManagementModule } from './components/account-management/account
 import { AccountManagementRoutingModule } from './routing/account-management-routing.module';
 
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { AppComponent } from './app.component';
     ProjectMemberManagementModule,
     ProjectManagementRoutingModule,
     AccountManagementModule,
-    AccountManagementRoutingModule
+    AccountManagementRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],

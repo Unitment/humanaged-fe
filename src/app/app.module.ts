@@ -8,8 +8,6 @@ import { BuManagementModule } from './components/bu-management/bu-management.mod
 import { EmployeeManagementModule } from './components/employee-management/employee-management.module';
 import { ProjectManagementModule } from './components/project-management/project-management.module';
 import { ProjectMemberManagementModule } from './components/project-member-management/project-member-management.module';
-import { NavbarManagementModule } from './components/navbar-management/navbar-management.module';
-import { NavbarManagementRoutingModule } from './routing/navbar-management-routing.module';
 import { BuManagementRoutingModule } from './routing/bu-management-routing.module';
 import { EmployeeManagementRoutingModule } from './routing/employee-management-routing.module';
 import { ProjectManagementRoutingModule } from './routing/project-management-routing.module';
@@ -20,11 +18,7 @@ import { AppComponent } from './app.component';
 
 @NgModule({
   declarations: [
-<<<<<<< HEAD
     AppComponent
-=======
-    AppComponent,
->>>>>>> origin/dev-HoangPT12
   ],
   imports: [
     BrowserModule,
@@ -41,8 +35,6 @@ import { AppComponent } from './app.component';
     ProjectManagementRoutingModule,
     AccountManagementModule,
     AccountManagementRoutingModule,
-    NavbarManagementRoutingModule,
-    NavbarManagementModule
   ],
   providers: [],
   bootstrap: [AppComponent],

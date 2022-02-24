@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Account } from 'src/app/model/account/Account';
-import { SystemRole } from 'src/app/model/account/SystemRole';
-import { Employee } from 'src/app/model/employee/Employee';
 import { AccountService } from 'src/app/services/account.service';
-import { LoginComponent } from '../../account-management/login/login.component';
 
 @Component({
   selector: 'app-navbar',
@@ -11,12 +9,9 @@ import { LoginComponent } from '../../account-management/login/login.component';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  account: Account = {
-    accountName: '',
-    password:'',
-  };
+  account: Account;
 
-  constructor(private router:Router,
+  constructor(private router: Router,
     private accountService : AccountService
     ) { }
 

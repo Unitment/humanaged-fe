@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Account } from '../model/account';
 import { AccountService } from 'src/app/services/account.service';
-import { SystemRole } from 'src/app/model/account/SystemRole';
-import { Employee } from 'src/app/model/employee/Employee';
+import { Account } from 'src/app/model/account/Account';
 
 @Component({
   selector: 'app-login',
@@ -12,11 +10,7 @@ import { Employee } from 'src/app/model/employee/Employee';
 })
 export class LoginComponent implements OnInit {
 
-   account: Account = {
-     accountName: '',
-     password:'',
-     role:SystemRole
-   };
+   account: Account;
 
   constructor(private loginService : AccountService, private router: Router) { }
 
@@ -36,10 +30,4 @@ export class LoginComponent implements OnInit {
       }
     );
   }
-
-
-
-
-
-
 }

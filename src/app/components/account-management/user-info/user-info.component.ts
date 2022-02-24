@@ -7,7 +7,7 @@ import { Employee } from 'src/app/model/employee/Employee';
   styleUrls: ['./user-info.component.css']
 })
 export class UserInfoComponent implements OnInit {
-  employee:Employee;
+  employee: Employee;
   private cdr: ChangeDetectorRef
   constructor() { }
 

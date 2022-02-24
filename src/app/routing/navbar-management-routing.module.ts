@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { userInfo } from 'os';
 import { LoginComponent } from '../components/account-management/login/login.component';
 import { UserInfoComponent } from '../components/account-management/user-info/user-info.component';
 import { ParentViewComponent } from '../components/bu-management/parent-view/parent-view.component';

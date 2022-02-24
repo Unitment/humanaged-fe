@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-<<<<<<< HEAD
 import { MatDialog } from '@angular/material/dialog';
 import { DetailEmployeeDialogComponent } from './detail-employee-dialog/detail-employee-dialog.component';
-=======
->>>>>>> origin/dev-HoangPT12
 
 @Component({
   selector: 'app-detail-employee',

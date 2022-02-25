@@ -90,7 +90,7 @@ export class ChildViewComponent implements OnInit {
   }
 
   public checkMemberRole(projectMember: ProjectMember): boolean {
-    if (projectMember.role.toString() == 'LEADER') {
+    if (projectMember.role.toString() === 'LEADER') {
       return true;
     } else {
       return false;
@@ -106,7 +106,7 @@ export class ChildViewComponent implements OnInit {
       case 'CLOSED':
         temp = '#619360';
         break;
-      case 'CLOSED':
+      case 'PENDING':
         temp = 'white';
         break;
     }

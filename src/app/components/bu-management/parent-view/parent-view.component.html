@@ -3,24 +3,24 @@
         <div style="padding-top: 20px;">
             <mat-drawer-container class="container" autosize>
                 <mat-drawer #drawer class="sidenav" mode="side">
-                    <h3><b>Search PM</b></h3>
+                    <h3 style="margin-bottom: 0px"><b>Search Account</b></h3>
                     <form class="search-pm-form">
                         <mat-form-field class="example-full-width" appearance="fill">
-                          <mat-label>PM Username</mat-label>
-                          <input name="searchPM" type="search" matInput placeholder="TrangTTU" [(ngModel)]="searchText2" >
-                          <!-- <input name="key" id="searchPM" type="search" (ngModelChange)="searchPM(key.value)" matInput placeholder="TrangTTU" #key="ngModel" ngModel > -->
+                          <mat-label>Username</mat-label>
+                          <input name="key" id="searchPM" type="search" (ngModelChange)="[textValue=key.value, searchAccount()]" matInput placeholder="TrangTTU" #key="ngModel" ngModel >
                         </mat-form-field>
-                    </form><br>
-        
-                    <h3><b>Search Support</b></h3>
-                    <form class="search-support-form">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                          <mat-label>Support Username</mat-label>
-                          <input name="searchSP" type="search" matInput placeholder="TrangTTU" [(ngModel)]="searchText" >
-                        </mat-form-field>
-                      </form>
+                    </form>
+                  <h4 style="margin-bottom: 0px"><b>Search option</b></h4>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Search option</mat-label>
+                    <mat-select [(ngModel)]="selectedValue" name="option" (selectionChange)="changeClient($event.value)">
+                      <mat-option name="choose" *ngFor="let op of ops" [value]="op.value" value="{{op.value}}" >
+                        {{op.viewValue}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
                 </mat-drawer>
-        
+
                 <div class="sidenav-content">
                   <button class="button-show" type="button" mat-icon-button (click)="drawer.toggle()">
                     <i class="fa-solid fa-caret-right"></i>
@@ -29,7 +29,7 @@
               </mat-drawer-container>
         </div>
     </div>
-    
+
     <div class="div-right" style=" display: flow-root;">
         <div class="tree">
             <ul>
@@ -37,7 +37,7 @@
                     <!-- start Node cha -->
                     <div class="node">
                         <p>BUL</p>
-                        
+
                         <hr>
                         <div class="avaAndName">
                             <img src="\assets\images\MeoBeo.jpg" alt="img2"><a href="#">{{BUL}}</a>
@@ -45,15 +45,15 @@
                         <hr>
                         <p class="description"><b>BU name: </b>{{BUName}}</p>
                         <div class="oneButton">
-                            <button mat-stroked-button color="primary">ADD PM</button>
+                            <button mat-raised-button color="primary">ADD PM</button>
                         </div>
                     </div>
                     <!-- end Node cha -->
                     <!-- start node con tầng 2 -->
                     <!-- <div class="tang2" > -->
                         <ul class="ulClass">
-                            <li *ngFor="let pm of pmAccounts | filter:searchText2">
-                                <div class="node" style="display: flexbox;">
+                            <li *ngFor="let pm of displayPmAccounts">
+                                <div class="node">
                                     <p>PM</p>
                                     <hr>
                                     <div class="avaAndName">
@@ -61,7 +61,8 @@
                                     </div>
                                     <hr>
                                     <div class="oneButton">
-                                        <button mat-stroked-button color="primary" routerLink="/listProject" (click)="listChildPage(pm.id)">Projects</button>
+                                        <button mat-raised-button color="primary" [routerLink]="'/pm/'+pm.id+'/project'">Projects</button>
+                                        <!-- <button mat-stroked-button color="primary" routerLink="/listProject" (click)="listChildPage(pm.id)">Projects</button> -->
                                     </div>
                                 </div>
                             </li>
@@ -74,7 +75,7 @@
                                     <hr>
                                 </div>
                                 <ul class="ulClass">
-                                    <li *ngFor="let support of supports | filter:searchText">
+                                    <li *ngFor="let support of displaySupports">
                                         <div class="node">
                                             <p>Support</p>
                                             <hr>
@@ -83,7 +84,7 @@
                                             </div>
                                             <hr>
                                             <div class="oneButton">
-                                                <button mat-stroked-button color="warn">Remove</button>
+                                                <button mat-raised-button color="warn">Remove</button>
                                             </div>
                                         </div>
                                     </li>
@@ -98,9 +99,9 @@
                 </li>
             </ul>
         </div>
-            
-            
+
+
     </div>
-    
-    
+
+
 </div>

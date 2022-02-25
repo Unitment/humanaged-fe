@@ -272,7 +272,11 @@ export class EditProjectFormComponent implements OnInit {
           (data) => {
             console.log(data);
           },
-          (error) => console.log(error),
+          (error) => {
+            this.isLoading = false;
+            this.openSnackBar(error.error.message, 'OK');
+            console.log(error);
+          },
           () => {
             this.isLoading = false;
             this.router.navigate(['/']);

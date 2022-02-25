@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Choose Employee</h2>
+<mat-dialog-content>
+  <mat-form-field>
+    <mat-label>Find a employee</mat-label>
+    <mat-select #employeeSelect>
+      <mat-select-trigger>{{employeeSelect.value}}</mat-select-trigger>
+
+      <mat-option>
+       
+      </mat-option>
+
+      <mat-option *ngFor="let employee of filteredEmployee" [value]="employee.name">
+        <div class="employee-container">
+          <span>{{employee.account.accountName}}</span>
+        </div>
+      </mat-option>
+
+    </mat-select>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-content>
+
+</mat-dialog-content>

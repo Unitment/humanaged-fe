@@ -15,6 +15,8 @@ import {AppComponent} from './app.component';
 import {NavbarManagementModule} from "./components/navbar-management/navbar-management.module";
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatSelectModule} from "@angular/material/select";
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -30,7 +32,7 @@ export const MY_DATE_FORMATS = {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,6 +46,8 @@ export const MY_DATE_FORMATS = {
     AccountManagementModule,
     NavbarManagementModule,
     AppRoutingModule,
+    MatDialogModule,
+    MatSelectModule,
   ],
   providers: [
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},

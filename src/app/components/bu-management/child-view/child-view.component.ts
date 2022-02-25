@@ -15,6 +15,9 @@ import {
 import {
   AddMemberToProjectComponent
 } from "../../project-management/add-member-to-project/add-member-to-project.component";
+import {
+  DetailProjectDialogComponent
+} from "../../project-management/detail-project/detail-project-dialog/detail-project-dialog.component";
 
 @Component({
   selector: 'app-child-view',
@@ -32,7 +35,7 @@ export class ChildViewComponent implements OnInit {
 
   showFiller = false;
   searchText: any;
-  selectedValue: any;
+  selectedValue: string = 'new-to-old';
   checkProcessing: boolean = false;
   checkClosed: boolean = false;
   checkPending: boolean = false;
@@ -78,7 +81,7 @@ export class ChildViewComponent implements OnInit {
       (response: ProjectAndMember[]) => {
         this.projectAndMembers = response;
         this.displayProject = this.projectAndMembers;
-        // alert(this.projectAndMembers.length)
+        this.changeClient(this.selectedValue);
       },
       (error: HttpErrorResponse) => {
         alert(error.message);
@@ -131,10 +134,11 @@ export class ChildViewComponent implements OnInit {
         }
       });
     }
+    this.changeClient(this.selectedValue);
   }
 
-  public changeClient(event: any) {
-    switch (event) {
+  public changeClient(value: any) {
+    switch (value) {
       case 'a-to-z':
         this.displayProject.sort((a, b) => a.project.name.localeCompare(b.project.name));
         break;
@@ -168,5 +172,15 @@ export class ChildViewComponent implements OnInit {
 
   addMemberToProject() {
     this.matDialog.open(AddMemberToProjectComponent)
+  }
+
+  projectDetails(id: string) {
+    this.matDialog.open(DetailProjectDialogComponent, {
+      height: "668px",
+      width:"1125px",
+      minHeight: "668px",
+      minWidth: "1125px",
+      data: {prjId: id}
+    });
   }
 }

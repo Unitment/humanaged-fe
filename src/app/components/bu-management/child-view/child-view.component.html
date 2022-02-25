@@ -57,7 +57,7 @@
             </div>
             <hr>
             <div class="oneButton">
-              <button mat-stroked-button color="primary">ADD Project</button>
+              <button mat-raised-button color="primary">ADD Project</button>
             </div>
           </div>
           <!-- end Node cha -->
@@ -68,16 +68,16 @@
               <!-- node tầng 2 - 1 -->
               <li *ngFor="let pAm of displayProject">
                 <div class="node" [ngStyle]="{'background-color': checkProjectState(pAm.project)}">
-                  <p>{{pAm.project.name}}</p>
+                  <a (click)="projectDetails(pAm.project.id)" >{{pAm.project.name}}</a>
                   <hr>
                   <p class="description"><b>Description: </b>{{pAm.project.description}}</p>
                   <p class="description"><b>State: </b>{{pAm.project.state}}</p>
                   <p class="description"><b>start date: </b>{{pAm.project.startDate}}</p>
                   <div class="twoButton">
-                    <button mat-stroked-button color="primary" (click)="addMemberToProject()" class="buttonLeft">Add
+                    <button mat-raised-button color="primary" (click)="addMemberToProject()" class="buttonLeft">Add
                       Member
                     </button>
-                    <button mat-stroked-button color="warn" (click)="removeProject(pAm.project.id)" class="buttonRight">
+                    <button mat-raised-button color="warn" (click)="removeProject(pAm.project.id)" class="buttonRight">
                       Remove
                     </button>
                   </div>
@@ -97,7 +97,7 @@
                         </div>
                         <hr>
                         <div class="oneButton">
-                          <button mat-stroked-button color="warn">Remove</button>
+                          <button mat-raised-button color="warn">Remove</button>
                         </div>
                       </div>
 

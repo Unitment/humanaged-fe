@@ -3,6 +3,7 @@ import {MatDialog, MatDialogRef} from "@angular/material/dialog";
 import * as XLSX from "xlsx";
 import {ImportErrorDialogComponent} from "../import-error-dialog/import-error-dialog.component";
 import {EmployeeService} from "../../../../services/employee.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-import-from-file-dialog',
@@ -14,7 +15,8 @@ export class ImportFromFileDialogComponent implements OnInit {
   constructor(
     private matDialogRef: MatDialogRef<ImportFromFileDialogComponent>,
     private employeeService: EmployeeService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {
   }
 
@@ -48,24 +50,37 @@ export class ImportFromFileDialogComponent implements OnInit {
   addEmployee() {
     this.employeeService.checkFile(this.data).subscribe(
       (duplicateAccountList) => {
-        if (duplicateAccountList != null) {
+        console.log()
+        console.log(Object.keys(duplicateAccountList).length == 0)
+        if (Object.keys(duplicateAccountList).length != 0) {
           this.matDialog.open(ImportErrorDialogComponent, {
             data: duplicateAccountList,
             width: "600px"
           }).afterClosed().subscribe(result => {
-            if (result) {
-              this.employeeService.importFromFile(this.data).subscribe(
-                () => this.matDialogRef.close()
-              );
+              if (result) {
+                this.employeeService.importFromFile(this.data).subscribe(
+                  () => {
+                    this.snackBar.open("Add Successful", "OK", {
+                      duration: 3000,
+                      panelClass: ['mat-toolbar', 'mat-primary']
+                    });
+                    this.matDialogRef.close()
+                  }
+                )
+              }
             }
-          })
+          )
         } else {
           this.employeeService.importFromFile(this.data).subscribe(
-            () => this.matDialogRef.close
+            () => {
+              this.snackBar.open("Add Successful", "OK", {
+                duration: 3000,
+                panelClass: ['mat-toolbar', 'mat-primary']
+              });
+              this.matDialogRef.close()
+            }
           );
         }
-      }
-    )
+      })
   }
 }
-

@@ -12,6 +12,10 @@ export class EmployeeService {
 
   constructor(private http: HttpClient) {
   }
+  
+  public getAllEmployee(): Observable<Array<Employee>> {
+    return this.http.get<Array<Employee>>(this.API_EMPLOYEE);
+  }
 
   public getDetailEmployee(empId: string): Observable<Employee> {
     return this.http.get<Employee>(`${this.API_EMPLOYEE}/${empId}`);

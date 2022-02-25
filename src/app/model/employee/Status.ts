@@ -1,4 +1,4 @@
-export enum Status{
-    PENDING = 'PENDING',
-    WORKING = 'WORKING'
+export enum Status {
+  SUPPORT = 'SUPPORT',
+  WORKING = 'WORKING'
 }

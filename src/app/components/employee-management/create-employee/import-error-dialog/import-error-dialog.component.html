@@ -1,0 +1,24 @@
+<h2 mat-dialog-title class="text-center">Duplicate Account Name</h2>
+<mat-dialog-content class="mat-typography">
+
+  <table mat-table [dataSource]="duplicationList | keyvalue" class="w-75 m-auto">
+    <!-- Position Column -->
+    <ng-container matColumnDef="account">
+      <th mat-header-cell *matHeaderCellDef> No.</th>
+      <td mat-cell *matCellDef="let element"> {{element.key}} </td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="employee">
+      <th mat-header-cell *matHeaderCellDef> Name</th>
+      <td mat-cell *matCellDef="let element"> {{element.value}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="['account', 'employee']"></tr>
+    <tr mat-row *matRowDef="let row; columns: ['account', 'employee'];"></tr>
+  </table>
+</mat-dialog-content>
+<mat-dialog-actions class="d-flex justify-content-center">
+  <button mat-raised-button [mat-dialog-close]="false">Cancel</button>
+  <button mat-raised-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Continues</button>
+</mat-dialog-actions>

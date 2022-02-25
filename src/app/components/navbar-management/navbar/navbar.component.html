@@ -1,15 +1,17 @@
 <mat-toolbar color="primary" class="navbar">
-  <div> <a href=''><mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon> </a> </div>
+  <div><a href=''>
+    <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
+  </a></div>
   <div>
     <span>
       <button mat-button [matMenuTriggerFor]="menu">Add</button>
       <mat-menu #menu="matMenu">
-      <a mat-menu-item href=''>Employee</a>
-      <a mat-menu-item href=''>Project </a>
+      <a mat-menu-item routerLink="/employee/create">Employee</a>
+      <a mat-menu-item routerLink='/project/create'>Project</a>
       </mat-menu>
     </span>
     <span>
-      <a mat-button href='login'>Login</a>
+      <a mat-button routerLink='login'>Login</a>
     </span>
     <span>
       <button mat-button [matMenuTriggerFor]="menuUser">Hello User</button>

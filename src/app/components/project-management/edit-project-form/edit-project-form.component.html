@@ -12,7 +12,7 @@
   <div>
     <h2 class="form-title">Edit Project</h2>
     <p class="form-title-detail">
-      standard out details project information, Member in project
+      Standard out details project information, Member in project
     </p>
     <button
       mat-stroked-button
@@ -155,7 +155,7 @@
             <button mat-button (click)="openDialog(i, $event)">X</button>
           </ng-container>
         </div>
-        <div class="pl-5">
+        <div class="mb-3" style="padding-left: 120px">
           <button mat-button color="primary" (click)="addEmployee($event)">
             + Add more Employee
           </button>
@@ -169,7 +169,7 @@
           placeholder="Upload file"
           accept=".xlsx"
         />
-        <button type="button" class="btn btn-info" (click)="Upload()">
+        <button (click)="Upload($event)" mat-stroked-button color="primary">
           Upload
         </button>
       </div>

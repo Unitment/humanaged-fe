@@ -18,6 +18,7 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 import { ActivatedRoute, Router } from '@angular/router';
 import * as XLSX from 'xlsx';
 import { Location } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -45,7 +46,8 @@ export class EditProjectFormComponent implements OnInit {
     private projectService: ProjectService,
     private route: ActivatedRoute,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private _snackBar: MatSnackBar
   ) {}
 
   projectId: string | null = null;
@@ -179,6 +181,8 @@ export class EditProjectFormComponent implements OnInit {
         console.log(data);
       },
       (error) => {
+        this.isLoading = false;
+        this.openSnackBar(error.error.message, 'OK');
         console.log(error);
       },
       () => {
@@ -198,6 +202,8 @@ export class EditProjectFormComponent implements OnInit {
         console.log(data);
       },
       (error) => {
+        this.isLoading = false;
+        this.openSnackBar(error.error.message, 'OK');
         console.log(error);
       },
       () => {
@@ -213,7 +219,8 @@ export class EditProjectFormComponent implements OnInit {
     this.file = event.target.files[0];
   }
 
-  Upload() {
+  Upload(event: Event) {
+    event.preventDefault();
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
       this.arrayBuffer = fileReader.result;
@@ -278,5 +285,12 @@ export class EditProjectFormComponent implements OnInit {
   goBack(event: Event) {
     event.preventDefault();
     this.location.back();
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
   }
 }

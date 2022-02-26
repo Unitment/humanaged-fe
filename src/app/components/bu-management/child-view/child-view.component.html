@@ -8,6 +8,7 @@
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Member Username or Member role</mat-label>
               <input name="searchMem" matInput [(ngModel)]="searchText">
+<!--              <input name="key" matInput (ngModelChange)="[ searchAccount(key.value)]" [(ngModel)]="searchText" #key="ngModel" ngModel>-->
             </mat-form-field>
           </form>
           <hr>
@@ -66,7 +67,7 @@
             <ul class="ulClass">
 
               <!-- node tầng 2 - 1 -->
-              <li *ngFor="let pAm of displayProject">
+              <li *ngFor="let pAm of displayProject | slice:0:showProJ; let i = index">
                 <div class="node" [ngStyle]="{'background-color': checkProjectState(pAm.project)}">
                   <a (click)="projectDetails(pAm.project.id)" >{{pAm.project.name}}</a>
                   <hr>
@@ -82,10 +83,14 @@
                     </button>
                   </div>
                 </div>
+                <div *ngIf="i==(showProJ-1)  && i < displayProject.length-1" style="display: flex; float: right; margin-top: 50px; margin-left: 7px">
+                <button mat-stroked-button (click)="increaseShowProJ()">More</button>
+                </div>
                 <!-- <div *ngIf="getMemberByProjectId(prjId.projectID+'')"> -->
                 <div *ngIf="pAm.memberList.length>0">
                   <ul class="ulClass">
-                    <li *ngFor="let projectMember of pAm.memberList | filter:searchText">
+                    <li *ngFor="let projectMember of pAm.memberList  | filter:searchText">
+<!--                    <li *ngFor="let projectMember of pAm.memberList  | slice:0:showMem; let i=index">-->
                       <div class="node"
                            [ngStyle]="checkMemberRole(projectMember)?{'background-color': '#DCAB2D'}:{'background-color': '#EC8A8A'}">
                         <p>{{projectMember.role}}</p>
@@ -100,7 +105,9 @@
                           <button mat-raised-button color="warn">Remove</button>
                         </div>
                       </div>
-
+<!--                      <div *ngIf="i==(showMem-1)  && (i < pAm.memberList.length-1)" style="display: flex; float: right; margin-top: 50px; margin-left: 7px">-->
+<!--                        <button mat-stroked-button (click)="increaseShowMem()">More</button>-->
+<!--                      </div>-->
                     </li>
                   </ul>
 

@@ -39,6 +39,8 @@ export class ChildViewComponent implements OnInit {
   checkProcessing: boolean = false;
   checkClosed: boolean = false;
   checkPending: boolean = false;
+  showProJ = 1;
+  // showMem = 1;
   ops = [
     {value: 'a-to-z', viewValue: 'A to Z'},
     {value: 'z-to-a', viewValue: 'Z to A'},
@@ -183,4 +185,22 @@ export class ChildViewComponent implements OnInit {
       data: {prjId: id}
     });
   }
+
+  increaseShowProJ(){
+    this.showProJ+=3;
+  }
+  // increaseShowMem(){
+  //   this.showMem+=1;
+  // }
+
+  // public searchAccount(key: string): void {
+  //   this.displayProject = [];
+  //   this.projectAndMembers.forEach(element => {
+  //     element.memberList.forEach(member =>{
+  //       if(member.employee.account.accountName.toLowerCase().indexOf(key.toLowerCase()) !==-1)
+  //         this.displayProject.push(element);
+  //     }
+  //   );
+  //   });
+  // }
 }

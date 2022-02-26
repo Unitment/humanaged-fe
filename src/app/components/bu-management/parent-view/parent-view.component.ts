@@ -31,6 +31,8 @@ export class ParentViewComponent implements OnInit {
   showFiller = false;
   name: Account[] = [];
   searchText2: any;
+  showPM =2;
+  showSP =2;
   ops = [
     {value: 'pm', viewValue: 'Only PM'},
     {value: 'sp', viewValue: 'Only Support'},
@@ -158,5 +160,12 @@ export class ParentViewComponent implements OnInit {
       minWidth: "1125px",
       data: {empId: id}
     })
+  }
+
+  increaseShowPM(){
+    this.showPM+=3;
+  }
+  increaseShowSP(){
+    this.showSP+=3;
   }
 }

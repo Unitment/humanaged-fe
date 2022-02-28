@@ -17,9 +17,5 @@ export interface Employee {
   status: Status,
   account: Account,
   businessUnit: BusinessUnit,
-<<<<<<< HEAD
   projectMembers: ProjectMember[]
-=======
-  projectMember: ProjectMember[]
->>>>>>> origin/dev-HoangPT12
 }

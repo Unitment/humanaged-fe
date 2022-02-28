@@ -1,104 +1,118 @@
 <div class="childViewBody">
-    <div class="div-left" style="float: left;">
-        <div style="padding-top: 20px;">
-            <mat-drawer-container class="container" autosize>
-                <mat-drawer #drawer class="sidenav" mode="side">
-                    <h3><b>Search Mem</b></h3>
-                    <form class="search-pm-form">
-                        <mat-form-field class="example-full-width" appearance="fill">
-                          <mat-label>Member Username or Member role</mat-label>
-                          <input name="searchMem" matInput [(ngModel)]="searchText">
-                        </mat-form-field>
-                    </form>
-                    <hr>
-                    <h3><b>Filter Project</b></h3>
-                    <h4 style="margin-bottom: 0; margin-top: 12px;"><b>By State</b></h4>
-                    <mat-checkbox class="example-margin" [checked]="checkProcessing" (change)="[checkProcessing = !checkProcessing, setFilterByState()]">Processing</mat-checkbox>
-                    <mat-checkbox class="example-margin" [checked]="checkClosed" (change)="[checkClosed = !checkClosed, setFilterByState()]" style="padding-left: 20px;">Closed</mat-checkbox><br>
-                    <mat-checkbox class="example-margin" [checked]="checkPending" (change)="[checkPending = !checkPending, setFilterByState()]">Pending</mat-checkbox>
-                    <br>
-                    <h4 style="margin-bottom: 0; margin-top: 12px;"><b>Order by</b></h4>
-                    <mat-form-field appearance="fill">
-                        <mat-label>Order by</mat-label>
-                        <mat-select [(ngModel)]="selectedValue" name="option" (selectionChange)="changeClient($event.value)">
-                          <mat-option name="choose" *ngFor="let op of ops" [value]="op.value">
-                            {{op.viewValue}}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                </mat-drawer>
-        
-                <div class="sidenav-content">
-                  <button class="button-show" type="button" mat-icon-button (click)="drawer.toggle()">
-                    <i class="fa-solid fa-caret-right"></i>
-                  </button>
-                </div>
-              </mat-drawer-container>
+  <div class="div-left" style="float: left;">
+    <div style="padding-top: 20px;">
+      <mat-drawer-container class="container" autosize>
+        <mat-drawer #drawer class="sidenav" mode="side">
+          <h3><b>Search Mem</b></h3>
+          <form class="search-pm-form">
+            <mat-form-field class="example-full-width" appearance="fill">
+              <mat-label>Member Username or Member role</mat-label>
+              <input name="searchMem" matInput [(ngModel)]="searchText">
+            </mat-form-field>
+          </form>
+          <hr>
+          <h3><b>Filter Project</b></h3>
+          <h4 style="margin-bottom: 0; margin-top: 12px;"><b>By State</b></h4>
+          <mat-checkbox class="example-margin" [checked]="checkProcessing"
+                        (change)="[checkProcessing = !checkProcessing, setFilterByState()]">Processing
+          </mat-checkbox>
+          <mat-checkbox class="example-margin" [checked]="checkClosed"
+                        (change)="[checkClosed = !checkClosed, setFilterByState()]" style="padding-left: 20px;">Closed
+          </mat-checkbox>
+          <br>
+          <mat-checkbox class="example-margin" [checked]="checkPending"
+                        (change)="[checkPending = !checkPending, setFilterByState()]">Pending
+          </mat-checkbox>
+          <br>
+          <h4 style="margin-bottom: 0; margin-top: 12px;"><b>Order by</b></h4>
+          <mat-form-field appearance="fill">
+            <mat-label>Order by</mat-label>
+            <mat-select [(ngModel)]="selectedValue" name="option" (selectionChange)="changeClient($event.value)">
+              <mat-option name="choose" *ngFor="let op of ops" [value]="op.value">
+                {{op.viewValue}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </mat-drawer>
+
+        <div class="sidenav-content">
+          <button class="button-show" type="button" mat-icon-button (click)="drawer.toggle()">
+            <i class="fa-solid fa-caret-right"></i>
+          </button>
         </div>
+      </mat-drawer-container>
     </div>
-    
-    <div class="div-right" style=" display: flow-root;">
-        <div class="tree">
-            <ul>
-                <li>
-                    <!-- start Node cha -->
-                    <div class="node">
-                        <p>PM</p>
+  </div>
+
+  <div class="div-right" style=" display: flow-root;">
+    <div class="tree">
+      <ul>
+        <li>
+          <!-- start Node cha -->
+          <div class="node">
+            <p>PM</p>
+            <hr>
+            <div class="avaAndName">
+              <img src="\assets\images\MeoBeo.jpg" alt="img2"><a>{{namePM}}</a>
+            </div>
+            <hr>
+            <div class="oneButton">
+              <button mat-raised-button color="primary">ADD Project</button>
+            </div>
+          </div>
+          <!-- end Node cha -->
+          <!-- start node con tầng 2 -->
+          <div class="tangCon">
+            <ul class="ulClass">
+
+              <!-- node tầng 2 - 1 -->
+              <li *ngFor="let pAm of displayProject">
+                <div class="node" [ngStyle]="{'background-color': checkProjectState(pAm.project)}">
+                  <a (click)="projectDetails(pAm.project.id)" >{{pAm.project.name}}</a>
+                  <hr>
+                  <p class="description"><b>Description: </b>{{pAm.project.description}}</p>
+                  <p class="description"><b>State: </b>{{pAm.project.state}}</p>
+                  <p class="description"><b>start date: </b>{{pAm.project.startDate}}</p>
+                  <div class="twoButton">
+                    <button mat-raised-button color="primary" (click)="addMemberToProject()" class="buttonLeft">Add
+                      Member
+                    </button>
+                    <button mat-raised-button color="warn" (click)="removeProject(pAm.project.id)" class="buttonRight">
+                      Remove
+                    </button>
+                  </div>
+                </div>
+                <!-- <div *ngIf="getMemberByProjectId(prjId.projectID+'')"> -->
+                <div *ngIf="pAm.memberList.length>0">
+                  <ul class="ulClass">
+                    <li *ngFor="let projectMember of pAm.memberList | filter:searchText">
+                      <div class="node"
+                           [ngStyle]="checkMemberRole(projectMember)?{'background-color': '#DCAB2D'}:{'background-color': '#EC8A8A'}">
+                        <p>{{projectMember.role}}</p>
                         <hr>
                         <div class="avaAndName">
-                            <img src="\assets\images\MeoBeo.jpg" alt="img2"><a href="#">{{namePM}}</a>
+                          <img src="\assets\images\MeoBeo.jpg" alt="img2"><a
+                          (click)="detailEmployee(projectMember.employee.id)"
+                          mat-button>{{getAccountName(projectMember)}}</a>
                         </div>
                         <hr>
                         <div class="oneButton">
-                            <button mat-stroked-button color="primary">ADD Project</button>
+                          <button mat-raised-button color="warn">Remove</button>
                         </div>
-                    </div>
-                    <!-- end Node cha -->
-                    <!-- start node con tầng 2 -->
-                    <div class="tangCon" >
-                        <ul class="ulClass">
-            
-                            <!-- node tầng 2 - 1 -->
-                            <li *ngFor="let pAm of displayProject">
-                                <div class="node" [ngStyle]="{'background-color': checkProjectState(pAm.project)}">
-                                    <p>{{pAm.project.name}}</p>
-                                    <hr>
-                                    <p class="description"><b>Description: </b>{{pAm.project.description}}</p>
-                                    <p class="description"><b>State: </b>{{pAm.project.state}}</p>
-                                    <p class="description"><b>start date: </b>{{pAm.project.startDate}}</p>
-                                    <div class="twoButton">
-                                        <button mat-stroked-button color="primary" class="buttonLeft">Add mem</button>
-                                        <button mat-stroked-button color="warn" class="buttonRight">Remove</button>
-                                    </div>
-                                </div>
-                                <!-- <div *ngIf="getMemberByProjectId(prjId.projectID+'')"> -->
-                                <div *ngIf="pAm.memberList.length>0">
-                                    <ul class="ulClass">
-                                        <li *ngFor="let projectMember of pAm.memberList | filter:searchText" >
-                                            <div class="node" [ngStyle]="checkMemberRole(projectMember)?{'background-color': '#DCAB2D'}:{'background-color': '#EC8A8A'}">
-                                                <p>{{projectMember.role}}</p>
-                                                <hr>
-                                                <div class="avaAndName">
-                                                    <img src="\assets\images\MeoBeo.jpg" alt="img2"><a href="#">{{getAccountName(projectMember)}}</a>
-                                                </div>
-                                                <hr>
-                                                <div class="oneButton">
-                                                    <button mat-stroked-button color="warn">Remove</button>
-                                                </div>
-                                            </div>
+                      </div>
 
-                                        </li>
-                                    </ul>
+                    </li>
+                  </ul>
 
-                                </div>
-                            </li>
-                        </ul>
-                        <!-- Thêm button more vào thì nhánh cây không cân nữa nên phải thêm padding-left: 40px trong class tang2 để cân -->
-                        <!-- <button class="moreButton">More</button> -->
-                    </div>
-                    <!-- end node con tầng 2 -->
-                </li>
+                </div>
+              </li>
             </ul>
-        </div>
+            <!-- Thêm button more vào thì nhánh cây không cân nữa nên phải thêm padding-left: 40px trong class tang2 để cân -->
+            <!-- <button class="moreButton">More</button> -->
+          </div>
+          <!-- end node con tầng 2 -->
+        </li>
+      </ul>
     </div>
+  </div>
 </div>

@@ -1,21 +1,23 @@
-import {Account} from "../account/Account";
-import {BusinessUnit} from "../businessUnit/BusinessUnit";
+import { Account } from "../account/Account";
+import { Gender } from "./Gender";
+import { Status } from "./Status";
 import { ProjectMember } from "../projectMember/ProjectMember";
-import {Gender} from "./Gender";
-import {Status} from "./Status";
+import { BusinessUnit } from "../businessUnit/BusinessUnit";
 
 export interface Employee {
   id: string,
   name: string,
-  birthday: string,
   gender: Gender,
+  birthday: Date,
+  phoneNumber: string,
   mail: string,
+  address: string,
   country: string,
   province: string,
   district: string,
-  ward: string,
-  status: Status,
+  ward: string
   account: Account,
   businessUnit: BusinessUnit,
+  status: Status,
   projectMembers: ProjectMember[]
 }

@@ -7,7 +7,7 @@ const routes: Routes = [
   {path:'', redirectTo: '/home',pathMatch:'full'},
   {path:'home', component: ParentViewComponent},
   // {path:'listProject', component: ChildViewComponent},
-  {path:'listProject/:id', component: ChildViewComponent}
+  {path:'pm/:id/project', component: ChildViewComponent}
 ];
 
 @NgModule({

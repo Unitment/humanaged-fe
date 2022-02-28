@@ -1,0 +1,11 @@
+<mat-dialog-content class="mat-typography">
+  <div class="row">
+    <div class="col-2">
+      <input type="file" (change)="addFile($event)">
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-stroked-button [mat-dialog-close]="false">Cancel</button>
+  <button mat-stroked-button color="primary" (click)="addEmployee()">Install</button>
+</mat-dialog-actions>

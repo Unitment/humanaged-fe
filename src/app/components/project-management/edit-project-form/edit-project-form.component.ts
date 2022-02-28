@@ -2,6 +2,7 @@ import { EmployeeInProject } from './../../../model/project/Project';
 import { ProjectService } from './../../../services/project.service';
 import { Component, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
@@ -19,6 +20,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import * as XLSX from 'xlsx';
 import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ValidateEndDate } from '../util/end-date.validator';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -78,7 +80,11 @@ export class EditProjectFormComponent implements OnInit {
             }),
           });
         },
-        (error) => console.log(error),
+        (error) => {
+          this.isLoading = false;
+          this.openSnackBar(error.error.message, 'OK');
+          console.log(error);
+        },
         () => {
           this.isLoading = false;
         }
@@ -100,7 +106,7 @@ export class EditProjectFormComponent implements OnInit {
       name: ['', Validators.required],
       state: ['', Validators.required],
       startDate: ['', Validators.required],
-      endDate: [''],
+      endDate: ['', ValidateEndDate],
       description: ['', Validators.maxLength(500)],
     }),
     employeesInProject: this.fb.array([]),
@@ -189,7 +195,7 @@ export class EditProjectFormComponent implements OnInit {
         this.isLoading = false;
         this.projectForm.reset();
         this.employeesInProject.clear();
-        this.router.navigate(['/']);
+        this.router.navigate(['/project/table']);
       }
     );
   }
@@ -208,7 +214,7 @@ export class EditProjectFormComponent implements OnInit {
       },
       () => {
         this.isLoading = false;
-        this.router.navigate(['/']);
+        this.router.navigate(['/project/table']);
       }
     );
   }

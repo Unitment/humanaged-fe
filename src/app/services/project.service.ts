@@ -9,6 +9,12 @@ import { Project } from '../model/project/Project';
 export class ProjectService {
   constructor(private http: HttpClient) {}
 
+  getAllProjects(): Observable<Project[]> {
+    return this.http.get<Project[]>(
+      'http://localhost:8080/api/project/'
+    );
+  }
+
   saveProject(project: Project): Observable<Project> {
     return this.http.post<Project>(
       'http://localhost:8080/api/project',

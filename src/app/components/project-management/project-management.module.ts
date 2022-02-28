@@ -7,9 +7,10 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
 import { MatDialogModule } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '../material/material.module';
+import { ProjectTableComponent } from './project-table/project-table.component';
 
 @NgModule({
-  declarations: [EditProjectFormComponent, ConfirmDialogComponent],
+  declarations: [EditProjectFormComponent, ConfirmDialogComponent, ProjectTableComponent],
   imports: [
     CommonModule,
     ProjectManagementRoutingModule,

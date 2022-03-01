@@ -79,7 +79,6 @@ export class ParentViewComponent implements OnInit {
         const expected = new Set();
         this.pmAccounts = this.pmAccounts.filter(item => !expected.has(JSON.stringify(item)) ? expected.add(JSON.stringify(item)) : false);
         this.displayPmAccounts = this.pmAccounts;
-
       },
       (error: HttpErrorResponse) => {
         alert(error.message);

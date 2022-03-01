@@ -17,10 +17,10 @@
 }
 
 .tree {
-    width: max-content;
-    height: auto;
-    /* text-align: center; */
-    /* overflow:auto; */
+    width: 100%;
+    height: 92vh;
+     text-align: center;
+     overflow:auto;
     margin: auto;
   }
 
@@ -37,6 +37,7 @@
     position: relative;
     padding: 10px;
     transition: 0.5s;
+    white-space: nowrap;
   }
 
   /* Vẽ cạnh nối */
@@ -190,19 +191,18 @@
 
   .description {
     display: inline-block;
-    color: #666;
-    font-size: 14px;
-    text-align: left;
-    padding-top: 5px;
-    margin-bottom: 5px;
+    /*color: #666;*/
+    /*font-size: 14px;*/
+    /*text-align: left;*/
+    /*padding-top: 5px;*/
+    /*margin-bottom: 5px;*/
     /* padding-bottom: 3px; */
-    width: 100%;
+    /*width: 100%;*/
     /* height: 55px; */
-    overflow: hidden;
+    text-align: left;
     text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
   .moreButton{

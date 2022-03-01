@@ -18,6 +18,7 @@ import {
 import {
   DetailProjectDialogComponent
 } from "../../project-management/detail-project/detail-project-dialog/detail-project-dialog.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-child-view',
@@ -53,7 +54,8 @@ export class ChildViewComponent implements OnInit {
     private empService: EmployeeService,
     private pmService: ProjectMemberService,
     private route: ActivatedRoute,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {
   }
 
@@ -73,7 +75,7 @@ export class ChildViewComponent implements OnInit {
         this.namePM = this.PM.account.accountName;
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        this.snackBar.open(error.message,'Close');
       }
     );
   }
@@ -87,7 +89,7 @@ export class ChildViewComponent implements OnInit {
         this.changeClient(this.selectedValue);
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        this.snackBar.open(error.message,'Close');
       }
     );
   }

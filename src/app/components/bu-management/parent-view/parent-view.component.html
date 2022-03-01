@@ -53,33 +53,32 @@
           <!-- start node con tầng 2 -->
           <!-- <div class="tang2" > -->
           <ul class="ulClass">
-            <li *ngFor="let pm of displayPmAccounts">
-              <div class="node">
-                <p>PM</p>
-                <hr>
-                <div class="avaAndName">
-                  <img src="\assets\images\MeoBeo.jpg" alt="img2">
-                  <div class="name" mat-button>{{pm.account.accountName}}</div>
+              <li *ngFor="let pm of displayPmAccounts | slice:0:showPM; let i=index">
+                <div class="node">
+                  <p>PM</p>
+                  <hr>
+                  <div class="avaAndName">
+                    <img src="\assets\images\MeoBeo.jpg" alt="img2">
+                    <div class="name" mat-button>{{pm.account.accountName}}</div>
+                  </div>
+                  <hr>
+                 <div class="oneButton">
+                    <button mat-raised-button color="primary" [routerLink]="'/pm/'+pm.id+'/project'">Projects</button>
+                    <!-- <button mat-stroked-button color="primary" routerLink="/listProject" (click)="listChildPage(pm.id)">Projects</button> -->
+                  </div> 
                 </div>
-                <hr>
-                <div class="oneButton">
-                  <button mat-raised-button color="primary" [routerLink]="'/pm/'+pm.id+'/project'">Projects</button>
-                  <!-- <button mat-stroked-button color="primary" routerLink="/listProject" (click)="listChildPage(pm.id)">Projects</button> -->
+                <div *ngIf="i==(showPM-1) && i < displayPmAccounts.length-1" style="display: flex; float: right;margin-top: 50px; margin-left: 7px">
+                  <button mat-stroked-button (click)="increaseShowPM()">More</button>
                 </div>
-              </div>
-            </li>
+              </li>
             <!-- Node support tầng 2 -->
             <li>
               <div class="node">
-                <p>Support</p>
-                <hr>
-                <p class="description"><b>Description: </b>HTML is the standard markup language for creating Web pages.
-                  HTML describes the structure of a Web page, and consists of a series of elements. HTML elements tell
-                  the browser how to display the content.</p>
-                <hr>
+                <br>
+                <h2 style="text-align: center">Support</h2>
               </div>
               <ul class="ulClass">
-                <li *ngFor="let support of displaySupports">
+                <li *ngFor="let support of displaySupports | slice:0:showSP; let i=index">
                   <div class="node">
                     <p>Support</p>
                     <hr>
@@ -92,10 +91,14 @@
                       <button mat-raised-button color="warn">Remove</button>
                     </div>
                   </div>
+                  <div *ngIf="i==(showSP-1)  && i < displaySupports.length-1" style="display: flex; float: right; margin-top: 50px; margin-left: 7px">
+                    <button mat-stroked-button (click)="increaseShowSP()">More</button>
+                  </div>
                 </li>
-              </ul>
 
+              </ul>
             </li>
+
           </ul>
           <!-- Thêm button more vào thì nhánh cây không cân nữa nên phải thêm padding-left: 40px trong class tang2 để cân -->
           <!-- <button class="moreButton" style="float: left;">More</button> -->

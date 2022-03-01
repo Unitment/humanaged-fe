@@ -31,6 +31,8 @@ export class ParentViewComponent implements OnInit {
   showFiller = false;
   name: Account[] = [];
   searchText2: any;
+  showPM =2;
+  showSP =2;
   ops = [
     {value: 'pm', viewValue: 'Only PM'},
     {value: 'sp', viewValue: 'Only Support'},
@@ -78,7 +80,6 @@ export class ParentViewComponent implements OnInit {
         this.pmAccounts = this.pmAccounts.filter(item => !expected.has(JSON.stringify(item)) ? expected.add(JSON.stringify(item)) : false);
         console.log(this.pmAccounts);
         this.displayPmAccounts = this.pmAccounts;
-
       },
       (error: HttpErrorResponse) => {
         console.log(error.message);
@@ -159,5 +160,12 @@ export class ParentViewComponent implements OnInit {
       minWidth: "1125px",
       data: {empId: id}
     })
+  }
+
+  increaseShowPM(){
+    this.showPM+=3;
+  }
+  increaseShowSP(){
+    this.showSP+=3;
   }
 }

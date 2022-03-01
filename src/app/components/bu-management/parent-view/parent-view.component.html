@@ -54,7 +54,7 @@
           <!-- <div class="tang2" > -->
           <ul class="ulClass">
               <li *ngFor="let pm of displayPmAccounts | slice:0:showPM; let i=index">
-                <div class="node">
+                <div class="node" (click)="detailEmployee(pm.id)">
                   <p>PM</p>
                   <hr>
                   <div class="avaAndName">
@@ -79,7 +79,7 @@
               </div>
               <ul class="ulClass">
                 <li *ngFor="let support of displaySupports | slice:0:showSP; let i=index">
-                  <div class="node">
+                  <div class="node" (click)="detailEmployee(support.id)">
                     <p>Support</p>
                     <hr>
                     <div class="avaAndName">

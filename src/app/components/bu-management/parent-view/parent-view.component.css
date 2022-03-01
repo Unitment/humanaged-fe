@@ -119,6 +119,10 @@
     min-height: 120px;
   }
 
+  .node:hover{
+    background-color: #00000010;
+  }
+
   .node img {
     /* width: 20vw;
       height: 20vh; */

@@ -205,7 +205,7 @@ export class ChildViewComponent implements OnInit {
   }
 
   public searchAccount(): void {
-    if(this.textValue ===null){
+    if(this.textValue === null || this.textValue.length == 0){
       this.setFilterByState();
     }else{
       this.displayProject = [];

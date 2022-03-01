@@ -128,6 +128,13 @@
 
   .avaAndName {
     display: flex;
+    align-items: center;
+  }
+
+  .name{
+    margin: auto;
+    font-size: medium;
+    font-weight: 500;
   }
   /*
   .node span {
@@ -159,6 +166,7 @@
     bottom: 50%;
     right: 5%;
   }
+  
   .buttonRight{
     top: 50%;
     left: 3%;

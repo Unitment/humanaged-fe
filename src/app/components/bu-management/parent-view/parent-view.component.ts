@@ -61,7 +61,7 @@ export class ParentViewComponent implements OnInit {
         this.BUName = this.businessUnits[0].name;
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        console.log(error.message);
       }
     )
   }
@@ -76,11 +76,12 @@ export class ParentViewComponent implements OnInit {
         });
         const expected = new Set();
         this.pmAccounts = this.pmAccounts.filter(item => !expected.has(JSON.stringify(item)) ? expected.add(JSON.stringify(item)) : false);
+        console.log(this.pmAccounts);
         this.displayPmAccounts = this.pmAccounts;
 
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        console.log(error.message);
       }
     )
 
@@ -93,7 +94,7 @@ export class ParentViewComponent implements OnInit {
         this.displaySupports = this.supports;
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        console.log(error.message);
       }
     )
   }

@@ -15,6 +15,7 @@ export class ProjectService {
   public getDetailProject(prjId: string): Observable<Project> {
     return this.http.get<Project>(`${environment.apiBaseUrl}/project/${prjId}`);
   }
+  
   saveProject(project: Project): Observable<Project> {
     return this.http.post<Project>(
       `${this.apiServerUrl}/project`,

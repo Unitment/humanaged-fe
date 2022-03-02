@@ -25,7 +25,7 @@ export class ParentViewComponent implements OnInit {
   public displayPmAccounts: Employee[] = [];
   public supports: Employee[] = [];
   public displaySupports: Employee[] = [];
-  public BUL: string = '';
+  public BUL: Employee;
   public BUName: string = '';
 
   showFiller = false;
@@ -59,7 +59,7 @@ export class ParentViewComponent implements OnInit {
     this.buService.getBusinessUnits().subscribe(
       (response: BusinessUnit[]) => {
         this.businessUnits = response;
-        this.BUL = this.businessUnits[0].bul.account.accountName;
+        this.BUL = this.businessUnits[0].bul;
         this.BUName = this.businessUnits[0].name;
       },
       (error: HttpErrorResponse) => {

@@ -36,17 +36,19 @@
       <ul>
         <li>
           <!-- start Node cha -->
-          <div class="node">
-            <p>BUL</p>
+          <div class="node" (click)="detailEmployee(BUL.id)">
+            <div class="node-mask node-padding">
+              <p>BUL</p>
 
-            <hr>
-            <div class="avaAndName">
-              <img src="\assets\images\MeoBeo.jpg" alt="img2"><a>{{BUL}}</a>
-            </div>
-            <hr>
-            <p class="description"><b>BU name: </b>{{BUName}}</p>
-            <div class="oneButton">
-              <button mat-raised-button color="primary">ADD PM</button>
+              <hr>
+              <div class="avaAndName">
+                <img src="\assets\images\MeoBeo.jpg" alt="img2"><a>{{BUL.name}}</a>
+              </div>
+              <hr>
+              <p class="description"><b>BU name: </b>{{BUName}}</p>
+              <div class="oneButton">
+                <button mat-raised-button color="primary">ADD PM</button>
+              </div>
             </div>
           </div>
           <!-- end Node cha -->
@@ -55,17 +57,19 @@
           <ul class="ulClass">
               <li *ngFor="let pm of displayPmAccounts | slice:0:showPM; let i=index">
                 <div class="node" (click)="detailEmployee(pm.id)">
-                  <p>PM</p>
-                  <hr>
-                  <div class="avaAndName">
-                    <img src="\assets\images\MeoBeo.jpg" alt="img2">
-                    <div class="name" mat-button>{{pm.account.accountName}}</div>
+                  <div class="node-mask node-padding">
+                    <p>PM</p>
+                    <hr>
+                    <div class="avaAndName">
+                      <img src="\assets\images\MeoBeo.jpg" alt="img2">
+                      <div class="name" mat-button>{{pm.account.accountName}}</div>
+                    </div>
+                    <hr>
+                    <div class="oneButton">
+                      <button mat-raised-button color="primary" [routerLink]="'/pm/'+pm.id+'/project'">Projects</button>
+                      <!-- <button mat-stroked-button color="primary" routerLink="/listProject" (click)="listChildPage(pm.id)">Projects</button> -->
+                    </div>
                   </div>
-                  <hr>
-                 <div class="oneButton">
-                    <button mat-raised-button color="primary" [routerLink]="'/pm/'+pm.id+'/project'">Projects</button>
-                    <!-- <button mat-stroked-button color="primary" routerLink="/listProject" (click)="listChildPage(pm.id)">Projects</button> -->
-                  </div> 
                 </div>
                 <div *ngIf="i==(showPM-1) && i < displayPmAccounts.length-1" style="display: flex; float: right;margin-top: 50px; margin-left: 7px">
                   <button mat-stroked-button (click)="increaseShowPM()">More</button>
@@ -73,22 +77,24 @@
               </li>
             <!-- Node support tầng 2 -->
             <li>
-              <div class="node">
+              <div class="node node-padding">
                 <br>
                 <h2 style="text-align: center">Support</h2>
               </div>
               <ul class="ulClass">
                 <li *ngFor="let support of displaySupports | slice:0:showSP; let i=index">
                   <div class="node" (click)="detailEmployee(support.id)">
-                    <p>Support</p>
-                    <hr>
-                    <div class="avaAndName">
-                      <img src="\assets\images\MeoBeo.jpg" alt="img2">
-                      <div class="name" mat-button>{{support.account.accountName}}</div>
-                    </div>
-                    <hr>
-                    <div class="oneButton">
-                      <button mat-raised-button color="warn">Remove</button>
+                    <div class="node-mask node-padding">
+                      <p>Support</p>
+                      <hr>
+                      <div class="avaAndName">
+                        <img src="\assets\images\MeoBeo.jpg" alt="img2">
+                        <div class="name" mat-button>{{support.account.accountName}}</div>
+                      </div>
+                      <hr>
+                      <div class="oneButton">
+                        <button mat-raised-button color="warn">Remove</button>
+                      </div>
                     </div>
                   </div>
                   <div *ngIf="i==(showSP-1)  && i < displaySupports.length-1" style="display: flex; float: right; margin-top: 50px; margin-left: 7px">

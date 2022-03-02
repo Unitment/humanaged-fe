@@ -1,4 +1,4 @@
-<div class="childViewBody">
+<div class="ViewBody">
   <div class="div-left" style="float: left;">
     <div style="padding-top: 20px;">
       <mat-drawer-container class="container" autosize>
@@ -51,14 +51,16 @@
         <li>
           <!-- start Node cha -->
           <div class="node">
-            <p>PM</p>
-            <hr>
-            <div class="avaAndName">
-              <img src="\assets\images\MeoBeo.jpg" alt="img2"><a>{{namePM}}</a>
-            </div>
-            <hr>
-            <div class="oneButton">
-              <button mat-raised-button color="primary">ADD Project</button>
+            <div class="node-mask node-padding">
+              <p>PM</p>
+              <hr>
+              <div class="avaAndName">
+                <img src="\assets\images\MeoBeo.jpg" alt="img2"><a>{{namePM}}</a>
+              </div>
+              <hr>
+              <div class="oneButton">
+                <button mat-raised-button color="primary">ADD Project</button>
+              </div>
             </div>
           </div>
           <!-- end Node cha -->
@@ -70,18 +72,20 @@
               <li *ngFor="let pAm of displayProject | slice:0:showProJ; let i = index">
                 <div style="max-width: 295px; margin: auto;" (click)="projectDetails(pAm.project.id)">
                   <div class="node" [ngStyle]="{'background-color': checkProjectState(pAm.project)}">
-                    <a>{{pAm.project.name}}</a>
-                    <hr>
-                    <p class="description"><b>Description: </b>{{pAm.project.description}}</p>
-                    <p class="description"><b>State: </b>{{pAm.project.state}}</p>
-                    <p class="description"><b>Start date: </b>{{pAm.project.startDate}}</p>
-                    <div class="twoButton">
-                      <button mat-raised-button color="primary" (click)="addMemberToProject()" class="buttonLeft">Add
-                        Member
-                      </button>
-                      <button mat-raised-button color="warn" (click)="removeProject(pAm.project.id)" class="buttonRight">
-                        Remove
-                      </button>
+                    <div class="node-mask node-padding">
+                      <a>{{pAm.project.name}}</a>
+                      <hr>
+                      <p class="description"><b>Description: </b>{{pAm.project.description}}</p>
+                      <p class="description"><b>State: </b>{{pAm.project.state}}</p>
+                      <p class="description"><b>Start date: </b>{{pAm.project.startDate}}</p>
+                      <div class="twoButton">
+                        <button mat-raised-button color="primary" (click)="addMemberToProject()" class="buttonLeft">Add
+                          Member
+                        </button>
+                        <button mat-raised-button color="warn" (click)="removeProject(pAm.project.id)" class="buttonRight">
+                          Remove
+                        </button>
+                      </div>
                     </div>
                   </div>
                   <div *ngIf="i==(showProJ-1)  && i < displayProject.length-1" style="display: flex; float: right; margin-top: 50px; margin-left: 7px">
@@ -98,15 +102,17 @@
                         [ngStyle]="checkMemberRole(projectMember)?{'background-color': '#DCAB2D'}:{'background-color': '#EC8A8A'}"
                         (click)="detailEmployee(projectMember.employee.id)"
                       >
-                        <p>{{projectMember.role}}</p>
-                        <hr>
-                        <div class="avaAndName">
-                          <img src="\assets\images\MeoBeo.jpg" alt="img2">
-                          <a>{{getAccountName(projectMember)}}</a>
-                        </div>
-                        <hr>
-                        <div class="oneButton">
-                          <button mat-raised-button color="warn">Remove</button>
+                        <div class="node-mask node-padding">
+                          <p>{{projectMember.role}}</p>
+                          <hr>
+                          <div class="avaAndName">
+                            <img src="\assets\images\MeoBeo.jpg" alt="img2">
+                            <a>{{getAccountName(projectMember)}}</a>
+                          </div>
+                          <hr>
+                          <div class="oneButton">
+                            <button mat-raised-button color="warn">Remove</button>
+                          </div>
                         </div>
                       </div>
                       <div *ngIf="i==(showMem-1)  && (i < pAm.memberList.length-1)" style="display: flex; float: right; margin-top: 50px; margin-left: 7px">

@@ -2,6 +2,7 @@ import { EmployeeInProject } from './../../../model/project/Project';
 import { ProjectService } from './../../../services/project.service';
 import { Component, OnInit } from '@angular/core';
 import {
+  AbstractControl,
   FormArray,
   FormBuilder,
   FormControl,
@@ -18,6 +19,8 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 import { ActivatedRoute, Router } from '@angular/router';
 import * as XLSX from 'xlsx';
 import { Location } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ValidateEndDate } from '../util/end-date.validator';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -45,7 +48,8 @@ export class EditProjectFormComponent implements OnInit {
     private projectService: ProjectService,
     private route: ActivatedRoute,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private _snackBar: MatSnackBar
   ) {}
 
   projectId: string | null = null;
@@ -76,7 +80,11 @@ export class EditProjectFormComponent implements OnInit {
             }),
           });
         },
-        (error) => console.log(error),
+        (error) => {
+          this.isLoading = false;
+          this.openSnackBar(error.error.message, 'OK');
+          console.log(error);
+        },
         () => {
           this.isLoading = false;
         }
@@ -98,7 +106,7 @@ export class EditProjectFormComponent implements OnInit {
       name: ['', Validators.required],
       state: ['', Validators.required],
       startDate: ['', Validators.required],
-      endDate: [''],
+      endDate: ['', ValidateEndDate],
       description: ['', Validators.maxLength(500)],
     }),
     employeesInProject: this.fb.array([]),
@@ -179,13 +187,15 @@ export class EditProjectFormComponent implements OnInit {
         console.log(data);
       },
       (error) => {
+        this.isLoading = false;
+        this.openSnackBar(error.error.message, 'OK');
         console.log(error);
       },
       () => {
         this.isLoading = false;
         this.projectForm.reset();
         this.employeesInProject.clear();
-        this.router.navigate(['/']);
+        this.router.navigate(['/project/table']);
       }
     );
   }
@@ -198,11 +208,13 @@ export class EditProjectFormComponent implements OnInit {
         console.log(data);
       },
       (error) => {
+        this.isLoading = false;
+        this.openSnackBar(error.error.message, 'OK');
         console.log(error);
       },
       () => {
         this.isLoading = false;
-        this.router.navigate(['/']);
+        this.router.navigate(['/project/table']);
       }
     );
   }
@@ -213,7 +225,8 @@ export class EditProjectFormComponent implements OnInit {
     this.file = event.target.files[0];
   }
 
-  Upload() {
+  Upload(event: Event) {
+    event.preventDefault();
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
       this.arrayBuffer = fileReader.result;
@@ -265,7 +278,11 @@ export class EditProjectFormComponent implements OnInit {
           (data) => {
             console.log(data);
           },
-          (error) => console.log(error),
+          (error) => {
+            this.isLoading = false;
+            this.openSnackBar(error.error.message, 'OK');
+            console.log(error);
+          },
           () => {
             this.isLoading = false;
             this.router.navigate(['/']);
@@ -278,5 +295,12 @@ export class EditProjectFormComponent implements OnInit {
   goBack(event: Event) {
     event.preventDefault();
     this.location.back();
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+    });
   }
 }

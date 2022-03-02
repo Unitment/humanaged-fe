@@ -18,6 +18,7 @@ import {
 import {
   DetailProjectDialogComponent
 } from "../../project-management/detail-project/detail-project-dialog/detail-project-dialog.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-child-view',
@@ -39,7 +40,7 @@ export class ChildViewComponent implements OnInit {
   checkProcessing: boolean = false;
   checkClosed: boolean = false;
   checkPending: boolean = false;
-  showProJ = 2;
+  showProJ = 3;
   showMem = 2;
   textValue:string = '';
   ops = [
@@ -53,7 +54,8 @@ export class ChildViewComponent implements OnInit {
     private empService: EmployeeService,
     private pmService: ProjectMemberService,
     private route: ActivatedRoute,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {
   }
 
@@ -73,7 +75,7 @@ export class ChildViewComponent implements OnInit {
         this.namePM = this.PM.account.accountName;
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        this.snackBar.open(error.message,'Close');
       }
     );
   }
@@ -87,7 +89,7 @@ export class ChildViewComponent implements OnInit {
         this.changeClient(this.selectedValue);
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        this.snackBar.open(error.message,'Close');
       }
     );
   }
@@ -123,28 +125,46 @@ export class ChildViewComponent implements OnInit {
   public setFilterByState() {
     // this.searchAccount();
     if (!this.checkProcessing && !this.checkClosed && !this.checkPending) {
-      if (this.textValue.length>0){
+      if (this.textValue?.toString() !==''){
         this.searchAccount();
       }else{
-        this.displayProject = this.projectAndMembers;
+        this.getprojectAndMember(this.PMid);
       }
     } else {
-      // this.displayProject = [];
-      this.searchAccount();
-      this.displayProject.forEach(element => {
-        if (!this.checkProcessing && element.project.state.toString() === 'PROCESSING') {
-          let index = this.displayProject.indexOf(element);
-          this.displayProject.splice(index,1);
-        }
-        if (!this.checkClosed && element.project.state.toString() === 'CLOSED') {
-          let index = this.displayProject.indexOf(element);
-          this.displayProject.splice(index,1);
-        }
-        if (!this.checkPending && element.project.state.toString() === 'PENDING') {
-          let index = this.displayProject.indexOf(element);
-          this.displayProject.splice(index,1);
-        }
-      });
+      if (this.textValue?.toString() !==''){
+        this.searchAccount();
+      }else{
+        this.displayProject = [];
+        // for(let i=0; i<this.displayProject.length;i++){
+        //   if (!this.checkProcessing && this.displayProject[i]?.project.state.toString() === 'PROCESSING') {
+        //     this.displayProject.splice(i,1);
+        //     i--;
+        //   }
+        //   if (!this.checkClosed && this.displayProject[i]?.project.state.toString() === 'CLOSED') {
+        //     this.displayProject.splice(i,1);
+        //     i--;
+        //   }
+        //   if (!this.checkPending && this.displayProject[i]?.project.state.toString() === 'PENDING') {
+        //     this.displayProject.splice(i,1);
+        //     i--;
+        //   }
+        // }
+        this.projectAndMembers.forEach(value =>
+        {
+          if (this.checkProcessing && value.project.state.toString() === 'PROCESSING') {
+            this.displayProject.push(value);
+          }
+          if (this.checkPending && value.project.state.toString() === 'PENDING') {
+            this.displayProject.push(value);
+          }
+          if (this.checkClosed && value.project.state.toString() === 'CLOSED') {
+            this.displayProject.push(value);
+          }
+        });
+        console.log('setFilterByState: '+this.displayProject.length)
+
+      }
+
     }
     this.changeClient(this.selectedValue);
   }
@@ -164,7 +184,6 @@ export class ChildViewComponent implements OnInit {
         this.displayProject.sort((a, b) => new Date(b.project.startDate).getTime() - new Date(a.project.startDate).getTime());
         break;
     }
-    console.log('changeClient: '+this.displayProject.length)
   }
 
   removeProject(id: string) {
@@ -205,7 +224,11 @@ export class ChildViewComponent implements OnInit {
   }
 
   public searchAccount(): void {
+<<<<<<< HEAD
     if(this.textValue === null || this.textValue.length == 0){
+=======
+    if(this.textValue?.toString() ===''){
+>>>>>>> origin/dev-TrangTTU
       this.setFilterByState();
     }else{
       this.displayProject = [];

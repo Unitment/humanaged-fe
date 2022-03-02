@@ -65,12 +65,8 @@ export class ParentViewComponent implements OnInit {
         this.BUName = this.businessUnits[0].name;
       },
       (error: HttpErrorResponse) => {
-<<<<<<< HEAD
-        console.log(error.message);
-=======
         // alert(error.message);
         this.snackBar.open(error.message,'Close');
->>>>>>> origin/dev-TrangTTU
       }
     )
   }
@@ -89,11 +85,7 @@ export class ParentViewComponent implements OnInit {
         this.displayPmAccounts = this.pmAccounts;
       },
       (error: HttpErrorResponse) => {
-<<<<<<< HEAD
-        console.log(error.message);
-=======
         this.snackBar.open('Get PM error!\n'+error.message,'Close');
->>>>>>> origin/dev-TrangTTU
       }
     )
 
@@ -106,11 +98,7 @@ export class ParentViewComponent implements OnInit {
         this.displaySupports = this.supports;
       },
       (error: HttpErrorResponse) => {
-<<<<<<< HEAD
-        console.log(error.message);
-=======
         this.snackBar.open('Get support error!\n'+error.message,'Close');
->>>>>>> origin/dev-TrangTTU
       }
     )
   }

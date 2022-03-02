@@ -1,4 +1,8 @@
-<div class="dialog-container">
+<div class="dialog-container" cdk-focus-start>
+    <button mat-icon-button class="close-button" (click)="onClose()">
+        <mat-icon class="close-icon" color="warn">close</mat-icon>
+    </button>
+    
     <div id="left">
         <div class="name-container">
             <div class="name">{{project?.name}}</div>
@@ -10,11 +14,11 @@
 
     <div id="right">
         <div class="info info-label">Start date</div>
-        <div class="info prj-sd">{{project?.startDate}}</div>
+        <div class="info info-data prj-sd">{{project?.startDate}}</div>
         <div class="info info-label">End date</div>
-        <div class="info prj-ed">{{project?.endDate}}</div>
+        <div class="info info-data prj-ed">{{project?.endDate}}</div>
         <div class="info info-label">Member</div>
-        <div class="info info-list emp-projects">
+        <div class="info info-data info-list emp-projects">
             <ul>
                 <li *ngFor="let pm of project?.projectMembers" (click)="EmployeeDetailClick(pm.employee.id)">
                     <div class="info-list-item emp-project"><a>{{pm.employee.name}}</a></div>
@@ -23,6 +27,6 @@
             </ul>
         </div>
         <div class="info info-label">State</div>
-        <div class="info prj-state">{{[project?.state]}}</div>
+        <div class="info info-data prj-state">{{[project?.state]}}</div>
     </div>
 </div>

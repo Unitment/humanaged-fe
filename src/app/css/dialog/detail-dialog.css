@@ -72,12 +72,17 @@
 }
 
 .info{
-    font-size: 20px;
-    line-height: 44px;
 }
 
 .info-label{
     font-weight: bold;
+    line-height: 44px;
+    font-size: 20px;
+}
+
+.info-data{
+    line-height: 34px;
+    font-size: 20px;
 }
 
 .info-list ul{

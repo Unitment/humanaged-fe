@@ -68,8 +68,8 @@
 
               <!-- node tầng 2 - 1 -->
               <li *ngFor="let pAm of displayProject | slice:0:showProJ; let i = index">
-                <div style="max-width: 295px; margin: auto;">
-                  <div class="node" [ngStyle]="{'background-color': checkProjectState(pAm.project)}">
+                <div style="max-width: 315px; margin: auto;">
+                  <div class="node" [ngStyle]="{'background-color': checkProjectState(pAm.project)}" style=" margin: auto;">
                     <a (click)="projectDetails(pAm.project.id)" >{{pAm.project.name}}</a>
                     <hr>
                     <p class="description"><b>Description: </b>{{pAm.project.description}}</p>

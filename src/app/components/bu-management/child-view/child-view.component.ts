@@ -41,8 +41,8 @@ export class ChildViewComponent implements OnInit {
   checkProcessing: boolean = false;
   checkClosed: boolean = false;
   checkPending: boolean = false;
-  showProJ = 3;
-  showMem = 2;
+  showProJ = 2;
+  showMem = 1;
   showMemMap = new Map();
   textValue: string = '';
   ops = [
@@ -118,7 +118,7 @@ export class ChildViewComponent implements OnInit {
         temp = '#8FA96E';
         break;
       case 'PENDING':
-        temp = '#E9EEF1';
+        temp = '#dce7ed';
         break;
     }
     return temp;
@@ -228,10 +228,10 @@ export class ChildViewComponent implements OnInit {
   increaseShowMem() {
     this.showMem += 1;
   }
-  getShowMemValue(id:string):number{
-    // console.log(this.showMemMap.size);
-    // return this.showMemMap.get(id);
-    return 2;
+  increaseShowMemValue(id:string):void{
+    let showNum = this.showMemMap.get(id)+2;
+    this.showMemMap.set(id,showNum);
+    // return 2;
   }
 
   public searchAccount(): void {

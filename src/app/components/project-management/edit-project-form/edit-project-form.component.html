@@ -13,9 +13,6 @@
     <h2 class="form-title">
       {{ projectId !== null ? "Edit" : "Create" }} Project
     </h2>
-    <p class="form-title-detail">
-      Standard out details project information, Members in project
-    </p>
     <button
       mat-stroked-button
       color="warn"
@@ -117,13 +114,13 @@
         >
           <ng-container [formGroupName]="i">
             <mat-form-field class="example-full-width" appearance="standard">
-              <mat-label>Employee ID</mat-label>
+              <mat-label>Employee Account Name</mat-label>
               <input
                 type="text"
                 matInput
                 formControlName="employeeName"
                 [errorStateMatcher]="matcher"
-                placeholder="Employee name"
+                placeholder="Employee account name"
               />
               <mat-error
                 *ngIf="
@@ -133,7 +130,7 @@
                     ?.hasError('required')
                 "
               >
-                Employee Id is <strong>required</strong>
+                Employee Account Name is <strong>required</strong>
               </mat-error>
             </mat-form-field>
 

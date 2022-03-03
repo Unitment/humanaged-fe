@@ -15,6 +15,6 @@ export interface Project {
 
 export interface EmployeeInProject {
   id: string,
-  name: string,
+  accountName: string,
   role: ProjectRole
 }

@@ -57,7 +57,7 @@
               <hr>
               <div class="avaAndName">
                 <img src="\assets\images\MeoBeo.jpg" alt="img2">
-                <div class="name">{{PM.name}}</div>
+                <div class="name">{{PM?.name}}</div>
               </div>
               <hr>
               <div class="oneButton">
@@ -82,8 +82,8 @@
                       <p class="description"><b>State: </b>{{pAm.project.state}}</p>
                       <p class="description"><b>Start date: </b>{{pAm.project.startDate}}</p>
                       <div class="twoButton">
-                        <button mat-raised-button color="primary" (click)="addMemberToProject(pAm.project.id)"
-                                class="buttonLeft">Add
+                        <button mat-raised-button color="primary" (click)="addMemberToProject(pAm.project.id, $event)"
+                                class="buttonLeft" style="z-index: 100">Add
                           Member
                         </button>
                         <button mat-raised-button color="warn" (click)="removeProject(pAm.project.id)"

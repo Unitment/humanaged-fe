@@ -201,7 +201,8 @@ export class ChildViewComponent implements OnInit {
     })
   }
 
-  addMemberToProject(projectId: string) {
+  addMemberToProject(projectId: string, event: any) {
+    event.stopPropagation();
     this.matDialog.open(AddMemberToProjectComponent, {
       height: "300px",
       width: "350px",

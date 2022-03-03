@@ -36,7 +36,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     MatOptionModule,
     MatSelectModule,
     MaterialModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ]
 })
 export class EmployeeManagementModule {

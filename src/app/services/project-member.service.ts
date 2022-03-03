@@ -42,4 +42,8 @@ export class ProjectMemberService {
   addEmployeeToProject(memberDTO: MemberDTO) {
     return this.http.post(this.API_PROJECT_MEMBER, memberDTO);
   }
+  
+  public deleteEmployeeInProject() {
+    // return this.http.delete()
+  }
 }

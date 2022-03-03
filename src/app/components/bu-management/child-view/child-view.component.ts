@@ -7,7 +7,7 @@ import {ProjectMember} from 'src/app/model/projectMember/ProjectMember';
 import {EmployeeService} from 'src/app/services/employee.service';
 import {ProjectMemberService} from 'src/app/services/project-member.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../project-management/confirm-dialog/confirm-dialog.component";
 import {
   DetailEmployeeDialogComponent
@@ -198,10 +198,16 @@ export class ChildViewComponent implements OnInit {
   }
 
   removeEmployee(id: string) {
-    this.dialogService.openConfirmDialog({
-      title: `Remove Employee ${id}`,
-      content: `Do you want to remove Employee ${id} from this project`,
-      id: id
+    this.dialogService.openConfirmDialog( {
+      data: {
+        title: `Remove Employee ${id}`,
+        content: `Do you want to remove Employee ${id} from this project?`,
+        id: id
+      }
+    } as MatDialogConfig).afterClosed().subscribe(result => {
+      if(result){
+        this.pmService.deleteEmployeeInProject();
+      }
     })
   }
 

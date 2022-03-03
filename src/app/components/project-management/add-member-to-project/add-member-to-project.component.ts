@@ -14,6 +14,7 @@ import {MemberDTO} from "../../../model/project/MemberDTO";
 export class AddMemberToProjectComponent implements OnInit {
 
   employeeList: Array<EmployeeDropdown> = [];
+  
   dropdowns: Array<EmployeeDropdown> = [];
 
   filteredEmployee: Array<EmployeeDropdown> = [];

@@ -72,7 +72,7 @@
               <!-- node tầng 2 - 1 -->
               <li *ngFor="let pAm of displayProject | slice:0:showProJ; let i = index">
                 <div style="max-width: 315px; margin: auto;">
-                  <div class="node" (click)="projectDetails(pAm.project.id)" [ngStyle]="{'background-color': checkProjectState(pAm.project)}"
+                  <div class="node" (click)="detailProject(pAm.project.id)" [ngStyle]="{'background-color': checkProjectState(pAm.project)}"
                        style=" margin: auto;">
                     <div class="node-mask node-padding">
                       <p>{{pAm.project.name}}</p>
@@ -116,7 +116,7 @@
                             <div class="name">{{getAccountName(projectMember)}}</div>
                           </div>
                           <div class="oneButton">
-                            <button mat-raised-button color="warn">Remove</button>
+                            <button mat-raised-button color="warn" (click)="removeEmployee(projectMember.employee.id);$event.stopPropagation();">Remove</button>
                           </div>
                         </div>
                       </div>

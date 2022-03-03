@@ -7,8 +7,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialModule} from '../material/material.module';
 
-import {DetailProjectComponent} from './detail-project/detail-project.component';
-import {DetailProjectDialogComponent} from './detail-project/detail-project-dialog/detail-project-dialog.component';
+import {DetailProjectDialogComponent} from './detail-project-dialog/detail-project-dialog.component';
 import {EditProjectFormComponent} from './edit-project-form/edit-project-form.component';
 import {ConfirmDialogComponent} from './confirm-dialog/confirm-dialog.component';
 import {AddMemberToProjectComponent} from "./add-member-to-project/add-member-to-project.component";
@@ -16,7 +15,7 @@ import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
 import { ProjectTableComponent } from './project-table/project-table.component';
 
 @NgModule({
-  declarations: [DetailProjectComponent, DetailProjectDialogComponent, EditProjectFormComponent, ConfirmDialogComponent, AddMemberToProjectComponent, ProjectTableComponent],
+  declarations: [DetailProjectDialogComponent, EditProjectFormComponent, ConfirmDialogComponent, AddMemberToProjectComponent, ProjectTableComponent],
   imports: [
     CommonModule,
     ProjectManagementRoutingModule,
@@ -26,6 +25,6 @@ import { ProjectTableComponent } from './project-table/project-table.component';
     NgMultiSelectDropDownModule.forRoot(),
     FormsModule
   ],
-  exports: [DetailProjectComponent]
+  exports: []
 })
 export class ProjectManagementModule {}

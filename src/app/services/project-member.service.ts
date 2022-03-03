@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment';
 import {ProjectAndMember} from '../model/projectMember/ProjectAndMember';
 import {ProjectMember} from '../model/projectMember/ProjectMember';
+import {MemberDTO} from "../model/project/MemberDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +36,10 @@ export class ProjectMemberService {
 
   isProjectHasLeader(projectID: string): Observable<boolean> {
     return this.http.get<boolean>(this.API_PROJECT_MEMBER + "/check-leader/" + projectID);
+  }
+
+
+  addEmployeeToProject(memberDTO: MemberDTO) {
+    return this.http.post(this.API_PROJECT_MEMBER, memberDTO);
   }
 }

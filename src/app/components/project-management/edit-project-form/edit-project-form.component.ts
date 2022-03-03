@@ -68,7 +68,7 @@ export class EditProjectFormComponent implements OnInit {
             employeeInProjectList: data.projectMembers?.forEach((member) => {
               this.employeesInProject.push(
                 this.fb.group({
-                  employeeName: [member.employee?.id, Validators.required],
+                  employeeName: [member.employee?.account.accountName, Validators.required],
                   employeeRole: [
                     this.projectRole.find(
                       (key) => key === member.role.toString()
@@ -160,7 +160,7 @@ export class EditProjectFormComponent implements OnInit {
       let value = this.employeesInProject.at(i).value;
       let employeeRole: string = value.employeeRole;
       employeeInProjectList.push({
-        id: value.employeeName,
+        accountName: value.employeeName,
         role: this.projectRole.findIndex((key) => key === employeeRole),
       });
     }
@@ -195,7 +195,7 @@ export class EditProjectFormComponent implements OnInit {
         this.isLoading = false;
         this.projectForm.reset();
         this.employeesInProject.clear();
-        this.router.navigate(['/project/table']);
+        this.router.navigate(['/project']);
       }
     );
   }
@@ -214,7 +214,7 @@ export class EditProjectFormComponent implements OnInit {
       },
       () => {
         this.isLoading = false;
-        this.router.navigate(['/project/table']);
+        this.router.navigate(['/project']);
       }
     );
   }
@@ -252,7 +252,7 @@ export class EditProjectFormComponent implements OnInit {
     list.forEach((employee) => {
       this.employeesInProject.push(
         this.fb.group({
-          employeeName: employee.id,
+          employeeName: employee.accountName,
           employeeRole: this.projectRole.find(
             (key) => key === employee.role?.toString()
           ),
@@ -285,7 +285,7 @@ export class EditProjectFormComponent implements OnInit {
           },
           () => {
             this.isLoading = false;
-            this.router.navigate(['/']);
+            this.router.navigate(['/project']);
           }
         );
       }

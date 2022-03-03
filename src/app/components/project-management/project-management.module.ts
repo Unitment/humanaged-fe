@@ -13,9 +13,10 @@ import {EditProjectFormComponent} from './edit-project-form/edit-project-form.co
 import {ConfirmDialogComponent} from './confirm-dialog/confirm-dialog.component';
 import {AddMemberToProjectComponent} from "./add-member-to-project/add-member-to-project.component";
 import {NgMultiSelectDropDownModule} from "ng-multiselect-dropdown";
+import { ProjectTableComponent } from './project-table/project-table.component';
 
 @NgModule({
-  declarations: [DetailProjectComponent, DetailProjectDialogComponent, EditProjectFormComponent, ConfirmDialogComponent, AddMemberToProjectComponent],
+  declarations: [DetailProjectComponent, DetailProjectDialogComponent, EditProjectFormComponent, ConfirmDialogComponent, AddMemberToProjectComponent, ProjectTableComponent],
   imports: [
     CommonModule,
     ProjectManagementRoutingModule,

@@ -1,12 +1,12 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { EditProjectFormComponent } from '../components/project-management/edit-project-form/edit-project-form.component';
-import { ProjectTableComponent } from '../components/project-management/project-table/project-table.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {EditProjectFormComponent} from '../components/project-management/edit-project-form/edit-project-form.component';
+import {ProjectTableComponent} from '../components/project-management/project-table/project-table.component';
 
 const routes: Routes = [
-  { path: 'project/edit/:id', component: EditProjectFormComponent },
-  { path: 'project/create', component: EditProjectFormComponent },
-  { path: 'project/table', component: ProjectTableComponent }
+  {path: 'project/edit/:id', component: EditProjectFormComponent},
+  {path: 'project/create', component: EditProjectFormComponent},
+  {path: 'project', component: ProjectTableComponent}
   ,
 ];
 
@@ -14,4 +14,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ProjectManagementRoutingModule {}
+export class ProjectManagementRoutingModule {
+}

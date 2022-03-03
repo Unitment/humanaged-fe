@@ -1,4 +1,4 @@
-<div class="parentViewBody">
+<div class="ViewBody">
   <div class="div-left" style="float: left;">
     <div style="padding-top: 20px;">
       <mat-drawer-container class="container" autosize>
@@ -36,17 +36,17 @@
       <ul>
         <li>
           <!-- start Node cha -->
-          <div class="node" (click)="detailEmployee(BUL.id)">
+          <div class="node" (click)="detailEmployee(BUL.id)" [ngStyle]="{'background-color': nodeColor('BUL')}">
             <div class="node-mask node-padding">
               <p>BUL</p>
 
               <hr>
               <div class="avaAndName">
                 <img src="\assets\images\MeoBeo.jpg" alt="img2">
-                <div class="name">{{BUL.name}}</div>
+                <div class="name">{{BUL?.account?.accountName}}</div>
               </div>
-              <hr>
-              <p class="description"><b>BU name: </b>{{BUName}}</p>
+<!--              <hr>-->
+<!--              <p class="description"><b>BU name: </b>{{BUName}}</p>-->
               <div class="oneButton">
                 <button mat-raised-button color="primary">ADD PM</button>
               </div>
@@ -57,7 +57,7 @@
           <!-- <div class="tang2" > -->
           <ul class="ulClass">
               <li *ngFor="let pm of displayPmAccounts | slice:0:showPM; let i=index">
-                <div class="node" (click)="detailEmployee(pm.id)">
+                <div class="node" (click)="detailEmployee(pm.id)" [ngStyle]="{'background-color': nodeColor('PM')}">
                   <div class="node-mask node-padding">
                     <p>PM</p>
                     <hr>
@@ -65,7 +65,7 @@
                       <img src="\assets\images\MeoBeo.jpg" alt="img2">
                       <div class="name" mat-button>{{pm.account.accountName}}</div>
                     </div>
-                    <hr>
+<!--                    <hr>-->
                     <div class="oneButton">
                       <button mat-raised-button color="primary" [routerLink]="'/pm/'+pm.id+'/project'">Projects</button>
                       <!-- <button mat-stroked-button color="primary" routerLink="/listProject" (click)="listChildPage(pm.id)">Projects</button> -->
@@ -78,13 +78,14 @@
               </li>
             <!-- Node support tầng 2 -->
             <li>
-              <div class="node node-padding">
+              <div class="node node-padding" [ngStyle]="{'background-color': nodeColor('PM')}">
                 <br>
                 <h2 style="text-align: center">Support</h2>
               </div>
+
               <ul class="ulClass">
                 <li *ngFor="let support of displaySupports | slice:0:showSP; let i=index">
-                  <div class="node" (click)="detailEmployee(support.id)">
+                  <div class="node" (click)="detailEmployee(support.id)" [ngStyle]="{'background-color': nodeColor('SUPPORT')}">
                     <div class="node-mask node-padding">
                       <p>Support</p>
                       <hr>
@@ -92,7 +93,7 @@
                         <img src="\assets\images\MeoBeo.jpg" alt="img2">
                         <div class="name" mat-button>{{support.account.accountName}}</div>
                       </div>
-                      <hr>
+<!--                      <hr>-->
                       <div class="oneButton">
                         <button mat-raised-button color="warn">Remove</button>
                       </div>

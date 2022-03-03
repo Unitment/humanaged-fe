@@ -1,18 +1,16 @@
-import {HttpErrorResponse} from '@angular/common/http';
-import {Component, OnInit} from '@angular/core';
-import {Account} from 'src/app/model/account/Account';
-import {BusinessUnit} from 'src/app/model/businessUnit/BusinessUnit';
-import {Employee} from 'src/app/model/employee/Employee';
-import {ProjectMember} from 'src/app/model/projectMember/ProjectMember';
-import {BuService} from 'src/app/services/bu.service';
-import {EmployeeService} from 'src/app/services/employee.service';
-import {ProjectMemberService} from 'src/app/services/project-member.service';
-import {Router} from '@angular/router';
-import {
-  DetailEmployeeDialogComponent
-} from "../../employee-management/detail-employee/detail-employee-dialog/detail-employee-dialog.component";
-import {MatDialog} from "@angular/material/dialog";
-import {MatSnackBar} from "@angular/material/snack-bar";
+import { HttpErrorResponse } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { Account } from 'src/app/model/account/Account';
+import { BusinessUnit } from 'src/app/model/businessUnit/BusinessUnit';
+import { Employee } from 'src/app/model/employee/Employee';
+import { ProjectMember } from 'src/app/model/projectMember/ProjectMember';
+import { BuService } from 'src/app/services/bu.service';
+import { EmployeeService } from 'src/app/services/employee.service';
+import { ProjectMemberService } from 'src/app/services/project-member.service';
+import { Router } from '@angular/router';
+import { MatDialog } from "@angular/material/dialog";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-parent-view',
@@ -47,7 +45,8 @@ export class ParentViewComponent implements OnInit {
               private employeeService: EmployeeService,
               private router: Router,
               private matDialog: MatDialog,
-              private snackBar: MatSnackBar
+              private snackBar: MatSnackBar,
+              private dialogSerice: DialogService
   ) {
   }
 
@@ -156,13 +155,9 @@ export class ParentViewComponent implements OnInit {
   }
 
   detailEmployee(id: string) {
-    this.matDialog.open(DetailEmployeeDialogComponent, {
-      height: "668px",
-      width: "1125px",
-      minHeight: "668px",
-      minWidth: "1125px",
-      data: {empId: id}
-    })
+    console.log(id);
+    
+    this.dialogSerice.openEmployeeDetailDialog(id);
   }
 
   increaseShowPM(){
@@ -170,5 +165,18 @@ export class ParentViewComponent implements OnInit {
   }
   increaseShowSP(){
     this.showSP+=3;
+  }
+
+  nodeColor(role:string):string {
+    let color:string = '';
+    switch (role) {
+      case 'BUL': color = '#E59C84';
+        break;
+      case 'PM': color = '#A8BE96';
+        break;
+      case 'SUPPORT': color = '#F2ECCE';
+        break;
+    }
+    return color;
   }
 }

@@ -48,4 +48,8 @@ export class EmployeeService {
   public importFromFile(list: any) {
     return this.http.post(this.API_EMPLOYEE + "/import", list);
   }
+
+  public employeeTable() : Observable<any> {
+    return this.http.get<any>(this.API_EMPLOYEE);
+  }
 }

@@ -1,1 +1,9 @@
 @import url("../../../css/tree/tree.css");
+
+.container {
+  height: 410px;
+}
+
+.sidenav {
+  width: 260px;
+}

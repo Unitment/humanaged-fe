@@ -68,13 +68,14 @@
               <!-- node tầng 2 - 1 -->
               <li *ngFor="let pAm of displayProject">
                 <div class="node" [ngStyle]="{'background-color': checkProjectState(pAm.project)}">
-                  <a (click)="projectDetails(pAm.project.id)" >{{pAm.project.name}}</a>
+                  <a (click)="projectDetails(pAm.project.id)">{{pAm.project.name}}</a>
                   <hr>
                   <p class="description"><b>Description: </b>{{pAm.project.description}}</p>
                   <p class="description"><b>State: </b>{{pAm.project.state}}</p>
                   <p class="description"><b>start date: </b>{{pAm.project.startDate}}</p>
                   <div class="twoButton">
-                    <button mat-raised-button color="primary" (click)="addMemberToProject()" class="buttonLeft">Add
+                    <button mat-raised-button color="primary" (click)="addMemberToProject(pAm.project.id)"
+                            class="buttonLeft">Add
                       Member
                     </button>
                     <button mat-raised-button color="warn" (click)="removeProject(pAm.project.id)" class="buttonRight">

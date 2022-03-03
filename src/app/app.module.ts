@@ -8,7 +8,6 @@ import {BuManagementModule} from './components/bu-management/bu-management.modul
 import {EmployeeManagementModule} from './components/employee-management/employee-management.module';
 import {ProjectManagementModule} from './components/project-management/project-management.module';
 import {ProjectMemberManagementModule} from './components/project-member-management/project-member-management.module';
-import {BuManagementRoutingModule} from './routing/bu-management-routing.module';
 import {AccountManagementModule} from './components/account-management/account-management.module';
 
 import {AppComponent} from './app.component';
@@ -39,12 +38,12 @@ export const MY_DATE_FORMATS = {
     BrowserAnimationsModule,
     HttpClientModule,
     BuManagementModule,
-    BuManagementRoutingModule,
     EmployeeManagementModule,
     ProjectManagementModule,
     ProjectMemberManagementModule,
     AccountManagementModule,
     NavbarManagementModule,
+    // RouterModule,
     AppRoutingModule,
     MatDialogModule,
     MatSelectModule,

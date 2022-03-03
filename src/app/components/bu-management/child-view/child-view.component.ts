@@ -170,14 +170,18 @@ export class ChildViewComponent implements OnInit {
     })
   }
 
-  addMemberToProject() {
-    this.matDialog.open(AddMemberToProjectComponent)
+  addMemberToProject(projectId: string) {
+    this.matDialog.open(AddMemberToProjectComponent, {
+      height: "300px",
+      width: "350px",
+      data: projectId
+    })
   }
 
   projectDetails(id: string) {
     this.matDialog.open(DetailProjectDialogComponent, {
       height: "668px",
-      width:"1125px",
+      width: "1125px",
       minHeight: "668px",
       minWidth: "1125px",
       data: {prjId: id}

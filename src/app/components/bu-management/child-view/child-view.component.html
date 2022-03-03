@@ -50,12 +50,13 @@
       <ul>
         <li>
           <!-- start Node cha -->
-          <div class="node">
-            <div class="node-mask node-padding">
+          <div class="node" click>
+            <div class="node-mask node-padding" (click)="detailEmployee(PM.id)">
               <p>PM</p>
               <hr>
               <div class="avaAndName">
-                <img src="\assets\images\MeoBeo.jpg" alt="img2"><a>{{namePM}}</a>
+                <img src="\assets\images\MeoBeo.jpg" alt="img2">
+                <div class="name">{{PM.name}}</div>
               </div>
               <hr>
               <div class="oneButton">
@@ -107,7 +108,7 @@
                           <hr>
                           <div class="avaAndName">
                             <img src="\assets\images\MeoBeo.jpg" alt="img2">
-                            <a>{{getAccountName(projectMember)}}</a>
+                            <div class="name">{{getAccountName(projectMember)}}</div>
                           </div>
                           <hr>
                           <div class="oneButton">

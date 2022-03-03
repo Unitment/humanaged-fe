@@ -136,6 +136,8 @@
     /* object-fit: cover; */
     margin-left: 0vw;
     float: left;
+
+    flex-shrink: 0;
   }
 
   .avaAndName {
@@ -144,9 +146,13 @@
   }
 
   .name {
+    width: 116px;
     margin: auto;
     font-size: medium;
     font-weight: 500;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   /*
   .node span {

@@ -11,6 +11,7 @@ import {
   ImportFromFileDialogComponent
 } from './create-employee/import-from-file-dialog/import-from-file-dialog.component';
 import {ImportErrorDialogComponent} from './create-employee/import-error-dialog/import-error-dialog.component';
+import {EmployeeTableComponent} from './employee-table/employee-table.component'
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
@@ -24,7 +25,8 @@ import {ReactiveFormsModule} from "@angular/forms";
     CreateEmployeeComponent,
     UpdateEmployeeComponent,
     ImportFromFileDialogComponent,
-    ImportErrorDialogComponent
+    ImportErrorDialogComponent,
+    EmployeeTableComponent
   ],
   imports: [
     CommonModule,

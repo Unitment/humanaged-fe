@@ -11,14 +11,15 @@ import {MatDialog} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../project-management/confirm-dialog/confirm-dialog.component";
 import {
   DetailEmployeeDialogComponent
-} from "../../employee-management/detail-employee/detail-employee-dialog/detail-employee-dialog.component";
+} from "../../employee-management/detail-employee-dialog/detail-employee-dialog.component";
 import {
   AddMemberToProjectComponent
 } from "../../project-management/add-member-to-project/add-member-to-project.component";
 import {
   DetailProjectDialogComponent
-} from "../../project-management/detail-project/detail-project-dialog/detail-project-dialog.component";
+} from "../../project-management/detail-project-dialog/detail-project-dialog.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-child-view',
@@ -55,7 +56,8 @@ export class ChildViewComponent implements OnInit {
     private pmService: ProjectMemberService,
     private route: ActivatedRoute,
     private matDialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialogService: DialogService,
   ) {
   }
 
@@ -191,14 +193,16 @@ export class ChildViewComponent implements OnInit {
     })
   }
 
-  detailEmployee(id: string) {
-    this.matDialog.open(DetailEmployeeDialogComponent, {
-      height: "668px",
-      width: "1125px",
-      minHeight: "668px",
-      minWidth: "1125px",
-      data: {empId: id}
+  removeEmployee(id: string) {
+    this.dialogService.openConfirmDialog({
+      title: `Remove Employee ${id}`,
+      content: `Do you want to remove Employee ${id} from this project`,
+      id: id
     })
+  }
+
+  detailEmployee(id: string) {
+    this.dialogService.openEmployeeDetailDialog(id);
   }
 
   addMemberToProject(projectId: string) {
@@ -209,14 +213,8 @@ export class ChildViewComponent implements OnInit {
     })
   }
 
-  projectDetails(id: string) {
-    this.matDialog.open(DetailProjectDialogComponent, {
-      height: "668px",
-      width: "1125px",
-      minHeight: "668px",
-      minWidth: "1125px",
-      data: {prjId: id}
-    });
+  detailProject(id: string) {
+    this.dialogService.openProjectDetailDialog(id);
   }
 
   increaseShowProJ() {

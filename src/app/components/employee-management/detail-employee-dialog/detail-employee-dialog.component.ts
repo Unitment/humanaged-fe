@@ -1,7 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
-import {DetailProjectComponent} from 'src/app/components/project-management/detail-project/detail-project.component';
 import {Employee} from 'src/app/model/employee/Employee';
+import { DialogService } from 'src/app/services/dialog.service';
 import {EmployeeService} from 'src/app/services/employee.service';
 
 
@@ -17,6 +17,7 @@ export class DetailEmployeeDialogComponent implements OnInit {
     private matDialog: MatDialog,
     private employeeService: EmployeeService,
     private dialogRef: MatDialogRef<DetailEmployeeDialogComponent>,
+    private dialogService: DialogService,
     @Inject(MAT_DIALOG_DATA) public data: { empId: string }) 
   {
     this.employeeService.getDetailEmployee(data.empId).subscribe(e => {
@@ -30,14 +31,10 @@ export class DetailEmployeeDialogComponent implements OnInit {
   projectDetailClick(prjId: string) {
     this.onClose();
 
-    new DetailProjectComponent(this.matDialog).openProjectDetailDialog(prjId);
+    this.dialogService.openProjectDetailDialog(prjId);
   }
 
   onClose(){
     this.dialogRef.close();
-  }
-
-  onOpen(){
-    console.log("open");
   }
 }

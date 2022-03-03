@@ -16,6 +16,7 @@ import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSelectModule} from "@angular/material/select";
+import { ConfirmDialogComponent } from './components/dialog/confirm-dialog/confirm-dialog.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -32,6 +33,7 @@ export const MY_DATE_FORMATS = {
 @NgModule({
   declarations: [
     AppComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,

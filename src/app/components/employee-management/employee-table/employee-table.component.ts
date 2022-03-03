@@ -15,7 +15,7 @@ export class EmployeeTableComponent implements OnInit {
 
 
 
-  displayedColumns: string[] = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','district','ward','address','status','accountName'];
+  displayedColumns: string[] = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','district','ward','address','status','accountName','action'];
 
   isLoaded=false;
 
@@ -40,4 +40,12 @@ export class EmployeeTableComponent implements OnInit {
       }
     )
   }
+
+  onEditClick(id: string) {
+    this.router.navigate(['/employee/edit', id]);
+  }
+
+
+
+  onDeleteClick(row:employee){}
 }

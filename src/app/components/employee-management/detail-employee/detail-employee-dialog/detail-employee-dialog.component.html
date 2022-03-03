@@ -1,4 +1,8 @@
 <div class="dialog-container">
+  <button mat-icon-button class="close-button" (click)="onClose()">
+    <mat-icon class="close-icon" color="warn">close</mat-icon>
+  </button>
+
   <div id="left">
     <div class="emp-avatar-container">
       <div class="emp-avatar">
@@ -27,8 +31,8 @@
     <div class="info info-label">Project</div>
     <div class="info info-list emp-projects">
       <ul>
-        <li *ngFor="let pm of employee?.projectMembers">
-          <div class="info-list-item emp-project"><a (click)="projectDetailClick(pm.project.id)">{{pm.project.name}}</a>
+        <li *ngFor="let pm of employee?.projectMembers" (click)="projectDetailClick(pm.project.id)">
+          <div class="info-list-item emp-project"><a>{{pm.project.name}}</a>
           </div>
           <div class="label emp-project-role">{{pm.role}}</div>
         </li>

@@ -1,7 +1,16 @@
 .dialog-container{
+    position: relative;
+
     display: flex;
     align-items: center;
     height: 620px;
+}
+
+.close-button{
+    float: right;
+    position: absolute;
+    top: -20px;
+    right: -20px;
 }
 
 #left{
@@ -46,6 +55,7 @@
     font-size: 35px;
     line-height: 40px;
     color: #6E41E2;
+    text-align: center;
 
     overflow: hidden;
     text-overflow: ellipsis;
@@ -77,10 +87,6 @@
 
     overflow-y: auto;
 }
-
-/* .info-list ul::-webkit-scrollbar{
-    display: none;
-} */
 
 .info-list li{
     display: flex;

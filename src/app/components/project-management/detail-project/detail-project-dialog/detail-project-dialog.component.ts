@@ -20,6 +20,7 @@ export class DetailProjectDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: {prjId: string}) {
 
       this.projectService.getDetailProject(data.prjId).subscribe(p => {
+        console.log(p);
         p.projectMembers.sort((a, b) => {
           console.log(a, " ", b)
           if(a.role == ProjectRole.PM){

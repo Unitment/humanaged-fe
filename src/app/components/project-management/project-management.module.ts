@@ -28,5 +28,4 @@ import { ProjectTableComponent } from './project-table/project-table.component';
   ],
   exports: [DetailProjectComponent]
 })
-export class ProjectManagementModule {
-}
+export class ProjectManagementModule {}

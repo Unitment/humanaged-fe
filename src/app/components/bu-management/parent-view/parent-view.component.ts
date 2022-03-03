@@ -171,4 +171,17 @@ export class ParentViewComponent implements OnInit {
   increaseShowSP(){
     this.showSP+=3;
   }
+
+  nodeColor(role:string):string {
+    let color:string = '';
+    switch (role) {
+      case 'BUL': color = '#E59C84';
+        break;
+      case 'PM': color = '#A8BE96';
+        break;
+      case 'SUPPORT': color = '#F2ECCE';
+        break;
+    }
+    return color;
+  }
 }

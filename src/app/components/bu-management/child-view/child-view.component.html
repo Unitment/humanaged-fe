@@ -51,7 +51,7 @@
       <ul>
         <li>
           <!-- start Node cha -->
-          <div class="node" click>
+          <div class="node" click  [ngStyle]="{'background-color': nodeColor('PM')}">
             <div class="node-mask node-padding" (click)="detailEmployee(PM.id)">
               <p>PM</p>
               <hr>
@@ -59,7 +59,6 @@
                 <img src="\assets\images\MeoBeo.jpg" alt="img2">
                 <div class="name">{{PM?.account?.accountName}}</div>
               </div>
-              <hr>
               <div class="oneButton">
                 <button mat-raised-button color="primary">ADD Project</button>
               </div>
@@ -76,11 +75,11 @@
                   <div class="node" (click)="projectDetails(pAm.project.id)" [ngStyle]="{'background-color': checkProjectState(pAm.project)}"
                        style=" margin: auto;">
                     <div class="node-mask node-padding">
-                      <a>{{pAm.project.name}}</a>
+                      <p>{{pAm.project.name}}</p>
                       <hr>
                       <p class="description"><b>Description: </b>{{pAm.project.description}}</p>
                       <p class="description"><b>State: </b>{{pAm.project.state}}</p>
-                      <p class="description"><b>Start date: </b>{{pAm.project.startDate}}</p>
+                      <p class="description"><b>Start date: </b>{{pAm.project.startDate | date: 'dd/MM/yyyy' }}</p>
                       <div class="twoButton">
                         <button mat-raised-button color="primary" (click)="addMemberToProject(pAm.project.id)"
                                 class="buttonLeft">Add
@@ -105,7 +104,7 @@
                     <li *ngFor="let projectMember of pAm.memberList  | slice:0:showMem; let i=index">
                       <!--                    <li *ngFor="let projectMember of pAm.memberList  | slice:0:showMem; let i=index">-->
                       <div class="node"
-                           [ngStyle]="checkMemberRole(projectMember)?{'background-color': '#DCAB2D'}:{'background-color': '#EC8A8A'}"
+                           [ngStyle]="{'background-color': nodeColor(projectMember.role)}"
                            (click)="detailEmployee(projectMember.employee.id)"
                       >
                         <div class="node-mask node-padding">
@@ -115,7 +114,6 @@
                             <img src="\assets\images\MeoBeo.jpg" alt="img2">
                             <div class="name">{{getAccountName(projectMember)}}</div>
                           </div>
-                          <hr>
                           <div class="oneButton">
                             <button mat-raised-button color="warn">Remove</button>
                           </div>

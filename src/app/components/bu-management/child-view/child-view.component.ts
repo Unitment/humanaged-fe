@@ -106,13 +106,13 @@ export class ChildViewComponent implements OnInit {
     let temp = ''
     switch (project.state.toString()) {
       case 'PROCESSING':
-        temp = '#BBFDB9';
+        temp = '#C8DBBD';
         break;
       case 'CLOSED':
-        temp = '#619360';
+        temp = '#8FA96E';
         break;
       case 'PENDING':
-        temp = 'white';
+        temp = '#E9EEF1';
         break;
     }
     return temp;
@@ -263,5 +263,18 @@ export class ChildViewComponent implements OnInit {
         }
       });
     }
+  }
+
+  nodeColor(role: string):string {
+    let color:string = '';
+    switch (role) {
+      case 'PM': color = '#99A3A4';
+        break;
+      case 'LEADER': color = '#F2D06B';
+        break;
+      case 'MEMBER': color = '#F2ECCE';
+        break;
+    }
+    return color;
   }
 }

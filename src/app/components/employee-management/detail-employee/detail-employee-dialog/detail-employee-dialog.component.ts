@@ -17,7 +17,7 @@ export class DetailEmployeeDialogComponent implements OnInit {
     private matDialog: MatDialog,
     private employeeService: EmployeeService,
     private dialogRef: MatDialogRef<DetailEmployeeDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { empId: string }) 
+    @Inject(MAT_DIALOG_DATA) public data: { empId: string })
   {
     this.employeeService.getDetailEmployee(data.empId).subscribe(e => {
       this.employee = e

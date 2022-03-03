@@ -102,6 +102,7 @@
                 <div *ngIf="pAm.memberList.length>0">
                   <ul class="ulClass">
                     <li *ngFor="let projectMember of pAm.memberList  | slice:0:showMem; let i=index">
+<!--                    <li *ngFor="let projectMember of pAm.memberList  | slice:0:getShowMemValue(projectMember.id+''); let i=index">-->
                       <!--                    <li *ngFor="let projectMember of pAm.memberList  | slice:0:showMem; let i=index">-->
                       <div class="node"
                            [ngStyle]="{'background-color': nodeColor(projectMember.role)}"

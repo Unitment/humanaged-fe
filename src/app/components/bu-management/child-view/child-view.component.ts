@@ -40,8 +40,9 @@ export class ChildViewComponent implements OnInit {
   checkProcessing: boolean = false;
   checkClosed: boolean = false;
   checkPending: boolean = false;
-  showProJ = 1;
+  showProJ = 3;
   showMem = 2;
+  showMemMap = new Map();
   textValue: string = '';
   ops = [
     {value: 'a-to-z', viewValue: 'A to Z'},
@@ -86,6 +87,9 @@ export class ChildViewComponent implements OnInit {
       (response: ProjectAndMember[]) => {
         this.projectAndMembers = response;
         this.displayProject = this.projectAndMembers;
+        this.displayProject.forEach(project => {
+          this.showMemMap.set(project.project.id,this.showMem);
+        })
         this.changeClient(this.selectedValue);
       },
       (error: HttpErrorResponse) => {
@@ -225,6 +229,11 @@ export class ChildViewComponent implements OnInit {
 
   increaseShowMem() {
     this.showMem += 1;
+  }
+  getShowMemValue(id:string):number{
+    // console.log(this.showMemMap.size);
+    // return this.showMemMap.get(id);
+    return 2;
   }
 
   public searchAccount(): void {

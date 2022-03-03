@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { employee } from '../model/employee';
+import { Employee } from 'src/app/model/employee/Employee';
 import { EmployeeService } from 'src/app/services/employee.service';
 @Component({
   selector: 'app-employee-table',
@@ -9,8 +9,8 @@ import { EmployeeService } from 'src/app/services/employee.service';
 })
 export class EmployeeTableComponent implements OnInit {
 
-  employee:employee
-  dataSource: employee[] = [
+  employee: Employee
+  dataSource: Employee[] = [
   ];
 
 

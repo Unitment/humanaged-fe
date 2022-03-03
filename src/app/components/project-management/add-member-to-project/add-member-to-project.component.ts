@@ -13,6 +13,7 @@ import {ProjectMemberService} from "../../../services/project-member.service";
 export class AddMemberToProjectComponent implements OnInit {
 
   employeeList: Array<EmployeeDropdown> = [];
+  
   dropdowns: Array<EmployeeDropdown> = [];
 
   filteredEmployee: Array<EmployeeDropdown> = [];

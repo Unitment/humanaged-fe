@@ -36,4 +36,8 @@ export class ProjectMemberService {
   isProjectHasLeader(projectID: string): Observable<boolean> {
     return this.http.get<boolean>(this.API_PROJECT_MEMBER + "/check-leader/" + projectID);
   }
+
+  public deleteEmployeeInProject() {
+    // return this.http.delete()
+  }
 }

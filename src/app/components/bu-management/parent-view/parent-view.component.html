@@ -95,7 +95,7 @@
                       </div>
 <!--                      <hr>-->
                       <div class="oneButton">
-                        <button mat-raised-button color="warn">Remove</button>
+                        <button mat-raised-button color="warn" (click)="$event.stopPropagation()">Remove</button>
                       </div>
                     </div>
                   </div>

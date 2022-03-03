@@ -60,7 +60,7 @@
                 <div class="name">{{PM?.account?.accountName}}</div>
               </div>
               <div class="oneButton">
-                <button mat-raised-button color="primary">ADD Project</button>
+                <button mat-raised-button color="primary" (click)="$event.stopPropagation();">ADD Project</button>
               </div>
             </div>
           </div>
@@ -81,11 +81,11 @@
                       <p class="description"><b>State: </b>{{pAm.project.state}}</p>
                       <p class="description"><b>Start date: </b>{{pAm.project.startDate | date: 'dd/MM/yyyy' }}</p>
                       <div class="twoButton">
-                        <button mat-raised-button color="primary" (click)="addMemberToProject(pAm.project.id)"
+                        <button mat-raised-button color="primary" (click)="addMemberToProject(pAm.project.id);$event.stopPropagation();"
                                 class="buttonLeft">Add
                           Member
                         </button>
-                        <button mat-raised-button color="warn" (click)="removeProject(pAm.project.id)"
+                        <button mat-raised-button color="warn" (click)="removeProject(pAm.project.id);$event.stopPropagation();"
                                 class="buttonRight">
                           Remove
                         </button>

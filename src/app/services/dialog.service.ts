@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../components/dialog/confirm-dialog/confirm-dialog.component';
 import { DetailEmployeeDialogComponent } from '../components/employee-management/detail-employee-dialog/detail-employee-dialog.component';
 import { DetailProjectDialogComponent } from '../components/project-management/detail-project-dialog/detail-project-dialog.component';
@@ -35,10 +35,7 @@ export class DialogService {
     });
   }
 
-  openConfirmDialog(data: any){
-    return this.dialog.open(ConfirmDialogComponent, {
-      width: '450px',
-      data: data
-    })
+  openConfirmDialog(dialogConfig: MatDialogConfig = {width: '450px'}): MatDialogRef<ConfirmDialogComponent, any>{
+    return this.dialog.open(ConfirmDialogComponent, dialogConfig);
   }
 }

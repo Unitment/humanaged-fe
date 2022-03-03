@@ -40,9 +40,9 @@ export class ChildViewComponent implements OnInit {
   checkProcessing: boolean = false;
   checkClosed: boolean = false;
   checkPending: boolean = false;
-  showProJ = 3;
+  showProJ = 1;
   showMem = 2;
-  textValue:string = '';
+  textValue: string = '';
   ops = [
     {value: 'a-to-z', viewValue: 'A to Z'},
     {value: 'z-to-a', viewValue: 'Z to A'},
@@ -75,7 +75,7 @@ export class ChildViewComponent implements OnInit {
         this.namePM = this.PM.account.accountName;
       },
       (error: HttpErrorResponse) => {
-        this.snackBar.open(error.message,'Close');
+        this.snackBar.open(error.message, 'Close');
       }
     );
   }
@@ -89,7 +89,7 @@ export class ChildViewComponent implements OnInit {
         this.changeClient(this.selectedValue);
       },
       (error: HttpErrorResponse) => {
-        this.snackBar.open(error.message,'Close');
+        this.snackBar.open(error.message, 'Close');
       }
     );
   }
@@ -125,15 +125,15 @@ export class ChildViewComponent implements OnInit {
   public setFilterByState() {
     // this.searchAccount();
     if (!this.checkProcessing && !this.checkClosed && !this.checkPending) {
-      if (this.textValue?.toString() !==''){
+      if (this.textValue?.toString() !== '') {
         this.searchAccount();
-      }else{
+      } else {
         this.getprojectAndMember(this.PMid);
       }
     } else {
-      if (this.textValue?.toString() !==''){
+      if (this.textValue?.toString() !== '') {
         this.searchAccount();
-      }else{
+      } else {
         this.displayProject = [];
         // for(let i=0; i<this.displayProject.length;i++){
         //   if (!this.checkProcessing && this.displayProject[i]?.project.state.toString() === 'PROCESSING') {
@@ -149,8 +149,7 @@ export class ChildViewComponent implements OnInit {
         //     i--;
         //   }
         // }
-        this.projectAndMembers.forEach(value =>
-        {
+        this.projectAndMembers.forEach(value => {
           if (this.checkProcessing && value.project.state.toString() === 'PROCESSING') {
             this.displayProject.push(value);
           }
@@ -161,7 +160,7 @@ export class ChildViewComponent implements OnInit {
             this.displayProject.push(value);
           }
         });
-        console.log('setFilterByState: '+this.displayProject.length)
+        console.log('setFilterByState: ' + this.displayProject.length)
 
       }
 
@@ -220,28 +219,29 @@ export class ChildViewComponent implements OnInit {
     });
   }
 
-  increaseShowProJ(){
-    this.showProJ+=3;
+  increaseShowProJ() {
+    this.showProJ += 3;
   }
-  increaseShowMem(){
-    this.showMem+=1;
+
+  increaseShowMem() {
+    this.showMem += 1;
   }
 
   public searchAccount(): void {
-    if(this.textValue?.toString() === ''){
+    if (this.textValue?.toString() === '') {
       this.setFilterByState();
-    }else{
+    } else {
       this.displayProject = [];
       this.projectAndMembers.forEach(element => {
-        let match:ProjectMember[]=[];
-        element.memberList.forEach(member =>{
-          if(member.employee.account.accountName.toLowerCase().indexOf(this.textValue.toLowerCase()) !==-1){
+        let match: ProjectMember[] = [];
+        element.memberList.forEach(member => {
+          if (member.employee.account.accountName.toLowerCase().indexOf(this.textValue.toLowerCase()) !== -1) {
             match.push(member);
             // console.log(key+' Match: '+member.employee.account.accountName +' '+ element.memberList.length)
           }
         });
-        if (match.length>0){
-          let tempProject:ProjectAndMember = new class implements ProjectAndMember {
+        if (match.length > 0) {
+          let tempProject: ProjectAndMember = new class implements ProjectAndMember {
             memberList: ProjectMember[];
             project: Project;
           };
@@ -250,13 +250,13 @@ export class ChildViewComponent implements OnInit {
           if (!this.checkProcessing && !this.checkClosed && !this.checkPending) {
             this.displayProject.push(tempProject);
           } else {
-            if (this.checkProcessing && tempProject.project.state.toString() === 'PROCESSING'){
+            if (this.checkProcessing && tempProject.project.state.toString() === 'PROCESSING') {
               this.displayProject.push(tempProject);
             }
-            if (this.checkPending && tempProject.project.state.toString() === 'PENDING'){
+            if (this.checkPending && tempProject.project.state.toString() === 'PENDING') {
               this.displayProject.push(tempProject);
             }
-            if (this.checkClosed && tempProject.project.state.toString() === 'CLOSED'){
+            if (this.checkClosed && tempProject.project.state.toString() === 'CLOSED') {
               this.displayProject.push(tempProject);
             }
           }

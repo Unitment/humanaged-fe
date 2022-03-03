@@ -73,7 +73,8 @@
               <!-- node tầng 2 - 1 -->
               <li *ngFor="let pAm of displayProject | slice:0:showProJ; let i = index">
                 <div style="max-width: 315px; margin: auto;" (click)="projectDetails(pAm.project.id)">
-                  <div class="node" [ngStyle]="{'background-color': checkProjectState(pAm.project)}" style=" margin: auto;">
+                  <div class="node" [ngStyle]="{'background-color': checkProjectState(pAm.project)}"
+                       style=" margin: auto;">
                     <div class="node-mask node-padding">
                       <a>{{pAm.project.name}}</a>
                       <hr>
@@ -81,10 +82,16 @@
                       <p class="description"><b>State: </b>{{pAm.project.state}}</p>
                       <p class="description"><b>Start date: </b>{{pAm.project.startDate}}</p>
                       <div class="twoButton">
+<<<<<<< HEAD
                         <button mat-raised-button color="primary" (click)="addMemberToProject(pAm.project.id)" class="buttonLeft">Add
+=======
+                        <button mat-raised-button color="primary" (click)="addMemberToProject(pAm.project.id)"
+                                class="buttonLeft">Add
+>>>>>>> origin/dev
                           Member
                         </button>
-                        <button mat-raised-button color="warn" (click)="removeProject(pAm.project.id)" class="buttonRight">
+                        <button mat-raised-button color="warn" (click)="removeProject(pAm.project.id)"
+                                class="buttonRight">
                           Remove
                         </button>
                       </div>

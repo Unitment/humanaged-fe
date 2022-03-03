@@ -1,4 +1,4 @@
-<div class="dialog-container">
+<div class="dialog-container" cdk-focus-start>
   <button mat-icon-button class="close-button" (click)="onClose()">
     <mat-icon class="close-icon" color="warn">close</mat-icon>
   </button>
@@ -22,14 +22,14 @@
 
   <div id="right">
     <div class="info info-label">Mail:</div>
-    <div class="info emp-mail">{{employee?.mail}}</div>
+    <div class="info info-data emp-mail">{{employee?.mail}}</div>
     <div class="info info-label">Address</div>
-    <div class="info emp-adress">{{employee?.ward}}, {{employee?.district}}, {{employee?.province}}
+    <div class="info info-data emp-adress">{{employee?.ward}}, {{employee?.district}}, {{employee?.province}}
       , {{employee?.country}}</div>
     <div class="info info-label">Gender</div>
-    <div class="info emp-gender">{{employee?.gender}}</div>
+    <div class="info info-data emp-gender">{{employee?.gender}}</div>
     <div class="info info-label">Project</div>
-    <div class="info info-list emp-projects">
+    <div class="info info-data info-list emp-projects">
       <ul>
         <li *ngFor="let pm of employee?.projectMembers" (click)="projectDetailClick(pm.project.id)">
           <div class="info-list-item emp-project"><a>{{pm.project.name}}</a>

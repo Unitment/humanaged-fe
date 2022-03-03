@@ -12,6 +12,7 @@ import {
   DetailEmployeeDialogComponent
 } from "../../employee-management/detail-employee/detail-employee-dialog/detail-employee-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-parent-view',
@@ -25,7 +26,7 @@ export class ParentViewComponent implements OnInit {
   public displayPmAccounts: Employee[] = [];
   public supports: Employee[] = [];
   public displaySupports: Employee[] = [];
-  public BUL: string = '';
+  public BUL: Employee;
   public BUName: string = '';
 
   showFiller = false;
@@ -41,11 +42,12 @@ export class ParentViewComponent implements OnInit {
   textValue: string = '';
   selectedValue: string = 'both';
 
-  constructor(private buService: BuService
-    , private pmService: ProjectMemberService
-    , private employeeService: EmployeeService
-    , private router: Router,
-              private matDialog: MatDialog
+  constructor(private buService: BuService,
+              private pmService: ProjectMemberService,
+              private employeeService: EmployeeService,
+              private router: Router,
+              private matDialog: MatDialog,
+              private snackBar: MatSnackBar
   ) {
   }
 
@@ -59,11 +61,12 @@ export class ParentViewComponent implements OnInit {
     this.buService.getBusinessUnits().subscribe(
       (response: BusinessUnit[]) => {
         this.businessUnits = response;
-        this.BUL = this.businessUnits[0].bul.account.accountName;
+        this.BUL = this.businessUnits[0].bul;
         this.BUName = this.businessUnits[0].name;
       },
       (error: HttpErrorResponse) => {
-        console.log(error.message);
+        // alert(error.message);
+        this.snackBar.open(error.message,'Close');
       }
     )
   }
@@ -82,7 +85,7 @@ export class ParentViewComponent implements OnInit {
         this.displayPmAccounts = this.pmAccounts;
       },
       (error: HttpErrorResponse) => {
-        console.log(error.message);
+        this.snackBar.open('Get PM error!\n'+error.message,'Close');
       }
     )
 
@@ -95,7 +98,7 @@ export class ParentViewComponent implements OnInit {
         this.displaySupports = this.supports;
       },
       (error: HttpErrorResponse) => {
-        console.log(error.message);
+        this.snackBar.open('Get support error!\n'+error.message,'Close');
       }
     )
   }

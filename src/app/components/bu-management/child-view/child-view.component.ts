@@ -18,6 +18,7 @@ import {
 import {
   DetailProjectDialogComponent
 } from "../../project-management/detail-project/detail-project-dialog/detail-project-dialog.component";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-child-view',
@@ -39,9 +40,9 @@ export class ChildViewComponent implements OnInit {
   checkProcessing: boolean = false;
   checkClosed: boolean = false;
   checkPending: boolean = false;
-  showProJ = 2;
+  showProJ = 1;
   showMem = 2;
-  textValue:string = '';
+  textValue: string = '';
   ops = [
     {value: 'a-to-z', viewValue: 'A to Z'},
     {value: 'z-to-a', viewValue: 'Z to A'},
@@ -53,7 +54,8 @@ export class ChildViewComponent implements OnInit {
     private empService: EmployeeService,
     private pmService: ProjectMemberService,
     private route: ActivatedRoute,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {
   }
 
@@ -73,7 +75,7 @@ export class ChildViewComponent implements OnInit {
         this.namePM = this.PM.account.accountName;
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        this.snackBar.open(error.message, 'Close');
       }
     );
   }
@@ -87,7 +89,7 @@ export class ChildViewComponent implements OnInit {
         this.changeClient(this.selectedValue);
       },
       (error: HttpErrorResponse) => {
-        alert(error.message);
+        this.snackBar.open(error.message, 'Close');
       }
     );
   }
@@ -123,28 +125,45 @@ export class ChildViewComponent implements OnInit {
   public setFilterByState() {
     // this.searchAccount();
     if (!this.checkProcessing && !this.checkClosed && !this.checkPending) {
-      if (this.textValue.length>0){
+      if (this.textValue?.toString() !== '') {
         this.searchAccount();
-      }else{
-        this.displayProject = this.projectAndMembers;
+      } else {
+        this.getprojectAndMember(this.PMid);
       }
     } else {
-      // this.displayProject = [];
-      this.searchAccount();
-      this.displayProject.forEach(element => {
-        if (!this.checkProcessing && element.project.state.toString() === 'PROCESSING') {
-          let index = this.displayProject.indexOf(element);
-          this.displayProject.splice(index,1);
-        }
-        if (!this.checkClosed && element.project.state.toString() === 'CLOSED') {
-          let index = this.displayProject.indexOf(element);
-          this.displayProject.splice(index,1);
-        }
-        if (!this.checkPending && element.project.state.toString() === 'PENDING') {
-          let index = this.displayProject.indexOf(element);
-          this.displayProject.splice(index,1);
-        }
-      });
+      if (this.textValue?.toString() !== '') {
+        this.searchAccount();
+      } else {
+        this.displayProject = [];
+        // for(let i=0; i<this.displayProject.length;i++){
+        //   if (!this.checkProcessing && this.displayProject[i]?.project.state.toString() === 'PROCESSING') {
+        //     this.displayProject.splice(i,1);
+        //     i--;
+        //   }
+        //   if (!this.checkClosed && this.displayProject[i]?.project.state.toString() === 'CLOSED') {
+        //     this.displayProject.splice(i,1);
+        //     i--;
+        //   }
+        //   if (!this.checkPending && this.displayProject[i]?.project.state.toString() === 'PENDING') {
+        //     this.displayProject.splice(i,1);
+        //     i--;
+        //   }
+        // }
+        this.projectAndMembers.forEach(value => {
+          if (this.checkProcessing && value.project.state.toString() === 'PROCESSING') {
+            this.displayProject.push(value);
+          }
+          if (this.checkPending && value.project.state.toString() === 'PENDING') {
+            this.displayProject.push(value);
+          }
+          if (this.checkClosed && value.project.state.toString() === 'CLOSED') {
+            this.displayProject.push(value);
+          }
+        });
+        console.log('setFilterByState: ' + this.displayProject.length)
+
+      }
+
     }
     this.changeClient(this.selectedValue);
   }
@@ -164,7 +183,6 @@ export class ChildViewComponent implements OnInit {
         this.displayProject.sort((a, b) => new Date(b.project.startDate).getTime() - new Date(a.project.startDate).getTime());
         break;
     }
-    console.log('changeClient: '+this.displayProject.length)
   }
 
   removeProject(id: string) {
@@ -201,28 +219,29 @@ export class ChildViewComponent implements OnInit {
     });
   }
 
-  increaseShowProJ(){
-    this.showProJ+=3;
+  increaseShowProJ() {
+    this.showProJ += 3;
   }
-  increaseShowMem(){
-    this.showMem+=1;
+
+  increaseShowMem() {
+    this.showMem += 1;
   }
 
   public searchAccount(): void {
-    if(this.textValue === null || this.textValue.length == 0){
+    if (this.textValue?.toString() === '') {
       this.setFilterByState();
-    }else{
+    } else {
       this.displayProject = [];
       this.projectAndMembers.forEach(element => {
-        let match:ProjectMember[]=[];
-        element.memberList.forEach(member =>{
-          if(member.employee.account.accountName.toLowerCase().indexOf(this.textValue.toLowerCase()) !==-1){
+        let match: ProjectMember[] = [];
+        element.memberList.forEach(member => {
+          if (member.employee.account.accountName.toLowerCase().indexOf(this.textValue.toLowerCase()) !== -1) {
             match.push(member);
             // console.log(key+' Match: '+member.employee.account.accountName +' '+ element.memberList.length)
           }
         });
-        if (match.length>0){
-          let tempProject:ProjectAndMember = new class implements ProjectAndMember {
+        if (match.length > 0) {
+          let tempProject: ProjectAndMember = new class implements ProjectAndMember {
             memberList: ProjectMember[];
             project: Project;
           };
@@ -231,13 +250,13 @@ export class ChildViewComponent implements OnInit {
           if (!this.checkProcessing && !this.checkClosed && !this.checkPending) {
             this.displayProject.push(tempProject);
           } else {
-            if (this.checkProcessing && tempProject.project.state.toString() === 'PROCESSING'){
+            if (this.checkProcessing && tempProject.project.state.toString() === 'PROCESSING') {
               this.displayProject.push(tempProject);
             }
-            if (this.checkPending && tempProject.project.state.toString() === 'PENDING'){
+            if (this.checkPending && tempProject.project.state.toString() === 'PENDING') {
               this.displayProject.push(tempProject);
             }
-            if (this.checkClosed && tempProject.project.state.toString() === 'CLOSED'){
+            if (this.checkClosed && tempProject.project.state.toString() === 'CLOSED') {
               this.displayProject.push(tempProject);
             }
           }

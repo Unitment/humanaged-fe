@@ -24,6 +24,8 @@ export class DetailProjectComponent implements OnInit {
       width:"1125px",
       minHeight: "668px",
       minWidth: "1125px",
+      autoFocus: false,
+      restoreFocus: false,
       data: {prjId: prjId}
     });
   }

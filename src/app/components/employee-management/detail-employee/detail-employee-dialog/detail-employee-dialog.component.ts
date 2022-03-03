@@ -36,4 +36,8 @@ export class DetailEmployeeDialogComponent implements OnInit {
   onClose(){
     this.dialogRef.close();
   }
+
+  onOpen(){
+    console.log("open");
+  }
 }

@@ -53,4 +53,8 @@ export class DetailProjectDialogComponent implements OnInit {
 
     new DetailEmployeeComponent(this.matDialog).openEmployeeDetailDialog(empId);
   }
+
+  onClose(){
+    this.dialogRef.close();
+  }
 }

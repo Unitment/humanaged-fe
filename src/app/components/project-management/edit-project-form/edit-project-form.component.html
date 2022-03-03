@@ -10,9 +10,11 @@
 </div>
 <div class="container d-flex justify-content-center">
   <div>
-    <h2 class="form-title">Edit Project</h2>
+    <h2 class="form-title">
+      {{ projectId !== null ? "Edit" : "Create" }} Project
+    </h2>
     <p class="form-title-detail">
-      standard out details project information, Member in project
+      Standard out details project information, Members in project
     </p>
     <button
       mat-stroked-button
@@ -41,7 +43,7 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="example-full-width" appearance="standard">
+        <mat-form-field class="example-full-width" appearance="standard" >
           <mat-label>State</mat-label>
           <mat-select formControlName="state" [errorStateMatcher]="matcher">
             <mat-option>--</mat-option>
@@ -80,6 +82,13 @@
             formControlName="endDate"
             [errorStateMatcher]="matcher"
           />
+          <mat-error
+            *ngIf="
+              projectForm.get('projectInfo.endDate')?.hasError('endDate')
+            "
+          >
+            End date must be <strong>after start date</strong>
+          </mat-error>
         </mat-form-field>
 
         <mat-form-field class="example-full-width" appearance="fill">
@@ -155,7 +164,7 @@
             <button mat-button (click)="openDialog(i, $event)">X</button>
           </ng-container>
         </div>
-        <div class="pl-5">
+        <div class="mb-3" style="padding-left: 120px">
           <button mat-button color="primary" (click)="addEmployee($event)">
             + Add more Employee
           </button>
@@ -169,18 +178,14 @@
           placeholder="Upload file"
           accept=".xlsx"
         />
-        <button type="button" class="btn btn-info" (click)="Upload()">
+        <button (click)="Upload($event)" mat-stroked-button color="primary">
           Upload
         </button>
       </div>
 
       <div class="mt-4 d-flex justify-content-around">
         <button mat-stroked-button (click)="goBack($event)">Cancel</button>
-        <button
-          mat-flat-button
-          color="primary"
-          (click)="onSubmit($event)"
-        >
+        <button mat-flat-button color="primary" (click)="onSubmit($event)">
           Submit
         </button>
       </div>

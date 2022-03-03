@@ -1,21 +1,29 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { Project } from '../model/project/Project';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {environment} from 'src/environments/environment';
+import {Project} from '../model/project/Project';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProjectService {
   private apiServerUrl = environment.apiBaseUrl;
+  private readonly API_PROJECT = environment.apiBaseUrl + "/project";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
   public getDetailProject(prjId: string): Observable<Project> {
     return this.http.get<Project>(`${environment.apiBaseUrl}/project/${prjId}`);
   }
-  
+
+  getAllProjects(): Observable<Project[]> {
+    return this.http.get<Project[]>(
+      'http://localhost:8080/api/project/'
+    );
+  }
+
   saveProject(project: Project): Observable<Project> {
     return this.http.post<Project>(
       `${this.apiServerUrl}/project`,

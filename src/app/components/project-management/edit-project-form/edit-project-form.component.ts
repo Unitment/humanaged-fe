@@ -54,8 +54,17 @@ export class EditProjectFormComponent implements OnInit {
   ) {}
 
   projectId: string | null = null;
+  pmAccountName: string | null = null;
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
+    this.route.queryParamMap.subscribe((params) => {
+      this.pmAccountName = params.get('pm');
+      this.employeesInProject
+        .at(0)
+        .get('employeeName')
+        ?.setValue(params.get('pm'));
+    });
+    this.pmAccountName = routeParams.get('pm');
     if (routeParams.get('id') !== null) {
       this.projectId = routeParams.get('id');
       this.isLoading = true;

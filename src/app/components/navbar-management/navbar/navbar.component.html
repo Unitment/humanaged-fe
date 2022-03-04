@@ -4,13 +4,6 @@
   </a></div>
   <div>
     <span>
-      <button mat-button [matMenuTriggerFor]="menuAdd">Add</button>
-      <mat-menu #menuAdd="matMenu">
-      <a mat-menu-item routerLink="/employee/create">Employee</a>
-      <a mat-menu-item routerLink="/project/create">Project</a>
-      </mat-menu>
-    </span>
-    <span>
       <button mat-button [matMenuTriggerFor]="menuManager">Manager</button>
       <mat-menu #menuManager="matMenu">
       <a mat-menu-item routerLink="/employee/table">Employee</a>

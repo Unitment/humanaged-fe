@@ -43,7 +43,7 @@ export class EmployeeTableComponent implements OnInit {
   }
 
   onEditClick(id: string) {
-    this.router.navigate(['/employee/edit', id]);
+    this.router.navigate(['/employee/update', id]);
   }
 
 

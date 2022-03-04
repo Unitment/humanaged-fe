@@ -2,10 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 import {MatSnackBar} from "@angular/material/snack-bar";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {EmployeeService} from "../../../services/employee.service";
 import {LocationService} from "../../../services/location.service";
 import {Employee} from "../../../model/employee/Employee";
+import {Location} from "@angular/common";
 
 
 @Component({
@@ -25,7 +26,9 @@ export class UpdateEmployeeComponent implements OnInit {
               private employeeService: EmployeeService,
               private locationService: LocationService,
               private snackBar: MatSnackBar,
-              private activatedRoute: ActivatedRoute) {
+              private activatedRoute: ActivatedRoute,
+              private location: Location,
+              private route:Router) {
   }
 
   ngOnInit(): void {
@@ -34,7 +37,7 @@ export class UpdateEmployeeComponent implements OnInit {
         name: ['', Validators.required],
         gender: ['', Validators.required],
         birthday: ['', Validators.required],
-        phoneNumber: ['', [Validators.required, Validators.pattern("(\\d{3}) (\\d{3})( \\d{2}){2}")]],
+        phoneNumber: ['', [Validators.required, Validators.pattern("(\\d{3}) (\\d{3})( \\d{4})")]],
         mail: ['', [Validators.required, Validators.email]],
         province: ['', Validators.required],
         district: ['', Validators.required],
@@ -82,6 +85,7 @@ export class UpdateEmployeeComponent implements OnInit {
           duration: 3000,
           panelClass: ['mat-toolbar', 'mat-primary']
         }))
+      this.route.navigateByUrl('employee/table');
     } else {
       this.snackBar.open("Please fill form correctly", "", {
         duration: 3000,
@@ -106,4 +110,8 @@ export class UpdateEmployeeComponent implements OnInit {
     )
   }
 
+  goBack(event: Event) {
+    event.preventDefault();
+    this.location.back();
+  }
 }

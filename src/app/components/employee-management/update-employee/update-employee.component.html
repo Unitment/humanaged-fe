@@ -49,6 +49,9 @@
               <mat-error *ngIf="form.get('phone')?.hasError('required') && form.get('phone')?.touched">
                 Phone Number is required
               </mat-error>
+              <mat-error *ngIf="form.get('phoneNumber')?.hasError('pattern') && form.get('phoneNumber')?.dirty">
+                Phone Number must be match *** *** ** **
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="row">
@@ -114,10 +117,10 @@
       <mat-card-actions class="p-3">
         <div class="row d-flex justify-content-center">
           <div class="col-3">
-            <button type="button" href="#" mat-raised-button>Cancel</button>
+            <button type="button" (click)="goBack($event)" mat-raised-button>Cancel</button>
           </div>
           <div class="col-3">
-            <button type="submit" mat-flat-button color="primary">Save</button>
+            <button type="submit" mat-flat-button color="primary" >Save</button>
           </div>
         </div>
       </mat-card-actions>

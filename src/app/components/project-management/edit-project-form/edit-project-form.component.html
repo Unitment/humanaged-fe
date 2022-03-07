@@ -40,7 +40,7 @@
           </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="example-full-width" appearance="standard" >
+        <mat-form-field class="example-full-width" appearance="standard">
           <mat-label>State</mat-label>
           <mat-select formControlName="state" [errorStateMatcher]="matcher">
             <mat-option>--</mat-option>
@@ -80,9 +80,7 @@
             [errorStateMatcher]="matcher"
           />
           <mat-error
-            *ngIf="
-              projectForm.get('projectInfo.endDate')?.hasError('endDate')
-            "
+            *ngIf="projectForm.get('projectInfo.endDate')?.hasError('endDate')"
           >
             End date must be <strong>after start date</strong>
           </mat-error>
@@ -107,7 +105,23 @@
       </div>
 
       <div formArrayName="employeesInProject">
-        <h5 class="form-group-title">Employee in project</h5>
+        <h5
+          class="form-group-title"
+          [style.color]="
+            projectForm.get('employeesInProject')?.hasError('havePMInProject')
+              ? 'red'
+              : 'black'
+          "
+        >
+          Employee in project
+        </h5>
+        <mat-error
+          *ngIf="
+            projectForm.get('employeesInProject')?.hasError('havePMInProject')
+          "
+        >
+          Project must have <strong>PM</strong>
+        </mat-error>
         <div
           class="employeeProject"
           *ngFor="let employee of employeesInProject.controls; index as i"

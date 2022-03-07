@@ -21,6 +21,7 @@ import * as XLSX from 'xlsx';
 import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ValidateEndDate } from '../util/end-date.validator';
+import { ValidateHavePMInProject } from '../util/have-pm.validator';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -58,6 +59,7 @@ export class EditProjectFormComponent implements OnInit {
     if (routeParams.get('id') !== null) {
       this.projectId = routeParams.get('id');
       this.isLoading = true;
+      this.employeesInProject.clear();
       this.projectService.getProjectById(this.projectId).subscribe(
         (data) => {
           this.project = data;
@@ -68,7 +70,10 @@ export class EditProjectFormComponent implements OnInit {
             employeeInProjectList: data.projectMembers?.forEach((member) => {
               this.employeesInProject.push(
                 this.fb.group({
-                  employeeName: [member.employee?.account.accountName, Validators.required],
+                  employeeName: [
+                    member.employee?.account.accountName,
+                    Validators.required,
+                  ],
                   employeeRole: [
                     this.projectRole.find(
                       (key) => key === member.role.toString()
@@ -109,7 +114,15 @@ export class EditProjectFormComponent implements OnInit {
       endDate: ['', ValidateEndDate],
       description: ['', Validators.maxLength(500)],
     }),
-    employeesInProject: this.fb.array([]),
+    employeesInProject: this.fb.array(
+      [
+        this.fb.group({
+          employeeName: ['', Validators.required],
+          employeeRole: [ProjectRole.PM, Validators.required],
+        }),
+      ],
+      ValidateHavePMInProject
+    ),
   });
 
   get employeesInProject() {

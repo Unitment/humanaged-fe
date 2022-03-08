@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment';
@@ -15,6 +15,10 @@ export class EmployeeService {
 
   public getAllEmployee(): Observable<Array<Employee>> {
     return this.http.get<Array<Employee>>(this.API_EMPLOYEE);
+  }
+
+  public getAllEmployeeByAccountName(accountName: string): Observable<Array<Employee>> {
+    return this.http.get<Array<Employee>>(this.API_EMPLOYEE + "/account", {params: new HttpParams().set('account', accountName)});
   }
 
   public getDetailEmployee(empId: string): Observable<Employee> {

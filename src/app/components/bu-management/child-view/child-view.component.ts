@@ -20,6 +20,7 @@ import {
 } from "../../project-management/detail-project-dialog/detail-project-dialog.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import { DialogService } from 'src/app/services/dialog.service';
+import {ProjectService} from "../../../services/project.service";
 
 @Component({
   selector: 'app-child-view',
@@ -41,8 +42,9 @@ export class ChildViewComponent implements OnInit {
   checkProcessing: boolean = false;
   checkClosed: boolean = false;
   checkPending: boolean = false;
-  showProJ = 1;
-  showMem = 2;
+  showProJ = 2;
+  showMem = 1;
+  showMemMap = new Map();
   textValue: string = '';
   ops = [
     {value: 'a-to-z', viewValue: 'A to Z'},
@@ -54,6 +56,7 @@ export class ChildViewComponent implements OnInit {
   constructor(
     private empService: EmployeeService,
     private pmService: ProjectMemberService,
+    private projectService:ProjectService,
     private route: ActivatedRoute,
     private matDialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -88,6 +91,9 @@ export class ChildViewComponent implements OnInit {
       (response: ProjectAndMember[]) => {
         this.projectAndMembers = response;
         this.displayProject = this.projectAndMembers;
+        this.displayProject.forEach(project => {
+          this.showMemMap.set(project.project.id,this.showMem);
+        })
         this.changeClient(this.selectedValue);
       },
       (error: HttpErrorResponse) => {
@@ -114,7 +120,7 @@ export class ChildViewComponent implements OnInit {
         temp = '#8FA96E';
         break;
       case 'PENDING':
-        temp = '#E9EEF1';
+        temp = '#dce7ed';
         break;
     }
     return temp;
@@ -187,22 +193,53 @@ export class ChildViewComponent implements OnInit {
     }
   }
 
-  removeProject(id: string) {
-    this.matDialog.open(ConfirmDialogComponent, {
-      data: id
-    })
+  // removeProject(project: Project) {
+  //   this.matDialog.open(ConfirmDialogComponent, {
+  //     data: project.id
+  //   })
+  // }
+  removeProject(project: Project) {
+    const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
+      width: '450px',
+      data: {
+        name: project.name,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result?.name === project.name) {
+        this.projectService.deleteProject(project).subscribe(
+          (data) => {
+            console.log(data);
+          },
+          (error) => {
+            this.snackBar.open(error.error.message, 'OK');
+            console.log(error);
+          },
+          () => {
+            this.ngOnInit();
+          }
+        );
+      }
+    });
   }
 
-  removeEmployee(id: string) {
+  removeEmployee(eid: string, pid: string) {
     this.dialogService.openConfirmDialog( {
       data: {
-        title: `Remove Employee ${id}`,
-        content: `Do you want to remove Employee ${id} from this project?`,
-        id: id
+        title: `Remove Employee ${eid}`,
+        content: `Do you want to remove Employee ${eid} from Project ${pid}?`,
+        id: eid
       }
     } as MatDialogConfig).afterClosed().subscribe(result => {
-      if(result){
-        this.pmService.deleteEmployeeInProject()
+      if(result) //if accept button clicked
+      {
+        this.pmService.deleteEmployeeInProject(eid, pid).subscribe(response => {
+          console.log('delete ' + response);
+          
+          if(response) //if delete sucessfully
+              this.getprojectAndMember(this.PMid);
+        })
+        this.getprojectAndMember(this.PMid); //reload tree projectmember
       }
     })
   }
@@ -216,7 +253,8 @@ export class ChildViewComponent implements OnInit {
       height: "300px",
       width: "350px",
       data: projectId
-    })
+    }).afterClosed().subscribe( ()=> this.ngOnInit());
+
   }
 
   detailProject(id: string) {
@@ -229,6 +267,12 @@ export class ChildViewComponent implements OnInit {
 
   increaseShowMem() {
     this.showMem += 1;
+  }
+
+  increaseShowMemValue(id:string):void{
+    let showNum = this.showMemMap.get(id)+2;
+    this.showMemMap.set(id,showNum);
+    // return 2;
   }
 
   public searchAccount(): void {

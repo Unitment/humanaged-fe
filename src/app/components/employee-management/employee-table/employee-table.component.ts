@@ -1,7 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Employee } from 'src/app/model/employee/Employee';
 import { EmployeeService } from 'src/app/services/employee.service';
+import { Employee } from "../../../model/employee/Employee";
+
 @Component({
   selector: 'app-employee-table',
   templateUrl: './employee-table.component.html',
@@ -15,7 +16,7 @@ export class EmployeeTableComponent implements OnInit {
 
 
 
-  displayedColumns: string[] = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','district','ward','address','status','accountName'];
+  displayedColumns: string[] = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','district','ward','address','status','accountName','action'];
 
   isLoaded=false;
 
@@ -40,4 +41,12 @@ export class EmployeeTableComponent implements OnInit {
       }
     )
   }
+
+  onEditClick(id: string) {
+    this.router.navigate(['/employee/update', id]);
+  }
+
+
+
+  onDeleteClick(row: Employee){}
 }

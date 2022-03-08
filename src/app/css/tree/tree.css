@@ -193,11 +193,15 @@
 
   .twoButton {
     padding-bottom: 8px;
+    padding-left: 8px;
     width: 150px;
     margin: auto;
     display: none;
   }
-
+button{
+  line-height: 25px;
+  padding: 2px 7px;
+}
   .node:hover .twoButton {
     display: inline-flex;
   }

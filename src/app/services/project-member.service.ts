@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment';
 import {ProjectAndMember} from '../model/projectMember/ProjectAndMember';
 import {ProjectMember} from '../model/projectMember/ProjectMember';
+import {MemberDTO} from "../model/project/MemberDTO";
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,12 @@ export class ProjectMemberService {
     return this.http.get<boolean>(this.API_PROJECT_MEMBER + "/check-leader/" + projectID);
   }
 
-  public deleteEmployeeInProject() {
-    // return this.http.delete()
+
+  addEmployeeToProject(memberDTO: MemberDTO) {
+    return this.http.post(this.API_PROJECT_MEMBER, memberDTO);
+  }
+  
+  public deleteEmployeeInProject(employeeId: string, projectId: string) : Observable<boolean>{
+    return this.http.delete<boolean>(`${this.API_PROJECT_MEMBER}/project/${projectId}/employee/${employeeId}`);
   }
 }

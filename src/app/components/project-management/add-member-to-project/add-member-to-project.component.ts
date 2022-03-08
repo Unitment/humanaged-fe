@@ -4,6 +4,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {IDropdownSettings} from 'ng-multiselect-dropdown';
 import {ProjectRole} from "../../../model/projectMember/ProjectRole";
 import {ProjectMemberService} from "../../../services/project-member.service";
+import {MemberDTO} from "../../../model/project/MemberDTO";
 
 @Component({
   selector: 'app-add-member-to-project',
@@ -21,6 +22,7 @@ export class AddMemberToProjectComponent implements OnInit {
   dropdownSettings: IDropdownSettings = {};
 
   roleList = [ProjectRole.MEMBER];
+  roleChose: ProjectRole;
 
   isProjectHasLeader: boolean;
 
@@ -62,7 +64,7 @@ export class AddMemberToProjectComponent implements OnInit {
     )
   }
 
-  onItemSelect(item: any) {
+  onItemSelect() {
     if (this.filteredEmployee.length > 1) {
       this.roleList = [ProjectRole.MEMBER]
     } else {
@@ -76,6 +78,21 @@ export class AddMemberToProjectComponent implements OnInit {
     } else {
       this.roleList = [ProjectRole.MEMBER, ProjectRole.LEADER]
     }
+  }
+
+  addMember() {
+    let memberDTO: MemberDTO[];
+    let employeeID: string[] = [];
+    for (const employeeDropdown of this.filteredEmployee) {
+      employeeID.push(employeeDropdown.id)
+    }
+    console.log(employeeID);
+    this.projectMemberService.addEmployeeToProject({
+      projectID: this.projectId,
+      employeeIDList: employeeID,
+      role: this.roleChose
+    }).subscribe();
+    this.matDialogRef.close()
   }
 }
 

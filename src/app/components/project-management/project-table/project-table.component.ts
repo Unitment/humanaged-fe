@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-project-table',
@@ -20,7 +21,8 @@ export class ProjectTableComponent implements OnInit, AfterViewInit {
     private projectService: ProjectService,
     private router: Router,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private dialogService: DialogService
   ) {}
   ngOnInit(): void {
     this.projectService.getAllProjects().subscribe(
@@ -127,5 +129,9 @@ export class ProjectTableComponent implements OnInit, AfterViewInit {
       horizontalPosition: 'center',
       verticalPosition: 'top',
     });
+  }
+
+  openProjectDetailDialog(id: string){
+    this.dialogService.openProjectDetailDialog(id);
   }
 }

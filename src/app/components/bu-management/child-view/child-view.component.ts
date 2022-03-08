@@ -197,16 +197,23 @@ export class ChildViewComponent implements OnInit {
     })
   }
 
-  removeEmployee(id: string) {
+  removeEmployee(eid: string, pid: string) {
     this.dialogService.openConfirmDialog( {
       data: {
-        title: `Remove Employee ${id}`,
-        content: `Do you want to remove Employee ${id} from this project?`,
-        id: id
+        title: `Remove Employee ${eid}`,
+        content: `Do you want to remove Employee ${eid} from Project ${pid}?`,
+        id: eid
       }
     } as MatDialogConfig).afterClosed().subscribe(result => {
-      if(result){
-        this.pmService.deleteEmployeeInProject();
+      if(result) //if accept button clicked
+      {
+        this.pmService.deleteEmployeeInProject(eid, pid).subscribe(response => {
+          console.log('delete ' + response);
+          
+          if(response) //if delete sucessfully
+              this.getprojectAndMember(this.PMid);
+        })
+        this.getprojectAndMember(this.PMid); //reload tree projectmember
       }
     })
   }
@@ -234,6 +241,7 @@ export class ChildViewComponent implements OnInit {
   increaseShowMem() {
     this.showMem += 1;
   }
+
   increaseShowMemValue(id:string):void{
     let showNum = this.showMemMap.get(id)+2;
     this.showMemMap.set(id,showNum);

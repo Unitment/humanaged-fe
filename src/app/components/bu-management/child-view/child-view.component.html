@@ -114,7 +114,7 @@
                             <div class="name">{{getAccountName(projectMember)}}</div>
                           </div>
                           <div class="oneButton">
-                            <button mat-raised-button color="warn" (click)="removeEmployee(projectMember.employee.id);$event.stopPropagation();">Remove</button>
+                            <button mat-raised-button color="warn" (click)="removeEmployee(projectMember.employee.id, pAm.project.id);$event.stopPropagation();">Remove</button>
                           </div>
                         </div>
                       </div>

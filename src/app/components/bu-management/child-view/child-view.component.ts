@@ -20,6 +20,7 @@ import {
 } from "../../project-management/detail-project-dialog/detail-project-dialog.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import { DialogService } from 'src/app/services/dialog.service';
+import {ProjectService} from "../../../services/project.service";
 
 @Component({
   selector: 'app-child-view',
@@ -55,6 +56,7 @@ export class ChildViewComponent implements OnInit {
   constructor(
     private empService: EmployeeService,
     private pmService: ProjectMemberService,
+    private projectService:ProjectService,
     private route: ActivatedRoute,
     private matDialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -191,10 +193,34 @@ export class ChildViewComponent implements OnInit {
     }
   }
 
-  removeProject(id: string) {
-    this.matDialog.open(ConfirmDialogComponent, {
-      data: id
-    })
+  // removeProject(project: Project) {
+  //   this.matDialog.open(ConfirmDialogComponent, {
+  //     data: project.id
+  //   })
+  // }
+  removeProject(project: Project) {
+    const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
+      width: '450px',
+      data: {
+        name: project.name,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result?.name === project.name) {
+        this.projectService.deleteProject(project).subscribe(
+          (data) => {
+            console.log(data);
+          },
+          (error) => {
+            this.snackBar.open(error.error.message, 'OK');
+            console.log(error);
+          },
+          () => {
+            this.ngOnInit();
+          }
+        );
+      }
+    });
   }
 
   removeEmployee(eid: string, pid: string) {
@@ -227,7 +253,8 @@ export class ChildViewComponent implements OnInit {
       height: "300px",
       width: "350px",
       data: projectId
-    })
+    }).afterClosed().subscribe( ()=> this.ngOnInit());
+
   }
 
   detailProject(id: string) {

@@ -1,17 +1,25 @@
 <app-navbar></app-navbar>
 
 
-<div class="container">
-  <div class="d-flex justify-content-center">
-    <h2 class="project-table-heading h2">Employee Table</h2>
+<div class="d-flex justify-content-center">
+  <h2 class="project-table-heading h2">Employee Table</h2>
+</div>
+<div class="project-table-top">
+  <mat-form-field appearance="standard" class="full-width">
+    <mat-label>Filter</mat-label>
+    <input
+      matInput
+      (keyup)="applyFilter($event)"
+      placeholder="Search Account Name"
+      #input
+    />
+  </mat-form-field>
+  <div class="project-table-top-btn">
+    <a mat-stroked-button [routerLink]="'/employee/create'">
+      + Add New Employee
+    </a>
   </div>
-  <div class="project-table-top">
-    <div class="project-table-top-btn">
-      <a mat-stroked-button [routerLink]="'/employee/create'">
-        + Add New Employee
-      </a>
-    </div>
-    </div>
+  </div>
 
 
 
@@ -29,7 +37,7 @@
   <!-- Name Column -->
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    <td mat-cell *matCellDef="let element" (click)="detailEmployee(projectMember.employee.id)" > {{element.name}} </td>
   </ng-container>
 
   <!-- Weight Column -->

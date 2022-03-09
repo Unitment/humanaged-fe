@@ -8,7 +8,7 @@ import { BuService } from 'src/app/services/bu.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { ProjectMemberService } from 'src/app/services/project-member.service';
 import { Router } from '@angular/router';
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { DialogService } from 'src/app/services/dialog.service';
 
@@ -46,7 +46,7 @@ export class ParentViewComponent implements OnInit {
               private router: Router,
               private matDialog: MatDialog,
               private snackBar: MatSnackBar,
-              private dialogSerice: DialogService
+              private dialogService: DialogService
   ) {
   }
 
@@ -157,7 +157,31 @@ export class ParentViewComponent implements OnInit {
   detailEmployee(id: string) {
     console.log(id);
     
-    this.dialogSerice.openEmployeeDetailDialog(id);
+    this.dialogService.openEmployeeDetailDialog(id);
+  }
+
+  removeEmployeeFromSupport(eid: String){
+    this.dialogService.openConfirmDialog( {
+      data: {
+        title: `Remove Employee ${eid}`,
+        content: `Do you want to remove Employee ${eid} from Support?`,
+        id: eid
+      }
+    } as MatDialogConfig).afterClosed().subscribe(result => {
+      if(result) //if accept button clicked
+      {
+        this.employeeService.removeEmployee(eid).subscribe(
+        (response) => {
+          console.log('delete ' + response);
+          //update hide deleted employee node
+          this.getSupport();
+        },
+        (error) => {
+          this.snackBar.open(error.error.message, 'Error');
+          console.log(error);
+        });
+      }
+    });
   }
 
   increaseShowPM(){

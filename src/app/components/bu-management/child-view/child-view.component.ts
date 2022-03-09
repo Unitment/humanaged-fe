@@ -21,7 +21,6 @@ import {
 import {MatSnackBar} from "@angular/material/snack-bar";
 import { DialogService } from 'src/app/services/dialog.service';
 import {ProjectService} from "../../../services/project.service";
-
 @Component({
   selector: 'app-child-view',
   templateUrl: './child-view.component.html',
@@ -126,7 +125,7 @@ export class ChildViewComponent implements OnInit {
     return temp;
   }
 
-  public getAccountName(projectMember: ProjectMember): string {
+  public getAccountName(projectMember: ProjectMember): string {    
     return projectMember.employee.account.accountName;
   }
 
@@ -221,9 +220,9 @@ export class ChildViewComponent implements OnInit {
         );
       }
     });
-  }
+    }
 
-  removeEmployee(eid: string, pid: string) {
+  removeEmployeeFromProject(eid: string, pid: string) {
     this.dialogService.openConfirmDialog( {
       data: {
         title: `Remove Employee ${eid}`,
@@ -232,16 +231,27 @@ export class ChildViewComponent implements OnInit {
       }
     } as MatDialogConfig).afterClosed().subscribe(result => {
       if(result) //if accept button clicked
-      {
-        this.pmService.deleteEmployeeInProject(eid, pid).subscribe(response => {
+      {      
+        this.pmService.deleteEmployeeInProject(eid, pid).subscribe(
+        (response) => {
           console.log('delete ' + response);
-          
-          if(response) //if delete sucessfully
-              this.getprojectAndMember(this.PMid);
-        })
-        this.getprojectAndMember(this.PMid); //reload tree projectmember
+          //update hide deleted employee node
+          this.pmService.getMemberByProjectId(pid).subscribe(pm => {
+            let projectHaveDeletedEmployee = this.displayProject.find(
+              pAm => pAm.project.id == pid
+            )?.memberList;
+            console.log(projectHaveDeletedEmployee);
+            
+            projectHaveDeletedEmployee?.splice(0, projectHaveDeletedEmployee.length, ...pm);
+            console.log(projectHaveDeletedEmployee, " add by ", pm);
+          })
+        },
+        (error) => {
+          this.snackBar.open(error.error.message, 'Error');
+          console.log(error);
+        });
       }
-    })
+    });
   }
 
   detailEmployee(id: string) {

@@ -64,6 +64,11 @@
 .sub-name{
     font-size: 20px;
     line-height: 30px;
+    text-align: center;
+    width: 200px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .vertical-line{
@@ -135,5 +140,12 @@
 
     color: #57606a;
     border-color: #d0d7de;
+}
+
+#edit-button{
+    float: right;
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 

@@ -14,9 +14,9 @@
 
     <div id="right">
         <div class="info info-label">Start date</div>
-        <div class="info info-data prj-sd">{{project?.startDate}}</div>
+        <div class="info info-data prj-sd">{{project?.startDate | date: 'dd/MM/yyyy'}}</div>
         <div class="info info-label">End date</div>
-        <div class="info info-data prj-ed">{{project?.endDate}}</div>
+        <div class="info info-data prj-ed">{{project?.endDate | date: 'dd/MM/yyyy'}}</div>
         <div class="info info-label">Member</div>
         <div class="info info-data info-list emp-projects">
             <ul>

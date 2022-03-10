@@ -64,7 +64,6 @@ export class ParentViewComponent implements OnInit {
         this.BUName = this.businessUnits[0].name;
       },
       (error: HttpErrorResponse) => {
-        // alert(error.message);
         this.snackBar.open(error.message,'Close');
       }
     )

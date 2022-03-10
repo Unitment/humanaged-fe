@@ -1,5 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { Project } from 'src/app/model/project/Project';
 import { ProjectRole } from 'src/app/model/projectMember/ProjectRole';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -14,7 +17,8 @@ import { ProjectService } from 'src/app/services/project.service';
 export class DetailProjectDialogComponent implements OnInit {
   public project!: Project;
   
-  constructor(private matDialog: MatDialog,
+  constructor(
+    private router: Router,
     private projectService: ProjectService,
     private dialogRef: MatDialogRef<DetailProjectDialogComponent>,
     private dialogService: DialogService,
@@ -49,13 +53,19 @@ export class DetailProjectDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  EmployeeDetailClick(empId: string){
-    this.dialogRef.close()
+  onEditClick(id: string) {
+    this.onClose().subscribe(() => {
+      this.router.navigate(['/project/edit', id]);
+    });
+  }
 
+  EmployeeDetailClick(empId: string){
+    this.onClose();
     this.dialogService.openEmployeeDetailDialog(empId);
   }
 
-  onClose(){
+  onClose(): Observable<any>{
     this.dialogRef.close();
+    return this.dialogRef.afterClosed();
   }
 }

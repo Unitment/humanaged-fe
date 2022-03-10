@@ -103,6 +103,15 @@ export class EditProjectFormComponent implements OnInit {
           this.isLoading = false;
         }
       );
+    } else {
+      this.projectForm.get('projectInfo.state')?.disable();
+      this.projectForm.patchValue({
+        projectInfo: {
+          state: ProjectState.PROCESSING,
+        }
+      });
+      // this.projectForm.controls['projectInfo.state'].disable();
+      console.log(this.projectForm);
     }
   }
 

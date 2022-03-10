@@ -34,7 +34,7 @@ export class EmployeeTableComponent implements OnInit {
   ngOnInit(): void {
     this.employeeTable();
     this.dataSource.filterPredicate = function (record,filter) {
-      return record.account?.accountName.toLocaleLowerCase() == filter.toLocaleLowerCase();
+      return record.account?.accountName.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
     }
   }
 

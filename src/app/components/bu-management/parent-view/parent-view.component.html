@@ -75,7 +75,7 @@
             </li>
             <!-- Node support tầng 2 -->
             <li>
-              <div class="node node-padding" [ngStyle]="{'background-color': nodeColor('PM')}">
+              <div *ngIf="displaySupports.length>0" class="node node-padding" [ngStyle]="{'background-color': nodeColor('PM')}">
                 <br>
                 <h2 style="text-align: center">Support</h2>
               </div>

@@ -11,7 +11,6 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
-
 import {NavbarManagementRoutingModule} from 'src/app/routing/navbar-management-routing.module';
 import {NavbarComponent} from './navbar/navbar.component';
 import {MatDividerModule} from "@angular/material/divider";

@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ParentViewComponent } from '../components/bu-management/parent-view/parent-view.component';
 
 const routes: Routes = [
-  // {path:'' ,component:ParentViewComponent},
+   {path:'' ,component:ParentViewComponent},
 ];
 
 @NgModule({

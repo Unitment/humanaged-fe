@@ -4,6 +4,6 @@ import {SystemRole} from "./SystemRole";
 export interface Account {
   accountName: string,
   password: string,
-  role: SystemRole,
-  employee: Employee
+  role?: SystemRole,
+  employee?: Employee
 }

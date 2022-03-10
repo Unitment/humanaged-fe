@@ -7,7 +7,8 @@ import { ParentViewComponent } from '../components/bu-management/parent-view/par
 const routes: Routes = [
   {path:'' ,component:ParentViewComponent},
   {path:'user-info', component:UserInfoComponent},
-  {path:'login', component:LoginComponent}
+  {path:'login', component:LoginComponent},
+  {path:'info',component:UserInfoComponent}
 ];
 
 @NgModule({

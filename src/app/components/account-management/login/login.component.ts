@@ -10,18 +10,25 @@ import { Account } from 'src/app/model/account/Account';
 })
 export class LoginComponent implements OnInit {
 
-   account: Account;
+  account: Account = {
+    accountName: '',
+    password: '',
+  };
 
   constructor(private loginService : AccountService, private router: Router) { }
 
   ngOnInit(): void {
   }
+  isLoggedIn=false;
 
   loginAccount() {
     this.loginService.loginAccountFromRemote(this.account).subscribe(
       data => {
         console.log("Response Received")
+        console.log(data);
+        this.isLoggedIn=true;
         localStorage.setItem('account',JSON.stringify(data))
+        this.accountInfo();
         this.router.navigate([''])
       },
       error => {
@@ -30,4 +37,17 @@ export class LoginComponent implements OnInit {
       }
     );
   }
+
+  accountInfo() {
+    this.loginService.accountInfo(this.account).subscribe(
+    data => {
+      localStorage.setItem('accountInfo',JSON.stringify(data));
+      console.log(data);
+    }
+  )
+  }
+
+
+
+
 }

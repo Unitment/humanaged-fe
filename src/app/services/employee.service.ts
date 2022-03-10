@@ -17,6 +17,10 @@ export class EmployeeService {
     return this.http.get<Array<Employee>>(this.API_EMPLOYEE);
   }
 
+  public getAvailableEmployeeForProject(projectID: string): Observable<Array<Employee>> {
+    return this.http.get<Array<Employee>>(this.API_EMPLOYEE, {params: new HttpParams().set('projectID', projectID)});
+  }
+
   public getAllEmployeeByAccountName(accountName: string): Observable<Array<Employee>> {
     return this.http.get<Array<Employee>>(this.API_EMPLOYEE + "/account", {params: new HttpParams().set('account', accountName)});
   }
@@ -49,7 +53,7 @@ export class EmployeeService {
     return this.http.post(this.API_EMPLOYEE + "/import", list);
   }
 
-  public employeeTable() : Observable<any> {
+  public employeeTable(): Observable<any> {
     return this.http.get<any>(this.API_EMPLOYEE);
   }
 }

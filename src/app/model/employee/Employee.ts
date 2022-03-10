@@ -1,8 +1,8 @@
-import { Account } from "../account/Account";
-import { Gender } from "./Gender";
-import { Status } from "./Status";
-import { ProjectMember } from "../projectMember/ProjectMember";
-import { BusinessUnit } from "../businessUnit/BusinessUnit";
+import {Account} from "../account/Account";
+import {Gender} from "./Gender";
+import {Status} from "./Status";
+import {ProjectMember} from "../projectMember/ProjectMember";
+import {BusinessUnit} from "../businessUnit/BusinessUnit";
 
 export interface Employee {
   id: string,
@@ -11,6 +11,7 @@ export interface Employee {
   birthday: Date,
   phoneNumber: string,
   mail: string,
+  avatar: string,
   address: string,
   country: string,
   province: string,

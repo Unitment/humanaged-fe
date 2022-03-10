@@ -7,6 +7,8 @@ import {EmployeeService} from "../../../services/employee.service";
 import {LocationService} from "../../../services/location.service";
 import {ImportFromFileDialogComponent} from "./import-from-file-dialog/import-from-file-dialog.component";
 import {Router} from "@angular/router";
+import {AngularFireStorage} from "@angular/fire/compat/storage";
+import {finalize} from "rxjs/operators";
 
 
 @Component({
@@ -21,13 +23,15 @@ export class CreateEmployeeComponent implements OnInit {
   provinceList: Array<any> = [];
   districtList: Array<any> = [];
   wardList: Array<any> = [];
+  avatar: string = "";
 
   constructor(private formBuilder: FormBuilder,
               private employeeService: EmployeeService,
               private locationService: LocationService,
               private snackBar: MatSnackBar,
               private dialog: MatDialog,
-              private route: Router) {
+              private route: Router,
+              private angularFireStorage: AngularFireStorage) {
   }
 
   ngOnInit(): void {
@@ -40,7 +44,8 @@ export class CreateEmployeeComponent implements OnInit {
         province: ['', Validators.required],
         district: ['', Validators.required],
         ward: ['', Validators.required],
-        address: ['', Validators.required]
+        address: ['', Validators.required],
+        avatar: ['']
       }
     )
 
@@ -50,10 +55,10 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
   saveEmployee() {
-    console.log(this.form.value)
     if (this.form.valid) {
+      this.form.value.avatar = this.avatar;
       this.employeeService.saveEmployee(this.form.value).subscribe(
-        data => console.log(data),
+        () => undefined,
         () => undefined,
         () => this.snackBar.open("Add Successful", "OK", {
           duration: 3000,
@@ -85,5 +90,24 @@ export class CreateEmployeeComponent implements OnInit {
 
   openDialogChooseFile() {
     this.dialog.open(ImportFromFileDialogComponent);
+  }
+
+  selectFile(event: any) {
+    let name = Date.now().toString();
+    let file = event.target.files[0]
+    if (file != undefined) {
+      this.angularFireStorage.upload(name, file)
+        .snapshotChanges().pipe(
+        finalize(() => {
+          this.angularFireStorage.ref(name).getDownloadURL().subscribe(
+            (data) => {
+              this.avatar = data
+            }
+          )
+        })
+      ).subscribe();
+    } else {
+      this.avatar = "";
+    }
   }
 }

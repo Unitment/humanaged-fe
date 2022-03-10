@@ -39,7 +39,7 @@
 
         <div class="sidenav-content">
           <button class="button-show" type="button" mat-icon-button (click)="drawer.toggle()">
-            <i class="fa-solid fa-caret-right"></i>
+            <i class="fas fa-caret-right"></i>
           </button>
         </div>
       </mat-drawer-container>
@@ -51,7 +51,7 @@
       <ul>
         <li>
           <!-- start Node cha -->
-          <div class="node" click  [ngStyle]="{'background-color': nodeColor('PM')}">
+          <div class="node" click [ngStyle]="{'background-color': nodeColor('PM')}">
             <div class="node-mask node-padding" (click)="detailEmployee(PM.id)">
               <p>PM</p>
               <hr>
@@ -72,7 +72,8 @@
               <!-- node tầng 2 - 1 -->
               <li *ngFor="let pAm of displayProject | slice:0:showProJ; let i = index">
                 <div style="max-width: 315px; margin: auto;">
-                  <div class="node" (click)="detailProject(pAm.project.id)" [ngStyle]="{'background-color': checkProjectState(pAm.project)}"
+                  <div class="node" (click)="detailProject(pAm.project.id)"
+                       [ngStyle]="{'background-color': checkProjectState(pAm.project)}"
                        style=" margin: auto;">
                     <div class="node-mask node-padding">
                       <p>{{pAm.project.name}}</p>
@@ -81,18 +82,21 @@
                       <p class="description"><b>State: </b>{{pAm.project.state}}</p>
                       <p class="description"><b>Start date: </b>{{pAm.project.startDate | date: 'dd/MM/yyyy' }}</p>
                       <div class="twoButton">
-                        <button mat-raised-button color="primary" (click)="addMemberToProject(pAm.project.id);$event.stopPropagation();"
+                        <button mat-raised-button color="primary"
+                                (click)="addMemberToProject(pAm.project.id);$event.stopPropagation();"
                                 class="buttonLeft">Add
                           Mem
                         </button>
-                        <button mat-raised-button color="warn" (click)="removeProject(pAm.project.id);$event.stopPropagation();"
+                        <button mat-raised-button color="warn"
+                                (click)="removeProject(pAm.project);$event.stopPropagation();"
                                 class="buttonRight">
                           Remove
                         </button>
                       </div>
                     </div>
                   </div>
-                  <div *ngIf="i==(showProJ-1)  && i < displayProject.length-1" style="display: flex; float: right; margin-top: 50px; margin-left: 7px">
+                  <div *ngIf="i==(showProJ-1)  && i < displayProject.length-1"
+                       style="display: flex; float: right; margin-top: 50px; margin-left: 7px">
                     <button mat-stroked-button (click)="increaseShowProJ()">More</button>
                   </div>
                 </div>
@@ -101,7 +105,8 @@
                 <!-- <div *ngIf="getMemberByProjectId(prjId.projectID+'')"> -->
                 <div *ngIf="pAm.memberList.length>0">
                   <ul class="ulClass">
-                    <li *ngFor="let projectMember of pAm.memberList  | slice:0:showMemMap.get(pAm.project.id); let i=index">
+                    <li
+                      *ngFor="let projectMember of pAm.memberList  | slice:0:showMemMap.get(pAm.project.id); let i=index">
                       <div class="node"
                            [ngStyle]="{'background-color': nodeColor(projectMember.role)}"
                            (click)="detailEmployee(projectMember.employee.id)"
@@ -114,7 +119,10 @@
                             <div class="name">{{getAccountName(projectMember)}}</div>
                           </div>
                           <div class="oneButton">
-                            <button mat-raised-button color="warn" (click)="removeEmployee(projectMember.employee.id, pAm.project.id);$event.stopPropagation();">Remove</button>
+                            <button mat-raised-button color="warn"
+                                    (click)="removeEmployee(projectMember.employee.id, pAm.project.id);$event.stopPropagation();">
+                              Remove
+                            </button>
                           </div>
                         </div>
                       </div>

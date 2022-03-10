@@ -21,7 +21,6 @@ import {
 import {MatSnackBar} from "@angular/material/snack-bar";
 import { DialogService } from 'src/app/services/dialog.service';
 import {ProjectService} from "../../../services/project.service";
-
 @Component({
   selector: 'app-child-view',
   templateUrl: './child-view.component.html',
@@ -126,7 +125,7 @@ export class ChildViewComponent implements OnInit {
     return temp;
   }
 
-  public getAccountName(projectMember: ProjectMember): string {
+  public getAccountName(projectMember: ProjectMember): string {    
     return projectMember.employee.account.accountName;
   }
 
@@ -221,20 +220,38 @@ export class ChildViewComponent implements OnInit {
         );
       }
     });
-  }
+    }
 
-  removeEmployee(id: string) {
+  removeEmployeeFromProject(eid: string, pid: string) {
     this.dialogService.openConfirmDialog( {
       data: {
-        title: `Remove Employee ${id}`,
-        content: `Do you want to remove Employee ${id} from this project?`,
-        id: id
+        title: `Remove Employee ${eid}`,
+        content: `Do you want to remove Employee ${eid} from Project ${pid}?`,
+        id: eid
       }
     } as MatDialogConfig).afterClosed().subscribe(result => {
-      if(result){
-        this.pmService.deleteEmployeeInProject();
+      if(result) //if accept button clicked
+      {      
+        this.pmService.deleteEmployeeInProject(eid, pid).subscribe(
+        (response) => {
+          console.log('delete ' + response);
+          //update hide deleted employee node
+          this.pmService.getMemberByProjectId(pid).subscribe(pm => {
+            let projectHaveDeletedEmployee = this.displayProject.find(
+              pAm => pAm.project.id == pid
+            )?.memberList;
+            console.log(projectHaveDeletedEmployee);
+            
+            projectHaveDeletedEmployee?.splice(0, projectHaveDeletedEmployee.length, ...pm);
+            console.log(projectHaveDeletedEmployee, " add by ", pm);
+          })
+        },
+        (error) => {
+          this.snackBar.open(error.error.message, 'Error');
+          console.log(error);
+        });
       }
-    })
+    });
   }
 
   detailEmployee(id: string) {
@@ -261,6 +278,7 @@ export class ChildViewComponent implements OnInit {
   increaseShowMem() {
     this.showMem += 1;
   }
+
   increaseShowMemValue(id:string):void{
     let showNum = this.showMemMap.get(id)+2;
     this.showMemMap.set(id,showNum);
@@ -268,7 +286,7 @@ export class ChildViewComponent implements OnInit {
   }
 
   public searchAccount(): void {
-    if (this.textValue?.toString() === '') {
+    if(this.textValue?.toString() ===''){
       this.setFilterByState();
     } else {
       this.displayProject = [];

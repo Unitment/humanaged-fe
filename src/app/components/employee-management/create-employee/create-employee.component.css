@@ -1,0 +1,24 @@
+#avatar__preview {
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #716e6e;
+}
+
+#preview {
+  cursor: pointer;
+}
+
+.form-title {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 56px;
+  /* or 117% */
+
+  display: flex;
+  align-items: center;
+
+  color: #7934ea;
+}

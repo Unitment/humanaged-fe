@@ -4,7 +4,16 @@
 
 export const environment = {
   production: true,
-  apiBaseUrl: "http://localhost:8080/api"
+  apiBaseUrl: "http://localhost:8080/api",
+  firebaseConfig: {
+    apiKey: "AIzaSyAvxEMOVn264wnCHd_1AIbi_wqNEQVkjBI",
+    authDomain: "humanaged-d9db7.firebaseapp.com",
+    databaseURL: "https://humanaged-d9db7-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "humanaged-d9db7",
+    storageBucket: "humanaged-d9db7.appspot.com",
+    messagingSenderId: "1029681841788",
+    appId: "1:1029681841788:web:f99387650928b77a14ebf9"
+  }
 };
 
 /*

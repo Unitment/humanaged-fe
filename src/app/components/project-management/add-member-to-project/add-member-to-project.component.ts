@@ -14,7 +14,7 @@ import {MemberDTO} from "../../../model/project/MemberDTO";
 export class AddMemberToProjectComponent implements OnInit {
 
   employeeList: Array<EmployeeDropdown> = [];
-  
+
   dropdowns: Array<EmployeeDropdown> = [];
 
   filteredEmployee: Array<EmployeeDropdown> = [];
@@ -54,7 +54,7 @@ export class AddMemberToProjectComponent implements OnInit {
       }
     )
 
-    this.employeeService.getAllEmployee().subscribe(
+    this.employeeService.getAvailableEmployeeForProject(this.projectId).subscribe(
       data => {
         for (const employee of data) {
           this.employeeList.push({id: employee.id, account: employee.account.accountName})

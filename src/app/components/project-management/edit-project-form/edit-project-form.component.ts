@@ -21,6 +21,7 @@ import * as XLSX from 'xlsx';
 import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ValidateEndDate } from '../util/end-date.validator';
+import { ValidateHavePMInProject } from '../util/have-pm.validator';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(
@@ -53,11 +54,21 @@ export class EditProjectFormComponent implements OnInit {
   ) {}
 
   projectId: string | null = null;
+  pmAccountName: string | null = null;
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
+    this.route.queryParamMap.subscribe((params) => {
+      this.pmAccountName = params.get('pm');
+      this.employeesInProject
+        .at(0)
+        .get('employeeName')
+        ?.setValue(params.get('pm'));
+    });
+    this.pmAccountName = routeParams.get('pm');
     if (routeParams.get('id') !== null) {
       this.projectId = routeParams.get('id');
       this.isLoading = true;
+      this.employeesInProject.clear();
       this.projectService.getProjectById(this.projectId).subscribe(
         (data) => {
           this.project = data;
@@ -68,7 +79,10 @@ export class EditProjectFormComponent implements OnInit {
             employeeInProjectList: data.projectMembers?.forEach((member) => {
               this.employeesInProject.push(
                 this.fb.group({
-                  employeeName: [member.employee?.account.accountName, Validators.required],
+                  employeeName: [
+                    member.employee?.account.accountName,
+                    Validators.required,
+                  ],
                   employeeRole: [
                     this.projectRole.find(
                       (key) => key === member.role.toString()
@@ -89,6 +103,15 @@ export class EditProjectFormComponent implements OnInit {
           this.isLoading = false;
         }
       );
+    } else {
+      this.projectForm.get('projectInfo.state')?.disable();
+      this.projectForm.patchValue({
+        projectInfo: {
+          state: ProjectState.PROCESSING,
+        }
+      });
+      // this.projectForm.controls['projectInfo.state'].disable();
+      console.log(this.projectForm);
     }
   }
 
@@ -109,7 +132,15 @@ export class EditProjectFormComponent implements OnInit {
       endDate: ['', ValidateEndDate],
       description: ['', Validators.maxLength(500)],
     }),
-    employeesInProject: this.fb.array([]),
+    employeesInProject: this.fb.array(
+      [
+        this.fb.group({
+          employeeName: ['', Validators.required],
+          employeeRole: [ProjectRole.PM, Validators.required],
+        }),
+      ],
+      ValidateHavePMInProject
+    ),
   });
 
   get employeesInProject() {

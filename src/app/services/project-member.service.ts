@@ -43,7 +43,7 @@ export class ProjectMemberService {
     return this.http.post(this.API_PROJECT_MEMBER, memberDTO);
   }
   
-  public deleteEmployeeInProject() {
-    // return this.http.delete()
+  public deleteEmployeeInProject(employeeId: string, projectId: string) : Observable<boolean>{
+    return this.http.delete<boolean>(`${this.API_PROJECT_MEMBER}/project/${projectId}/employee/${employeeId}`);
   }
 }

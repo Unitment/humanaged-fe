@@ -155,7 +155,7 @@ export class ParentViewComponent implements OnInit {
 
   detailEmployee(id: string) {
     console.log(id);
-    
+
     this.dialogService.openEmployeeDetailDialog(id);
   }
 

@@ -21,8 +21,9 @@ export class EmployeeTableComponent implements OnInit {
   dataSource = new MatTableDataSource(this.empData);
   dataSourceFilters = new MatTableDataSource(this.empData);
 
-  displayedColumns: string[] = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','district','ward','address','status','accountName','action'];
-  
+  // displayedColumns: string[] = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','district','ward','address','status','accountName','action'];
+  displayedColumns: string[] = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','status','accountName','action'];
+
   isLoaded=false;
 
   constructor(
@@ -37,6 +38,7 @@ export class EmployeeTableComponent implements OnInit {
       return record.account?.accountName.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
     }
   }
+
 
   employeeTable() {
     this._service.employeeTable().subscribe(

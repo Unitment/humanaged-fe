@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   loginAccount() {
     this.loginService.loginAccountFromRemote(this.account).subscribe(
       data => {
+        console.log(data);
         console.log("Response Received")
         console.log(data);
         this.isLoggedIn=true;
@@ -40,14 +41,10 @@ export class LoginComponent implements OnInit {
 
   accountInfo() {
     this.loginService.accountInfo(this.account).subscribe(
-    data => {
-      localStorage.setItem('accountInfo',JSON.stringify(data));
-      console.log(data);
-    }
-  )
+      data => {
+        localStorage.setItem('accountInfo',JSON.stringify(data));
+        console.log(data);
+      }
+    )
   }
-
-
-
-
 }

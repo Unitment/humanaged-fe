@@ -60,7 +60,7 @@
                 <div class="name">{{PM?.account?.accountName}}</div>
               </div>
               <div class="oneButton">
-                <button mat-raised-button color="primary" (click)="$event.stopPropagation();">ADD Project</button>
+                <button mat-raised-button color="primary" (click)="$event.stopPropagation();" [routerLink]="['/project/create']" [queryParams]="{pm:PM?.account?.accountName}" >ADD Project</button>
               </div>
             </div>
           </div>

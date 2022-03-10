@@ -42,7 +42,7 @@ export class ChildViewComponent implements OnInit {
   checkClosed: boolean = false;
   checkPending: boolean = false;
   showProJ = 2;
-  showMem = 1;
+  showMem = 2;
   showMemMap = new Map();
   textValue: string = '';
   ops = [
@@ -116,7 +116,7 @@ export class ChildViewComponent implements OnInit {
         temp = '#C8DBBD';
         break;
       case 'CLOSED':
-        temp = '#8FA96E';
+        temp = '#98b573';
         break;
       case 'PENDING':
         temp = '#dce7ed';

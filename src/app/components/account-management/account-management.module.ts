@@ -19,6 +19,10 @@ import { AccountManagementRoutingModule } from '../../routing/account-management
 
 import { LoginComponent } from "./login/login.component";
 import { UserInfoComponent } from './user-info/user-info.component';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatListModule} from '@angular/material/list';
+
+
 
 
 
@@ -43,7 +47,9 @@ import { UserInfoComponent } from './user-info/user-info.component';
     MatIconModule,
     MatBadgeModule,
     MatSelectModule,
-    MatMenuModule
+    MatMenuModule,
+    MatDividerModule,
+    MatListModule
   ],
 })
 export class AccountManagementModule { }

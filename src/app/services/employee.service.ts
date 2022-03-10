@@ -56,4 +56,8 @@ export class EmployeeService {
   public employeeTable(): Observable<any> {
     return this.http.get<any>(this.API_EMPLOYEE);
   }
+
+  public removeEmployee(id: String) : Observable<Employee> {
+    return this.http.delete<Employee>(this.API_EMPLOYEE + "/" + id)
+  }
 }

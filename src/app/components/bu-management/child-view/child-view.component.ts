@@ -286,11 +286,7 @@ export class ChildViewComponent implements OnInit {
   }
 
   public searchAccount(): void {
-<<<<<<< HEAD
-    if (this.textValue?.toString() === '') {
-=======
     if(this.textValue?.toString() ===''){
->>>>>>> origin/dev-TrangTTU
       this.setFilterByState();
     } else {
       this.displayProject = [];

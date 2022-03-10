@@ -1,24 +1,30 @@
-<mat-toolbar color="primary" class="navbar">
-  <div><a href=''>
-    <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
-  </a></div>
-  <div>
-    <span>
-      <button mat-button [matMenuTriggerFor]="menuManager">Manager</button>
-      <mat-menu #menuManager="matMenu">
-      <a mat-menu-item routerLink="/employee/table">Employee</a>
-      <a mat-menu-item routerLink="/project">Project</a>
-      </mat-menu>
-    </span>
-    <span>
-      <a mat-button routerLink='login'>Login</a>
-    </span>
-    <span>
-      <button mat-button [matMenuTriggerFor]="menuUser">Hello User</button>
-      <mat-menu #menuUser="matMenu">
-      <a mat-menu-item (click)="accountInfo()">User Information</a>
-      <a mat-menu-item (click)="logOutAccount()">LogOut </a>
-      </mat-menu>
-    </span>
-  </div>
-</mat-toolbar>
+<header>
+  <a class="" routerLink="/home">Humanaged</a>
+  <nav class="mr-5">
+    <ul class="nav__link">
+      <li><a routerLink="/employee/table">Employee</a></li>
+      <li><a routerLink="/project">Project</a></li>
+    </ul>
+  </nav>
+  <!--  <a class="login__btn">-->
+  <!--    <button>Login</button>-->
+  <!--  </a>-->
+  <a class="current__user">
+    <button [matMenuTriggerFor]="menu" id="avatarBtn">
+      <img src="assets/images/meo.jpg" alt="avatar" class="avatar">
+    </button>
+    <mat-menu #menu="matMenu" xPosition="before">
+      <div id="user__info">
+        <img src="assets/images/meo.jpg" alt="avatar" id="avatarDetail">
+
+        <div class="user__detail">
+          <div id="user__name">Bùi Thanh Bảo</div>
+          <div id="user__mail">baobt1@fsoft.com.vn</div>
+        </div>
+      </div>
+      <mat-divider style="background-color: #92979a"></mat-divider>
+      <button mat-menu-item>Manage account</button>
+      <button mat-menu-item>Sign out</button>
+    </mat-menu>
+  </a>
+</header>

@@ -9,12 +9,16 @@ import {EmployeeManagementModule} from './components/employee-management/employe
 import {ProjectManagementModule} from './components/project-management/project-management.module';
 import {ProjectMemberManagementModule} from './components/project-member-management/project-member-management.module';
 import {AccountManagementModule} from './components/account-management/account-management.module';
-import { DialogModule } from './components/dialog/dialog.module';
+import {DialogModule} from './components/dialog/dialog.module';
 
 import {AppComponent} from './app.component';
 import {NavbarManagementModule} from "./components/navbar-management/navbar-management.module";
 import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
 import {MomentDateAdapter} from '@angular/material-moment-adapter';
+import {AngularFireModule} from "@angular/fire/compat";
+import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
+import {environment} from "../environments/environment";
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -44,8 +48,12 @@ export const MY_DATE_FORMATS = {
     NavbarManagementModule,
     DialogModule,
     AppRoutingModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFirestoreModule,
+    FontAwesomeModule
   ],
   providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'vi-VI'},
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS},
   ],

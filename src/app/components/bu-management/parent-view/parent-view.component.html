@@ -24,7 +24,7 @@
 
         <div class="sidenav-content">
           <button class="button-show" type="button" mat-icon-button (click)="drawer.toggle()">
-            <i class="fa-solid fa-caret-right"></i>
+            <i class="fa fa-caret-right"></i>
           </button>
         </div>
       </mat-drawer-container>
@@ -45,37 +45,34 @@
                 <img src="\assets\images\MeoBeo.jpg" alt="img2">
                 <div class="name">{{BUL?.account?.accountName}}</div>
               </div>
-<!--              <hr>-->
-<!--              <p class="description"><b>BU name: </b>{{BUName}}</p>-->
-<!--              <div class="oneButton">-->
-<!--                <button mat-raised-button color="primary">ADD PM</button>-->
-<!--              </div>-->
+
             </div>
           </div>
           <!-- end Node cha -->
           <!-- start node con tầng 2 -->
           <!-- <div class="tang2" > -->
           <ul class="ulClass">
-              <li *ngFor="let pm of displayPmAccounts | slice:0:showPM; let i=index">
-                <div class="node" (click)="detailEmployee(pm.id)" [ngStyle]="{'background-color': nodeColor('PM')}">
-                  <div class="node-mask node-padding">
-                    <p>PM</p>
-                    <hr>
-                    <div class="avaAndName">
-                      <img src="\assets\images\MeoBeo.jpg" alt="img2">
-                      <div class="name" mat-button>{{pm.account.accountName}}</div>
-                    </div>
-<!--                    <hr>-->
-                    <div class="oneButton">
-                      <button mat-raised-button color="primary" [routerLink]="'/pm/'+pm.id+'/project'">Projects</button>
-                      <!-- <button mat-stroked-button color="primary" routerLink="/listProject" (click)="listChildPage(pm.id)">Projects</button> -->
-                    </div>
+            <li *ngFor="let pm of displayPmAccounts | slice:0:showPM; let i=index">
+              <div class="node" (click)="detailEmployee(pm.id)" [ngStyle]="{'background-color': nodeColor('PM')}">
+                <div class="node-mask node-padding">
+                  <p>PM</p>
+                  <hr>
+                  <div class="avaAndName">
+                    <img src="\assets\images\MeoBeo.jpg" alt="img2">
+                    <div class="name" mat-button>{{pm.account.accountName}}</div>
+                  </div>
+                  <!--                    <hr>-->
+                  <div class="oneButton">
+                    <button mat-raised-button color="primary" [routerLink]="'/pm/'+pm.id+'/project'">Projects</button>
+                    <!-- <button mat-stroked-button color="primary" routerLink="/listProject" (click)="listChildPage(pm.id)">Projects</button> -->
                   </div>
                 </div>
-                <div *ngIf="i==(showPM-1) && i < displayPmAccounts.length-1" style="display: flex; float: right;margin-top: 30px; margin-left: 7px">
-                  <button mat-stroked-button (click)="increaseShowPM()">More</button>
-                </div>
-              </li>
+              </div>
+              <div *ngIf="i==(showPM-1) && i < displayPmAccounts.length-1"
+                   style="display: flex; float: right;margin-top: 30px; margin-left: 7px">
+                <button mat-stroked-button (click)="increaseShowPM()">More</button>
+              </div>
+            </li>
             <!-- Node support tầng 2 -->
             <li>
               <div class="node node-padding" [ngStyle]="{'background-color': nodeColor('PM')}">
@@ -85,7 +82,8 @@
 
               <ul class="ulClass">
                 <li *ngFor="let support of displaySupports | slice:0:showSP; let i=index">
-                  <div class="node" (click)="detailEmployee(support.id)" [ngStyle]="{'background-color': nodeColor('SUPPORT')}">
+                  <div class="node" (click)="detailEmployee(support.id)"
+                       [ngStyle]="{'background-color': nodeColor('SUPPORT')}">
                     <div class="node-mask node-padding">
                       <p>Support</p>
                       <hr>
@@ -93,13 +91,14 @@
                         <img src="\assets\images\MeoBeo.jpg" alt="img2">
                         <div class="name" mat-button>{{support.account.accountName}}</div>
                       </div>
-<!--                      <hr>-->
+                      <!--                      <hr>-->
                       <div class="oneButton">
                         <button mat-raised-button color="warn" (click)="removeEmployeeFromSupport(support.id);$event.stopPropagation()">Remove</button>
                       </div>
                     </div>
                   </div>
-                  <div *ngIf="i==(showSP-1)  && i < displaySupports.length-1" style="display: flex; float: right; margin-top: 30px; margin-left: 7px">
+                  <div *ngIf="i==(showSP-1)  && i < displaySupports.length-1"
+                       style="display: flex; float: right; margin-top: 30px; margin-left: 7px">
                     <button mat-stroked-button (click)="increaseShowSP()">More</button>
                   </div>
                 </li>

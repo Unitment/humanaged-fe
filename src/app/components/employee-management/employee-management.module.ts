@@ -17,6 +17,7 @@ import {MatOptionModule} from "@angular/material/core";
 import {MatSelectModule} from "@angular/material/select";
 import {MaterialModule} from "../material/material.module";
 import {ReactiveFormsModule} from "@angular/forms";
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 
 
 @NgModule({
@@ -37,6 +38,7 @@ import {ReactiveFormsModule} from "@angular/forms";
     MatSelectModule,
     MaterialModule,
     ReactiveFormsModule,
+    FontAwesomeModule,
   ]
 })
 export class EmployeeManagementModule {

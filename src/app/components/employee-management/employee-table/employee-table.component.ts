@@ -16,7 +16,8 @@ export class EmployeeTableComponent implements OnInit {
 
 
 
-  displayedColumns: string[] = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','district','ward','address','status','accountName','action'];
+  // displayedColumns: string[] = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','district','ward','address','status','accountName','action'];
+  displayedColumns: string[] = ['id', 'name', 'birthday','gender','phoneNo','mail','province','district','status','accountName','action'];
 
   isLoaded=false;
 

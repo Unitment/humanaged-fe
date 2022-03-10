@@ -10,7 +10,10 @@ import { Account } from 'src/app/model/account/Account';
 })
 export class LoginComponent implements OnInit {
 
-   account: Account;
+    account: Account = {
+    accountName: '',
+    password: ''
+  };
 
   constructor(private loginService : AccountService, private router: Router) { }
 
@@ -20,6 +23,7 @@ export class LoginComponent implements OnInit {
   loginAccount() {
     this.loginService.loginAccountFromRemote(this.account).subscribe(
       data => {
+        console.log(data);
         console.log("Response Received")
         localStorage.setItem('account',JSON.stringify(data))
         this.router.navigate([''])

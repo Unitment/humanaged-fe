@@ -80,7 +80,6 @@ export class ParentViewComponent implements OnInit {
         });
         const expected = new Set();
         this.pmAccounts = this.pmAccounts.filter(item => !expected.has(JSON.stringify(item)) ? expected.add(JSON.stringify(item)) : false);
-        console.log(this.pmAccounts);
         this.displayPmAccounts = this.pmAccounts;
       },
       (error: HttpErrorResponse) => {
@@ -156,7 +155,6 @@ export class ParentViewComponent implements OnInit {
 
   detailEmployee(id: string) {
     console.log(id);
-    
     this.dialogSerice.openEmployeeDetailDialog(id);
   }
 

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { Employee } from 'src/app/model/employee/Employee';
+import { EmployeeDetail } from 'src/app/model/employee/EmployeeDetail';
 import { DialogService } from 'src/app/services/dialog.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 
@@ -14,7 +15,7 @@ import { EmployeeService } from 'src/app/services/employee.service';
   styleUrls: ['./detail-employee-dialog.component.css']
 })
 export class DetailEmployeeDialogComponent implements OnInit {
-  employee!: Employee;
+  employee: EmployeeDetail;
 
   constructor(
     private router: Router,

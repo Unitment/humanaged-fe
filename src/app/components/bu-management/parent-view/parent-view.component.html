@@ -7,7 +7,7 @@
           <form class="search-pm-form">
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Username</mat-label>
-              <input name="key" id="searchPM" type="search" (ngModelChange)="[textValue=key.value, searchAccount()]"
+              <input name="key" id="searchAccount" type="search" (ngModelChange)="[textValue=key.value, searchAccount()]"
                      matInput placeholder="TrangTTU" #key="ngModel" ngModel>
             </mat-form-field>
           </form>
@@ -72,10 +72,15 @@
                    style="display: flex; float: right;margin-top: 30px; margin-left: 7px">
                 <button mat-stroked-button (click)="increaseShowPM()">More</button>
               </div>
+              <div *ngIf="i === displayPmAccounts.length-1"
+                   style="display: flex; float: right;margin-top: 30px; margin-left: 7px">
+                <button mat-stroked-button (click)="decreaseShowPM()">Less</button>
+              </div>
             </li>
             <!-- Node support tầng 2 -->
             <li>
-              <div *ngIf="displaySupports.length>0" class="node node-padding" [ngStyle]="{'background-color': nodeColor('PM')}">
+              <div class="node node-padding" [ngStyle]="{'background-color': nodeColor('PM')}">
+<!--              <div *ngIf="displaySupports.length>0" class="node node-padding" [ngStyle]="{'background-color': nodeColor('PM')}">-->
                 <br>
                 <h2 style="text-align: center">Support</h2>
               </div>
@@ -100,6 +105,10 @@
                   <div *ngIf="i==(showSP-1)  && i < displaySupports.length-1"
                        style="display: flex; float: right; margin-top: 30px; margin-left: 7px">
                     <button mat-stroked-button (click)="increaseShowSP()">More</button>
+                  </div>
+                  <div *ngIf="i === displaySupports.length-1"
+                       style="display: flex; float: right;margin-top: 30px; margin-left: 7px">
+                    <button mat-stroked-button (click)="decreaseShowSP()">Less</button>
                   </div>
                 </li>
 

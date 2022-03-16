@@ -75,7 +75,7 @@
             </li>
             <!-- Node support tầng 2 -->
             <li>
-              <div *ngIf="displaySupports.length>0" class="node node-padding" [ngStyle]="{'background-color': nodeColor('PM')}">
+              <div class="node node-padding" [ngStyle]="{'background-color': nodeColor('PM')}">
                 <br>
                 <h2 style="text-align: center">Support</h2>
               </div>
@@ -93,7 +93,9 @@
                       </div>
                       <!--                      <hr>-->
                       <div class="oneButton">
-                        <button mat-raised-button color="warn" (click)="removeEmployeeFromSupport(support.id);$event.stopPropagation()">Remove</button>
+                        <button mat-raised-button color="warn"
+                                (click)="removeEmployeeFromSupport(support.id);$event.stopPropagation()">Remove
+                        </button>
                       </div>
                     </div>
                   </div>

@@ -4,29 +4,24 @@
     <ul class="nav__link">
       <li><a routerLink="/employee/table">Employee</a></li>
       <li><a routerLink="/project">Project</a></li>
-      <li><a routerLink="/login">Login</a></li>
-
     </ul>
   </nav>
-  <!--  <a class="login__btn">-->
-  <!--    <button>Login</button>-->
-  <!--  </a>-->
   <a class="current__user">
     <button [matMenuTriggerFor]="menu" id="avatarBtn">
-      <img src="assets/images/meo.jpg" alt="avatar" class="avatar">
+      <img [src]="avatar == null ? 'assets/images/profile.svg' : avatar" alt="avatar" class="avatar">
     </button>
     <mat-menu #menu="matMenu" xPosition="before">
       <div id="user__info">
-        <img src="assets/images/meo.jpg" alt="avatar" id="avatarDetail">
+        <img [src]="avatar == null ? 'assets/images/profile.svg' : avatar " alt="avatar" id="avatarDetail">
 
         <div class="user__detail">
-          <div id="user__name">{{employee?.name}}</div>
-          <div id="user__mail">{{employee?.mail}}</div>
+          <div id="user__name">{{name}}</div>
+          <div id="user__mail">{{mail}}</div>
         </div>
       </div>
       <mat-divider style="background-color: #92979a"></mat-divider>
       <a mat-menu-item routerLink="/info">Manage account</a>
-      <a mat-menu-item (click)="logOutAccount()">Sign out</a>
+      <a mat-menu-item (click)="logOut()">Sign out</a>
     </mat-menu>
   </a>
 </header>

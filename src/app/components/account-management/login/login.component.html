@@ -1,18 +1,39 @@
-<div fxLayoutAlign="center center" fxFlexFill >
-  <mat-card fxFlex="25">
-
-    <mat-toolbar color="primary" class="login-toolbar">Login Page</mat-toolbar>
-    <form fxLayoutAlign="stretch" fxLayout="column" (ngSubmit)="loginAccount()">
-      <mat-form-field>
-        <input matInput type="text" placeholder="Username" name="accountName" [(ngModel)]="account.accountName">
-      </mat-form-field>
-
-      <mat-form-field >
-        <input matInput type="password" placeholder="Password" name="password" [(ngModel)]="account.password">
-      </mat-form-field>
-
-      <button mat-raised-button type="submit">Login</button>
+<img class="wave" src="assets/images/wave.png">
+<div class="wrapper">
+  <div class="img">
+    <img src="assets/images/login.svg">
+  </div>
+  <div class="login-content">
+    <form>
+      <img src="assets/images/profile.svg">
+      <h2 class="title">Welcome</h2>
+      <div class="input-div one" [class.focus]="isUsernameFocus">
+        <div class="i">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="div">
+          <h5>Username</h5>
+          <input type="text" class="input" #username
+                 (focus)="isUsernameFocus = true"
+                 (blur)="username.value == '' ? isUsernameFocus = false : isUsernameFocus = true">
+        </div>
+      </div>
+      <div class="input-div pass" [class.focus]="isPasswordFocus">
+        <div class="i">
+          <i class="fas fa-lock"></i>
+        </div>
+        <div class="div">
+          <h5>Password</h5>
+          <input type="password" class="input" #password
+                 (focus)="isPasswordFocus = true"
+                 (blur)="password.value == '' ? isPasswordFocus = false : isPasswordFocus = true">
+        </div>
+      </div>
+      <div *ngIf="isIncorrectUser" class="error_mess">
+        Incorrect Username or Password!
+      </div>
+      <a href="#">Forgot Password?</a>
+      <input type="button" class="btn" value="Login" (click)="login(username.value, password.value)">
     </form>
-
-  </mat-card>
+  </div>
 </div>

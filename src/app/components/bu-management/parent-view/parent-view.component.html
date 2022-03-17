@@ -100,7 +100,7 @@
                         <div class="name" mat-button>{{support.account.accountName}}</div>
                       </div>
                       <!--                      <hr>-->
-                      <div class="oneButton">
+                      <div *ngIf="isAdmin" class="oneButton">
                         <button mat-raised-button color="warn"
                                 (click)="removeEmployeeFromSupport(support.id);$event.stopPropagation()">Remove
                         </button>

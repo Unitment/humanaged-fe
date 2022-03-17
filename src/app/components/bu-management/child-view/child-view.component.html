@@ -60,7 +60,7 @@
                 <img *ngIf="PM?.gender?.toString()==='FEMALE'" src="{{(PM?.avatar) || '\\assets\\images\\undraw_female_avatar_w3jk.svg' }}" alt="imgPM">
                 <div class="name">{{PM?.account?.accountName}}</div>
               </div>
-              <div class="oneButton">
+              <div *ngIf="isAdmin" class="oneButton">
                 <button mat-raised-button color="primary" (click)="$event.stopPropagation();" [routerLink]="['/project/create']" [queryParams]="{pm:PM?.account?.accountName}" >ADD Project</button>
               </div>
             </div>
@@ -82,7 +82,7 @@
                       <p class="description"><b>Description: </b>{{pAm.project.description}}</p>
                       <p class="description"><b>State: </b>{{pAm.project.state}}</p>
                       <p class="description"><b>Start date: </b>{{pAm.project.startDate | date: 'dd/MM/yyyy' }}</p>
-                      <div class="twoButton">
+                      <div *ngIf="isAdmin" class="twoButton">
                         <button mat-raised-button color="primary"
                                 (click)="addMemberToProject(pAm.project.id);$event.stopPropagation();"
                                 class="buttonLeft">Add
@@ -100,7 +100,7 @@
                        style="display: flex; float: right; margin-top: 50px; margin-left: 7px">
                     <button mat-stroked-button (click)="increaseShowProJ()">More</button>
                   </div>
-                  <div *ngIf="i==(showProJ-1)  && i < displayProject.length-1"
+                  <div *ngIf="(i>2)&&i === displayProject.length-1"
                        style="display: flex; float: right; margin-top: 50px; margin-left: 7px">
                     <button mat-stroked-button (click)="decreaseShowProJ()">Less</button>
                   </div>
@@ -124,7 +124,7 @@
                             <img *ngIf="projectMember?.employee?.gender?.toString()==='FEMALE'" src="{{(projectMember?.employee?.avatar) || '\\assets\\images\\undraw_female_avatar_w3jk.svg' }}" alt="imgPM">
                             <div class="name">{{getAccountName(projectMember)}}</div>
                           </div>
-                          <div class="oneButton">
+                          <div *ngIf="isAdmin" class="oneButton">
                             <button mat-raised-button color="warn"
                                     (click)="removeEmployeeFromProject(projectMember.employee.id, pAm.project.id);$event.stopPropagation();">
                               Remove
@@ -136,7 +136,7 @@
                            style="display: flex; float: right; margin-top: 30px; margin-left: 7px">
                         <button mat-stroked-button (click)="increaseShowMemValue(pAm.project.id)">More</button>
                       </div>
-                      <div *ngIf="(i === pAm.memberList.length-1)"
+                      <div *ngIf="(i === pAm.memberList.length-1 && i > showMem)"
                            style="display: flex; float: right; margin-top: 30px; margin-left: 7px">
                         <button mat-stroked-button (click)="decreaseShowMemValue(pAm.project.id)">Less</button>
                       </div>

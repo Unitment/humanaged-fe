@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { DialogService } from 'src/app/services/dialog.service';
+import {AuthService} from "../../../auth/_services/auth.service";
 
 @Component({
   selector: 'app-parent-view',
@@ -26,6 +27,7 @@ export class ParentViewComponent implements OnInit {
   public displaySupports: Employee[] = [];
   public BUL: Employee;
   public BUName: string = '';
+  public isAdmin:boolean = false;
 
   showFiller = false;
   name: Account[] = [];
@@ -46,7 +48,8 @@ export class ParentViewComponent implements OnInit {
               private router: Router,
               private matDialog: MatDialog,
               private snackBar: MatSnackBar,
-              private dialogService: DialogService
+              private dialogService: DialogService,
+              private authService: AuthService
   ) {
   }
 
@@ -54,6 +57,7 @@ export class ParentViewComponent implements OnInit {
     this.getBU();
     this.getPM();
     this.getSupport();
+    this.isAdmin = this.authService.isAdmin();
   }
 
   public getBU(): void {

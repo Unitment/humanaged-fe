@@ -48,8 +48,8 @@ export class AuthService {
   isLogged() {
     return this.tokenStorageService.getToken() != null;
   }
-
   isAdmin() {
     return this.tokenStorageService.getUser().authorities[0].authority == "ROLE_ADMIN";
   }
+
 }

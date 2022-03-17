@@ -21,6 +21,7 @@ import {
 import {MatSnackBar} from "@angular/material/snack-bar";
 import { DialogService } from 'src/app/services/dialog.service';
 import {ProjectService} from "../../../services/project.service";
+import {AuthService} from "../../../auth/_services/auth.service";
 @Component({
   selector: 'app-child-view',
   templateUrl: './child-view.component.html',
@@ -45,6 +46,7 @@ export class ChildViewComponent implements OnInit {
   showMem = 2;
   showMemMap = new Map();
   textValue: string = '';
+  isAdmin:boolean = false;
   ops = [
     {value: 'a-to-z', viewValue: 'A to Z'},
     {value: 'z-to-a', viewValue: 'Z to A'},
@@ -60,6 +62,7 @@ export class ChildViewComponent implements OnInit {
     private matDialog: MatDialog,
     private snackBar: MatSnackBar,
     private dialogService: DialogService,
+    private authService: AuthService
   ) {
   }
 
@@ -69,7 +72,7 @@ export class ChildViewComponent implements OnInit {
     })
     this.getPMById(this.PMid);
     this.getprojectAndMember(this.PMid);
-    // this.getProjectByIdPM(this.PMid);
+    this.isAdmin = this.authService.isAdmin();
   }
 
   public getPMById(id: string): void {

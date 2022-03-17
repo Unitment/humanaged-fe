@@ -19,6 +19,9 @@ import {AngularFireModule} from "@angular/fire/compat";
 import {AngularFirestoreModule} from "@angular/fire/compat/firestore";
 import {environment} from "../environments/environment";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {ForbiddenComponent} from './auth/forbidden/forbidden.component';
+import {PageNotFoundComponent} from './auth/page-not-found/page-not-found.component';
+import {authInterceptorProviders} from "./auth/_interceptors/auth.interceptor";
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -35,6 +38,8 @@ export const MY_DATE_FORMATS = {
 @NgModule({
   declarations: [
     AppComponent,
+    ForbiddenComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -47,15 +52,17 @@ export const MY_DATE_FORMATS = {
     AccountManagementModule,
     NavbarManagementModule,
     DialogModule,
-    AppRoutingModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    AppRoutingModule,
+
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'vi-VI'},
     {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
     {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS},
+    authInterceptorProviders
   ],
   bootstrap: [AppComponent],
   entryComponents: []

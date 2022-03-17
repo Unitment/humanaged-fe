@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AccountService } from 'src/app/services/account.service';
-import { Account } from 'src/app/model/account/Account';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
+import {AuthService} from "../../../auth/_services/auth.service";
+import {TokenStorageService} from "../../../auth/_services/token-storage.service";
 
 @Component({
   selector: 'app-login',
@@ -10,41 +10,33 @@ import { Account } from 'src/app/model/account/Account';
 })
 export class LoginComponent implements OnInit {
 
-  account: Account = {
-    accountName: '',
-    password: '',
-  };
+  isUsernameFocus = false;
+  isPasswordFocus = false;
+  isIncorrectUser = false;
 
-  constructor(private loginService : AccountService, private router: Router) { }
+  constructor(private router: Router,
+              private authService: AuthService,
+              private tokenStorageService: TokenStorageService) {
+  }
 
   ngOnInit(): void {
-  }
-  isLoggedIn=false;
 
-  loginAccount() {
-    this.loginService.loginAccountFromRemote(this.account).subscribe(
+  }
+
+  login(username: string, password: string) {
+    this.authService.login(username, password).subscribe(
       data => {
-        console.log(data);
-        console.log("Response Received")
-        console.log(data);
-        this.isLoggedIn=true;
-        localStorage.setItem('account',JSON.stringify(data))
-        this.accountInfo();
-        this.router.navigate([''])
+        this.tokenStorageService.saveToken(data.accessToken)
+        this.tokenStorageService.saveRefreshToken(data.refreshToken)
+        this.tokenStorageService.saveUser(data.user)
+        this.router.navigateByUrl("/home").then(() => window.location.reload())
       },
       error => {
-        console.log("Error Occured")
-        alert("Wrong Username Or Password, Please try again!!")
-      }
-    );
-  }
-
-  accountInfo() {
-    this.loginService.accountInfo(this.account).subscribe(
-      data => {
-        localStorage.setItem('accountInfo',JSON.stringify(data));
-        console.log(data);
-      }
+        if (error.status == 401) {
+          this.isIncorrectUser = true;
+        }
+      },
+      () => undefined
     )
   }
 }

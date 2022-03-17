@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { DialogService } from 'src/app/services/dialog.service';
+import {AuthService} from "../../../auth/_services/auth.service";
 
 @Component({
   selector: 'app-parent-view',
@@ -26,6 +27,7 @@ export class ParentViewComponent implements OnInit {
   public displaySupports: Employee[] = [];
   public BUL: Employee;
   public BUName: string = '';
+  public isAdmin:boolean = false;
 
   showFiller = false;
   name: Account[] = [];
@@ -46,7 +48,8 @@ export class ParentViewComponent implements OnInit {
               private router: Router,
               private matDialog: MatDialog,
               private snackBar: MatSnackBar,
-              private dialogService: DialogService
+              private dialogService: DialogService,
+              private authService: AuthService
   ) {
   }
 
@@ -54,6 +57,7 @@ export class ParentViewComponent implements OnInit {
     this.getBU();
     this.getPM();
     this.getSupport();
+    this.isAdmin = this.authService.isAdmin();
   }
 
   public getBU(): void {
@@ -79,7 +83,6 @@ export class ParentViewComponent implements OnInit {
         });
         const expected = new Set();
         this.pmAccounts = this.pmAccounts.filter(item => !expected.has(JSON.stringify(item)) ? expected.add(JSON.stringify(item)) : false);
-        console.log(this.pmAccounts);
         this.displayPmAccounts = this.pmAccounts;
       },
       (error: HttpErrorResponse) => {
@@ -108,6 +111,7 @@ export class ParentViewComponent implements OnInit {
         this.displayPmAccounts.push(element);
       }
     });
+
   }
 
   public searchSupport(key: string): void {
@@ -124,33 +128,41 @@ export class ParentViewComponent implements OnInit {
       case 'pm':
         this.searchPM(this.textValue);
         this.searchSupport('*');
+        if(this.displayPmAccounts.length==0){
+          this.snackBar.open("Do not have PM with Account: \""+this.textValue+"\" in system","Closed");
+        }else{
+          this.snackBar.ngOnDestroy();
+        }
         break;
       case 'sp':
         this.searchSupport(this.textValue);
         this.searchPM('*');
+        if(this.displaySupports.length==0){
+          this.snackBar.open("Do not have Support with Account: \""+this.textValue+"\" in system","Closed");
+        }else{
+          this.snackBar.ngOnDestroy();
+        }
         break;
       case 'both':
         this.searchPM(this.textValue);
         this.searchSupport(this.textValue);
+        if(this.displayPmAccounts.length==0 && this.displaySupports.length==0){
+          this.snackBar.open("Do not have PM or Support \""+this.textValue+"\" in system", "Closed");
+        }else{
+          this.snackBar.ngOnDestroy();
+        }
         break;
     }
   }
 
+  public refreshSearch():string{
+    this.textValue = '';
+    this.searchAccount();
+    return 'Refresh';
+  }
   public changeClient(event: string) {
-    switch (event) {
-      case 'pm':
-        this.searchPM(this.textValue);
-        this.searchSupport('*');
-        break;
-      case 'sp':
-        this.searchSupport(this.textValue);
-        this.searchPM('*');
-        break;
-      case 'both':
-        this.searchPM(this.textValue);
-        this.searchSupport(this.textValue);
-        break;
-    }
+    this.selectedValue = event;
+    this.searchAccount();
   }
 
   detailEmployee(id: string) {
@@ -186,10 +198,16 @@ export class ParentViewComponent implements OnInit {
   increaseShowPM(){
     this.showPM+=3;
   }
+  decreaseShowPM() {
+    this.showPM=2;
+  }
+
   increaseShowSP(){
     this.showSP+=3;
   }
-
+  decreaseShowSP() {
+    this.showSP=2;
+  }
   nodeColor(role:string):string {
     let color:string = '';
     switch (role) {
@@ -202,4 +220,5 @@ export class ParentViewComponent implements OnInit {
     }
     return color;
   }
+
 }

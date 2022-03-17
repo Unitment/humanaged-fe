@@ -7,7 +7,7 @@
           <form class="search-pm-form">
             <mat-form-field class="example-full-width" appearance="fill">
               <mat-label>Username</mat-label>
-              <input name="key" id="searchPM" type="search" (ngModelChange)="[textValue=key.value, searchAccount()]"
+              <input name="key" id="searchAccount" type="search" (ngModelChange)="[textValue=key.value, searchAccount()]"
                      matInput placeholder="TrangTTU" #key="ngModel" ngModel>
             </mat-form-field>
           </form>
@@ -42,7 +42,8 @@
 
               <hr>
               <div class="avaAndName">
-                <img src="\assets\images\MeoBeo.jpg" alt="img2">
+                <img *ngIf="BUL?.gender?.toString()==='MALE'" src="{{(BUL?.avatar) || '\\assets\\images\\undraw_male_avatar_323b.svg' }}" alt="imgBUL">
+                <img *ngIf="BUL?.gender?.toString()==='FEMALE'" src="{{(BUL?.avatar) || '\\assets\\images\\undraw_female_avatar_w3jk.svg' }}" alt="imgBUL">
                 <div class="name">{{BUL?.account?.accountName}}</div>
               </div>
 
@@ -58,7 +59,8 @@
                   <p>PM</p>
                   <hr>
                   <div class="avaAndName">
-                    <img src="\assets\images\MeoBeo.jpg" alt="img2">
+                    <img *ngIf="pm?.gender?.toString()==='MALE'" src="{{(pm?.avatar) || '\\assets\\images\\undraw_male_avatar_323b.svg' }}" alt="imgPM">
+                    <img *ngIf="pm?.gender?.toString()==='FEMALE'" src="{{(pm?.avatar) || '\\assets\\images\\undraw_female_avatar_w3jk.svg' }}" alt="imgPM">
                     <div class="name" mat-button>{{pm.account.accountName}}</div>
                   </div>
                   <!--                    <hr>-->
@@ -72,10 +74,15 @@
                    style="display: flex; float: right;margin-top: 30px; margin-left: 7px">
                 <button mat-stroked-button (click)="increaseShowPM()">More</button>
               </div>
+              <div *ngIf="i === displayPmAccounts.length-1"
+                   style="display: flex; float: right;margin-top: 30px; margin-left: 7px">
+                <button mat-stroked-button (click)="decreaseShowPM()">Less</button>
+              </div>
             </li>
             <!-- Node support tầng 2 -->
             <li>
-              <div *ngIf="displaySupports.length>0" class="node node-padding" [ngStyle]="{'background-color': nodeColor('PM')}">
+              <div class="node node-padding" [ngStyle]="{'background-color': nodeColor('PM')}">
+<!--              <div *ngIf="displaySupports.length>0" class="node node-padding" [ngStyle]="{'background-color': nodeColor('PM')}">-->
                 <br>
                 <h2 style="text-align: center">Support</h2>
               </div>
@@ -88,18 +95,25 @@
                       <p>Support</p>
                       <hr>
                       <div class="avaAndName">
-                        <img src="\assets\images\MeoBeo.jpg" alt="img2">
+                        <img *ngIf="support?.gender?.toString()==='MALE'" src="{{(support?.avatar) || '\\assets\\images\\undraw_male_avatar_323b.svg' }}" alt="imgSP">
+                        <img *ngIf="support?.gender?.toString()==='FEMALE'" src="{{(support?.avatar) || '\\assets\\images\\undraw_female_avatar_w3jk.svg' }}" alt="imgSP">
                         <div class="name" mat-button>{{support.account.accountName}}</div>
                       </div>
                       <!--                      <hr>-->
-                      <div class="oneButton">
-                        <button mat-raised-button color="warn" (click)="removeEmployeeFromSupport(support.id);$event.stopPropagation()">Remove</button>
+                      <div *ngIf="isAdmin" class="oneButton">
+                        <button mat-raised-button color="warn"
+                                (click)="removeEmployeeFromSupport(support.id);$event.stopPropagation()">Remove
+                        </button>
                       </div>
                     </div>
                   </div>
                   <div *ngIf="i==(showSP-1)  && i < displaySupports.length-1"
                        style="display: flex; float: right; margin-top: 30px; margin-left: 7px">
                     <button mat-stroked-button (click)="increaseShowSP()">More</button>
+                  </div>
+                  <div *ngIf="i === displaySupports.length-1"
+                       style="display: flex; float: right;margin-top: 30px; margin-left: 7px">
+                    <button mat-stroked-button (click)="decreaseShowSP()">Less</button>
                   </div>
                 </li>
 

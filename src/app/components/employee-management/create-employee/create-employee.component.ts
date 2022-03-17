@@ -41,9 +41,9 @@ export class CreateEmployeeComponent implements OnInit {
         birthday: ['', Validators.required],
         phoneNumber: ['', [Validators.required, Validators.pattern("(\\d{3}) (\\d{3})( \\d{4})")]],
         mail: ['', [Validators.required, Validators.email]],
-        province: ['', Validators.required],
-        district: ['', Validators.required],
-        ward: ['', Validators.required],
+        // province: ['', Validators.required],
+        // district: ['', Validators.required],
+        // ward: ['', Validators.required],
         address: ['', Validators.required],
         avatar: ['']
       }

@@ -7,7 +7,12 @@
     <div class="emp-avatar-container">
       <div class="emp-avatar">
         <img
-          src="{{employee?.avatar}}"
+          *ngIf="employee?.gender?.toString()==='MALE'"
+          src="{{employee?.avatar|| '\\assets\\images\\undraw_male_avatar_323b.svg'}}"
+          alt="">
+        <img
+          *ngIf="employee?.gender?.toString()==='FEMALE'"
+          src="{{employee?.avatar||'\\assets\\images\\undraw_female_avatar_w3jk.svg'}}"
           alt="">
       </div>
     </div>

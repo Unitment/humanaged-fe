@@ -48,8 +48,8 @@ export class EmployeeTableComponent implements OnInit {
         this.empData.push(...data);
         this.isLoaded=true;
         this.dataSource.paginator = this.paginator;
-        // this.empData.unshift(this.empSubject);
         this.dataSource.sort = this.sort;
+        this.isAdmin=this.authService.isAdmin();
         console.log(this.paginator)
         console.log(this.sort)
         if (this.authService.isAdmin()) {

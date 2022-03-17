@@ -3,6 +3,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {environment} from 'src/environments/environment';
 import {Employee} from '../model/employee/Employee';
+import { EmployeeDetail } from '../model/employee/EmployeeDetail';
 
 @Injectable({
   providedIn: 'root'
@@ -25,8 +26,8 @@ export class EmployeeService {
     return this.http.get<Array<Employee>>(this.API_EMPLOYEE + "/account", {params: new HttpParams().set('account', accountName)});
   }
 
-  public getDetailEmployee(empId: string): Observable<Employee> {
-    return this.http.get<Employee>(`${this.API_EMPLOYEE}/detail/${empId}`);
+  public getDetailEmployee(empId: string): Observable<EmployeeDetail> {
+    return this.http.get<EmployeeDetail>(`${this.API_EMPLOYEE}/detail/${empId}`);
   }
 
   public getSupports(): Observable<Employee[]> {

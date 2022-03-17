@@ -23,6 +23,6 @@ export interface Employee {
   account: Account,
   businessUnit: BusinessUnit,
   status: Status,
-  isDelete: boolean,
+  delete: boolean,
   projectMembers: ProjectMember[]
 }

@@ -6,6 +6,9 @@ import { Employee } from "../../../model/employee/Employee";
 import { MatTableDataSource } from '@angular/material/table';
 import { EmpFilter } from 'src/app/model/employee/EmpFilter';
 import { MatPaginator } from '@angular/material/paginator';
+import { DialogService } from 'src/app/services/dialog.service';
+import { MatDialogConfig } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-employee-table',
   templateUrl: './employee-table.component.html',
@@ -29,7 +32,9 @@ export class EmployeeTableComponent implements OnInit {
   constructor(
     private router: Router,
     private _service : EmployeeService,
+    private dialogService: DialogService,
     private cdr:ChangeDetectorRef,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -42,8 +47,11 @@ export class EmployeeTableComponent implements OnInit {
 
   employeeTable() {
     this._service.employeeTable().subscribe(
-      data=>{
-        this.empData.push(...data);
+      data => {
+        let fdata = data.filter(d => {         
+          return d.delete == false
+        });
+        this.empData.push(...fdata);
         this.isLoaded=true;
         this.dataSource.paginator = this.paginator;
       }
@@ -62,5 +70,29 @@ export class EmployeeTableComponent implements OnInit {
     }
   }
 
-  onDeleteClick(row: Employee){}
+  onDeleteClick(id: String){
+    this.dialogService.openConfirmDialog( {
+      data: {
+        title: `Remove Employee ${id}`,
+        content: `Do you want to remove Employee ${id}`,
+        id: id
+      }
+    } as MatDialogConfig).afterClosed().subscribe(result => {
+      if(result) //if accept button clicked
+      {
+        this._service.removeEmployee(id).subscribe(
+        (response) => {
+          console.log('delete ' + response);
+          
+          let index = this.dataSource.data.findIndex(e => e.id == id);
+          this.dataSource.data.splice(index, 1);
+          this.dataSource._updateChangeSubscription();
+        },
+        (error) => {
+          this.snackBar.open(error.error.message, 'Error');
+          console.log(error);
+        });
+      }
+    });
+  }
 }

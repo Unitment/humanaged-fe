@@ -67,7 +67,7 @@
 
     <ng-container matColumnDef="province">
       <th mat-header-cell *matHeaderCellDef> Province </th>
-      <td mat-cell *matCellDef="let element"> {{element.province}} </td>
+      <td mat-cell *matCellDef="let element"> {{element.province.name}} </td>
     </ng-container>
 
 <!--    <ng-container matColumnDef="district">-->
@@ -101,7 +101,7 @@
         <button mat-stroked-button (click)="onEditClick(row.id)">
           <mat-icon>edit</mat-icon> Edit
         </button>
-        <button mat-stroked-button color="warn" (click)="onDeleteClick(row)" class="ml-2">
+        <button mat-stroked-button color="warn" (click)="onDeleteClick(row.id)" class="ml-2">
           <mat-icon>delete</mat-icon> Delete
         </button>
       </td>

@@ -42,7 +42,8 @@
 
               <hr>
               <div class="avaAndName">
-                <img src="\assets\images\MeoBeo.jpg" alt="img2">
+                <img *ngIf="BUL?.gender?.toString()==='MALE'" src="{{(BUL?.avatar) || '\\assets\\images\\undraw_male_avatar_323b.svg' }}" alt="imgBUL">
+                <img *ngIf="BUL?.gender?.toString()==='FEMALE'" src="{{(BUL?.avatar) || '\\assets\\images\\undraw_female_avatar_w3jk.svg' }}" alt="imgBUL">
                 <div class="name">{{BUL?.account?.accountName}}</div>
               </div>
 
@@ -58,7 +59,8 @@
                   <p>PM</p>
                   <hr>
                   <div class="avaAndName">
-                    <img src="\assets\images\MeoBeo.jpg" alt="img2">
+                    <img *ngIf="pm?.gender?.toString()==='MALE'" src="{{(pm?.avatar) || '\\assets\\images\\undraw_male_avatar_323b.svg' }}" alt="imgPM">
+                    <img *ngIf="pm?.gender?.toString()==='FEMALE'" src="{{(pm?.avatar) || '\\assets\\images\\undraw_female_avatar_w3jk.svg' }}" alt="imgPM">
                     <div class="name" mat-button>{{pm.account.accountName}}</div>
                   </div>
                   <!--                    <hr>-->
@@ -93,7 +95,8 @@
                       <p>Support</p>
                       <hr>
                       <div class="avaAndName">
-                        <img src="\assets\images\MeoBeo.jpg" alt="img2">
+                        <img *ngIf="support?.gender?.toString()==='MALE'" src="{{(support?.avatar) || '\\assets\\images\\undraw_male_avatar_323b.svg' }}" alt="imgSP">
+                        <img *ngIf="support?.gender?.toString()==='FEMALE'" src="{{(support?.avatar) || '\\assets\\images\\undraw_female_avatar_w3jk.svg' }}" alt="imgSP">
                         <div class="name" mat-button>{{support.account.accountName}}</div>
                       </div>
                       <!--                      <hr>-->

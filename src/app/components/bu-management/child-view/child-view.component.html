@@ -56,7 +56,8 @@
               <p>PM</p>
               <hr>
               <div class="avaAndName">
-                <img src="\assets\images\MeoBeo.jpg" alt="img2">
+                <img *ngIf="PM?.gender?.toString()==='MALE'" src="{{(PM?.avatar) || '\\assets\\images\\undraw_male_avatar_323b.svg' }}" alt="imgPM">
+                <img *ngIf="PM?.gender?.toString()==='FEMALE'" src="{{(PM?.avatar) || '\\assets\\images\\undraw_female_avatar_w3jk.svg' }}" alt="imgPM">
                 <div class="name">{{PM?.account?.accountName}}</div>
               </div>
               <div class="oneButton">
@@ -119,7 +120,8 @@
                           <p>{{projectMember.role}}</p>
                           <hr>
                           <div class="avaAndName">
-                            <img src="\assets\images\MeoBeo.jpg" alt="img2">
+                            <img *ngIf="projectMember?.employee?.gender?.toString()==='MALE'" src="{{(projectMember?.employee?.avatar) || '\\assets\\images\\undraw_male_avatar_323b.svg' }}" alt="imgPM">
+                            <img *ngIf="projectMember?.employee?.gender?.toString()==='FEMALE'" src="{{(projectMember?.employee?.avatar) || '\\assets\\images\\undraw_female_avatar_w3jk.svg' }}" alt="imgPM">
                             <div class="name">{{getAccountName(projectMember)}}</div>
                           </div>
                           <div class="oneButton">

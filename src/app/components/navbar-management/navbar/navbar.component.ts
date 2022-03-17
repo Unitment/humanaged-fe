@@ -17,6 +17,7 @@ export class NavbarComponent implements OnInit {
   username: string;
   mail: string
   avatar: string | null;
+  gender:string;
   eventBusSub: Subscription;
 
   constructor(
@@ -32,6 +33,7 @@ export class NavbarComponent implements OnInit {
     this.avatar = this.tokenStorageService.getUser().avatar;
     this.mail = this.tokenStorageService.getUser().mail;
     this.username = this.tokenStorageService.getUser().username;
+    this.gender = this.tokenStorageService.getUser().gender;
     this.eventBusSub = this.eventBusService.on('logout', () => this.logOut())
   }
 

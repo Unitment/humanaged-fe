@@ -8,11 +8,13 @@
   </nav>
   <a class="current__user">
     <button [matMenuTriggerFor]="menu" id="avatarBtn">
-      <img [src]="avatar == null ? 'assets/images/profile.svg' : avatar" alt="avatar" class="avatar">
+      <img *ngIf="gender==='FEMALE'" [src]="avatar == null ? '/assets/images/undraw_female_avatar_w3jk.svg' : avatar" alt="avatar" class="avatar">
+      <img *ngIf="gender==='MALE'" [src]="avatar == null ? '/assets/images/undraw_male_avatar_323b.svg' : avatar" alt="avatar" class="avatar">
     </button>
     <mat-menu #menu="matMenu" xPosition="before">
       <div id="user__info">
-        <img [src]="avatar == null ? 'assets/images/profile.svg' : avatar " alt="avatar" id="avatarDetail">
+        <img *ngIf="gender==='FEMALE'" [src]="avatar == null ? '/assets/images/undraw_female_avatar_w3jk.svg' : avatar" alt="avatar" id="avatarDetail">
+        <img *ngIf="gender==='MALE'" [src]="avatar == null ? '/assets/images/undraw_male_avatar_323b.svg' : avatar" alt="avatar" id="avatarDetail">
 
         <div class="user__detail">
           <div id="user__name">{{name}}</div>

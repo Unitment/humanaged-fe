@@ -23,9 +23,9 @@ export class UserInfoComponent implements OnInit {
     password: '',
   };
 
-  ngOnInit(): void {    
-    this.employee = JSON.parse( localStorage.getItem('accountInfo') || '');
-    // this.cdr.markForCheck();
+  ngOnInit(): void {
+    const accountInfo = localStorage.getItem('accountInfo');
+    this.employee = accountInfo ? JSON.parse(accountInfo) : null;
   }
 
   onEditClick(id: string) {

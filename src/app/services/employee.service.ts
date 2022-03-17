@@ -1,6 +1,6 @@
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {environment} from 'src/environments/environment';
 import {Employee} from '../model/employee/Employee';
 import { EmployeeDetail } from '../model/employee/EmployeeDetail';
@@ -10,6 +10,7 @@ import { EmployeeDetail } from '../model/employee/EmployeeDetail';
 })
 export class EmployeeService {
   private API_EMPLOYEE = environment.apiBaseUrl + "/employee";
+  public employeeSubject=new Subject<any>();
 
   constructor(private http: HttpClient) {
   }

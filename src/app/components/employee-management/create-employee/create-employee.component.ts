@@ -8,7 +8,7 @@ import {LocationService} from "../../../services/location.service";
 import {ImportFromFileDialogComponent} from "./import-from-file-dialog/import-from-file-dialog.component";
 import {Router} from "@angular/router";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
-import {finalize} from "rxjs/operators";
+import {finalize, timestamp} from "rxjs/operators";
 
 
 @Component({
@@ -19,6 +19,7 @@ import {finalize} from "rxjs/operators";
 })
 export class CreateEmployeeComponent implements OnInit {
   form: FormGroup;
+
 
   provinceList: Array<any> = [];
   districtList: Array<any> = [];
@@ -57,13 +58,17 @@ export class CreateEmployeeComponent implements OnInit {
   saveEmployee() {
     if (this.form.valid) {
       this.form.value.avatar = this.avatar;
+      let createdAt = new Date();
       this.employeeService.saveEmployee(this.form.value).subscribe(
-        () => undefined,
-        () => undefined,
-        () => this.snackBar.open("Add Successful", "OK", {
+          // () => undefined,
+          // () => undefined,
+
+        (data) => {
+          this.employeeService.employeeSubject.next(data);
+          this.snackBar.open("Add Successful", "OK", {
           duration: 3000,
           panelClass: ['mat-toolbar', 'mat-primary']
-        }))
+        })})
       this.route.navigateByUrl("/employee/table");
     } else {
       this.snackBar.open("Please fill form correctly", "", {

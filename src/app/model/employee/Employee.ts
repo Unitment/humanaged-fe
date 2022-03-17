@@ -24,5 +24,6 @@ export interface Employee {
   businessUnit: BusinessUnit,
   status: Status,
   isDelete: boolean,
+  createdAt:string;
   projectMembers: ProjectMember[]
 }

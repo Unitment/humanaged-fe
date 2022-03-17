@@ -1,11 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { EmployeeService } from 'src/app/services/employee.service';
+import { AuthService } from 'src/app/auth/_services/auth.service'
 import { Employee } from "../../../model/employee/Employee";
-
+import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { EmpFilter } from 'src/app/model/employee/EmpFilter';
 import { MatPaginator } from '@angular/material/paginator';
+import { DialogService } from 'src/app/services/dialog.service';
 @Component({
   selector: 'app-employee-table',
   templateUrl: './employee-table.component.html',
@@ -13,42 +15,89 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class EmployeeTableComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
 
   empData: Employee[] = [];
 
-  empFilters: EmpFilter[]=[];
-
   dataSource = new MatTableDataSource(this.empData);
   dataSourceFilters = new MatTableDataSource(this.empData);
+  displayedColumns: string[] = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','status','accountName'];
 
   // displayedColumns: string[] = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','district','ward','address','status','accountName','action'];
-  displayedColumns: string[] = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','status','accountName','action'];
 
   isLoaded=false;
+  isAdmin=false;
 
   constructor(
     private router: Router,
     private _service : EmployeeService,
-    private cdr:ChangeDetectorRef,
-  ) {}
+    private dialogService:DialogService,
+    private authService:AuthService,
+    private cdr:ChangeDetectorRef
+  )
+  {
 
-  ngOnInit(): void {
-    this.employeeTable();
-    this.dataSource.filterPredicate = function (record,filter) {
-      return record.account?.accountName.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
-    }
   }
 
-
-  employeeTable() {
+  ngOnInit(): void {
     this._service.employeeTable().subscribe(
       data=>{
+        console.log(data);
+        const sortedData = this.employeeSort(data);
         this.empData.push(...data);
         this.isLoaded=true;
         this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.isAdmin=this.authService.isAdmin();
+        console.log(this.paginator)
+        console.log(this.sort)
+        if (this.authService.isAdmin()) {
+        this.displayedColumns = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','status','accountName','action'];
+        }
+
+
       }
     )
+    this._service.employeeSubject.subscribe(
+      data => {
+        // console.log(this.empData.map(x => x.createdAt));
+        this.empData.unshift(data);
+        this.dataSource = new MatTableDataSource(this.empData)
+      }
+    )
+
+
+
+
+
+
+
+    this.dataSourceFilters.filterPredicate = function (record,filter) {
+      // return record.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
+      // debugger;
+      var map = new Map(JSON.parse(filter));
+      let isMatch = false;
+      for(let [key,value] of map){
+        isMatch = (value=="All") || (record[key as keyof Employee] == value);
+        if(!isMatch) return false;
+      }
+      return isMatch;
+    }
+}
+
+  ngAfterViewInit() {
   }
+
+  employeeSort(empData:Employee[] ) {
+    return empData.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+  }
+
+
+
+  // employeeTable() {
+
+  // }
 
   onEditClick(id: string) {
     this.router.navigate(['/employee/update', id]);
@@ -63,4 +112,11 @@ export class EmployeeTableComponent implements OnInit {
   }
 
   onDeleteClick(row: Employee){}
+
+  detailEmployee(id: string) {
+    this.dialogService.openEmployeeDetailDialog(id);
+  }
+
 }
+
+

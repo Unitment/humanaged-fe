@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LocationService {
 
-  private readonly API_PROVINCE = "https://provinces.open-api.vn/api/";
-  private readonly API_DISTRICT = "https://provinces.open-api.vn/api/p/";
-  private readonly API_WARD = "https://provinces.open-api.vn/api/d/";
+  private readonly API_PROVINCE = environment.apiBaseUrl + '/employee/provinces';
+  private readonly API_DISTRICT = environment.apiBaseUrl + '/employee/districts';
 
   constructor(private http: HttpClient) {
   }
@@ -19,11 +19,11 @@ export class LocationService {
   }
 
   public getDistrictByProvince(code: string): Observable<Array<any>> {
-    return this.http.get<Array<any>>(this.API_DISTRICT + code + "?depth=2");
+    return this.http.get<Array<any>>(this.API_PROVINCE + "/" + code + "/districts");
   }
 
   public getWardByDistrict(code: string): Observable<Array<any>> {
-    return this.http.get<Array<any>>(this.API_WARD + code + "?depth=2");
+    return this.http.get<Array<any>>(this.API_DISTRICT + "/" + code + "/wards");
   }
 
 }

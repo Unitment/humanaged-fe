@@ -25,7 +25,7 @@
                 <div id="preview-wrapper">
                   <div id="preview" (click)="avatarIp.click()">
                     <img
-                      [src]="avatar == ''? 'https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/1646794906631?alt=media&token=e4c8ea20-972d-4513-9061-8bc325c6011e' : avatar"
+                      [src]="avatar"
                       alt="" id="avatar__preview">
                   </div>
                 </div>
@@ -93,7 +93,7 @@
               <mat-label>Province</mat-label>
               <mat-select formControlName="province">
                 <mat-option *ngFor="let province of provinceList" [value]="province.name"
-                            (onSelectionChange)="getDistrict(province.code)">{{province.name}}</mat-option>
+                            (onSelectionChange)="getDistrict(province.id)">{{province.name}}</mat-option>
               </mat-select>
               <mat-error *ngIf="form.get('province')?.hasError('required') && form.get('province')?.touched">
                 Province is required
@@ -103,7 +103,7 @@
               <mat-label>District</mat-label>
               <mat-select formControlName="district">
                 <mat-option *ngFor="let district of districtList" [value]="district.name"
-                            (onSelectionChange)="getWard(district.code)">{{district.name}}</mat-option>
+                            (onSelectionChange)="getWard(district.id)">{{district.name}}</mat-option>
               </mat-select>
               <mat-error *ngIf="form.get('district')?.hasError('required') && form.get('district')?.touched">
                 District is required
@@ -115,7 +115,7 @@
                 <mat-option *ngFor="let ward of wardList" [value]="ward.name">{{ward.name}}</mat-option>
               </mat-select>
               <mat-error *ngIf="form.get('ward')?.hasError('required') && form.get('ward')?.touched">
-                Gender is required
+                Ward is required
               </mat-error>
             </mat-form-field>
           </div>

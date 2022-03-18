@@ -33,7 +33,8 @@
         Incorrect Username or Password!
       </div>
       <a href="#">Forgot Password?</a>
-      <input type="button" class="btn" value="Login" (click)="login(username.value, password.value)">
+      <input type="button" class="btn" value="Login" (keydown.enter)="login(username.value, password.value)"
+             (click)="login(username.value, password.value)">
     </form>
   </div>
 </div>

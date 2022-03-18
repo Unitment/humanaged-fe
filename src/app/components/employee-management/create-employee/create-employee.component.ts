@@ -8,7 +8,7 @@ import {LocationService} from "../../../services/location.service";
 import {ImportFromFileDialogComponent} from "./import-from-file-dialog/import-from-file-dialog.component";
 import {Router} from "@angular/router";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
-import {finalize, timestamp} from "rxjs/operators";
+import {finalize} from "rxjs/operators";
 
 
 @Component({
@@ -24,7 +24,7 @@ export class CreateEmployeeComponent implements OnInit {
   provinceList: Array<any> = [];
   districtList: Array<any> = [];
   wardList: Array<any> = [];
-  avatar: string = "";
+  avatar: string = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/profile.svg?alt=media&token=16bc5a31-510f-4250-bbfc-57d79f078710";
 
   constructor(private formBuilder: FormBuilder,
               private employeeService: EmployeeService,
@@ -42,9 +42,9 @@ export class CreateEmployeeComponent implements OnInit {
         birthday: ['', Validators.required],
         phoneNumber: ['', [Validators.required, Validators.pattern("(\\d{3}) (\\d{3})( \\d{4})")]],
         mail: ['', [Validators.required, Validators.email]],
-        // province: ['', Validators.required],
-        // district: ['', Validators.required],
-        // ward: ['', Validators.required],
+        province: ['', Validators.required],
+        district: ['', Validators.required],
+        ward: ['', Validators.required],
         address: ['', Validators.required],
         avatar: ['']
       }
@@ -60,15 +60,16 @@ export class CreateEmployeeComponent implements OnInit {
       this.form.value.avatar = this.avatar;
       let createdAt = new Date();
       this.employeeService.saveEmployee(this.form.value).subscribe(
-          // () => undefined,
-          // () => undefined,
+        // () => undefined,
+        // () => undefined,
 
         (data) => {
           this.employeeService.employeeSubject.next(data);
           this.snackBar.open("Add Successful", "OK", {
-          duration: 3000,
-          panelClass: ['mat-toolbar', 'mat-primary']
-        })})
+            duration: 3000,
+            panelClass: ['mat-toolbar', 'mat-primary']
+          })
+        })
       this.route.navigateByUrl("/employee/table");
     } else {
       this.snackBar.open("Please fill form correctly", "", {
@@ -81,7 +82,7 @@ export class CreateEmployeeComponent implements OnInit {
   getDistrict(code: any) {
     this.locationService.getDistrictByProvince(code).subscribe(
       (data: any) => {
-        this.districtList = data.districts;
+        this.districtList = data;
         this.wardList = []
       }
     )
@@ -89,7 +90,7 @@ export class CreateEmployeeComponent implements OnInit {
 
   getWard(code: any) {
     this.locationService.getWardByDistrict(code).subscribe(
-      (data: any) => this.wardList = data.wards
+      (data: any) => this.wardList = data
     )
   }
 
@@ -112,7 +113,7 @@ export class CreateEmployeeComponent implements OnInit {
         })
       ).subscribe();
     } else {
-      this.avatar = "";
+      this.avatar = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/profile.svg?alt=media&token=16bc5a31-510f-4250-bbfc-57d79f078710";
     }
   }
 }

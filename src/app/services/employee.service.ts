@@ -16,7 +16,7 @@ export class EmployeeService {
   }
 
   public getAllEmployee(): Observable<Array<Employee>> {
-    return this.http.get<Array<Employee>>(this.API_EMPLOYEE);
+    return this.http.get<Array<Employee>>(this.API_EMPLOYEE + "/all");
   }
 
   public getAvailableEmployeeForProject(projectID: string): Observable<Array<Employee>> {

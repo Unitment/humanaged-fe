@@ -55,8 +55,6 @@ export class EmployeeTableComponent implements OnInit {
         if (this.authService.isAdmin()) {
         this.displayedColumns = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','status','accountName','action'];
         }
-
-
       }
     )
     this._service.employeeSubject.subscribe(
@@ -66,12 +64,6 @@ export class EmployeeTableComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.empData)
       }
     )
-
-
-
-
-
-
 
     this.dataSourceFilters.filterPredicate = function (record,filter) {
       // return record.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
@@ -93,11 +85,6 @@ export class EmployeeTableComponent implements OnInit {
     return empData.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
   }
 
-
-
-  // employeeTable() {
-
-  // }
 
   onEditClick(id: string) {
     this.router.navigate(['/employee/update', id]);

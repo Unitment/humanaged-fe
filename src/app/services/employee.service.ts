@@ -55,8 +55,8 @@ export class EmployeeService {
     return this.http.post(this.API_EMPLOYEE + "/import", list);
   }
 
-  public employeeTable(): Observable<any> {
-    return this.http.get<any>(this.API_EMPLOYEE);
+  public employeeTable(): Observable<Employee[]> {
+    return this.http.get<Employee[]>(this.API_EMPLOYEE);
   }
 
   public removeEmployee(id: String) : Observable<Employee> {

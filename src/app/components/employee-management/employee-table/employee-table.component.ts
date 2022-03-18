@@ -8,6 +8,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { EmpFilter } from 'src/app/model/employee/EmpFilter';
 import { MatPaginator } from '@angular/material/paginator';
 import { DialogService } from 'src/app/services/dialog.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialogConfig } from '@angular/material/dialog';
 @Component({
   selector: 'app-employee-table',
   templateUrl: './employee-table.component.html',
@@ -34,11 +36,9 @@ export class EmployeeTableComponent implements OnInit {
     private _service : EmployeeService,
     private dialogService:DialogService,
     private authService:AuthService,
-    private cdr:ChangeDetectorRef
-  )
-  {
-
-  }
+    private cdr:ChangeDetectorRef,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this._service.employeeTable().subscribe(
@@ -97,13 +97,35 @@ export class EmployeeTableComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
-  onDeleteClick(row: Employee){}
-
   detailEmployee(id: string) {
     this.dialogService.openEmployeeDetailDialog(id);
   }
 
+  onDeleteClick(id: String){
+    this.dialogService.openConfirmDialog( {
+      data: {
+        title: `Remove Employee ${id}`,
+        content: `Do you want to remove Employee ${id}`,
+        id: id
+      }
+    } as MatDialogConfig).afterClosed().subscribe(result => {
+      if(result) //if accept button clicked
+      {
+        this._service.removeEmployee(id).subscribe(
+        (response) => {
+          console.log('delete ' + response);
+          
+          let index = this.dataSource.data.findIndex(e => e.id == id);
+          this.dataSource.data.splice(index, 1);
+          this.dataSource._updateChangeSubscription();
+        },
+        (error) => {
+          this.snackBar.open(error.error.message, 'Error');
+          console.log(error);
+        });
+      }
+    });
+  }
 }
 
 

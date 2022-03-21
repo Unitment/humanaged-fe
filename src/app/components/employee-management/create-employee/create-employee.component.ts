@@ -7,6 +7,8 @@ import {EmployeeService} from "../../../services/employee.service";
 import {LocationService} from "../../../services/location.service";
 import {ImportFromFileDialogComponent} from "./import-from-file-dialog/import-from-file-dialog.component";
 import {Router} from "@angular/router";
+import {AngularFireStorage} from "@angular/fire/compat/storage";
+import {finalize} from "rxjs/operators";
 
 
 @Component({
@@ -18,16 +20,19 @@ import {Router} from "@angular/router";
 export class CreateEmployeeComponent implements OnInit {
   form: FormGroup;
 
+
   provinceList: Array<any> = [];
   districtList: Array<any> = [];
   wardList: Array<any> = [];
+  avatar: string = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/profile.svg?alt=media&token=16bc5a31-510f-4250-bbfc-57d79f078710";
 
   constructor(private formBuilder: FormBuilder,
               private employeeService: EmployeeService,
               private locationService: LocationService,
               private snackBar: MatSnackBar,
               private dialog: MatDialog,
-              private route: Router) {
+              private route: Router,
+              private angularFireStorage: AngularFireStorage) {
   }
 
   ngOnInit(): void {
@@ -40,7 +45,8 @@ export class CreateEmployeeComponent implements OnInit {
         province: ['', Validators.required],
         district: ['', Validators.required],
         ward: ['', Validators.required],
-        address: ['', Validators.required]
+        address: ['', Validators.required],
+        avatar: ['']
       }
     )
 
@@ -50,15 +56,20 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
   saveEmployee() {
-    console.log(this.form.value)
     if (this.form.valid) {
+      this.form.value.avatar = this.avatar;
+      let createdAt = new Date();
       this.employeeService.saveEmployee(this.form.value).subscribe(
-        data => console.log(data),
-        () => undefined,
-        () => this.snackBar.open("Add Successful", "OK", {
-          duration: 3000,
-          panelClass: ['mat-toolbar', 'mat-primary']
-        }))
+        // () => undefined,
+        // () => undefined,
+
+        (data) => {
+          this.employeeService.employeeSubject.next(data);
+          this.snackBar.open("Add Successful", "OK", {
+            duration: 3000,
+            panelClass: ['mat-toolbar', 'mat-primary']
+          })
+        })
       this.route.navigateByUrl("/employee/table");
     } else {
       this.snackBar.open("Please fill form correctly", "", {
@@ -71,7 +82,7 @@ export class CreateEmployeeComponent implements OnInit {
   getDistrict(code: any) {
     this.locationService.getDistrictByProvince(code).subscribe(
       (data: any) => {
-        this.districtList = data.districts;
+        this.districtList = data;
         this.wardList = []
       }
     )
@@ -79,11 +90,30 @@ export class CreateEmployeeComponent implements OnInit {
 
   getWard(code: any) {
     this.locationService.getWardByDistrict(code).subscribe(
-      (data: any) => this.wardList = data.wards
+      (data: any) => this.wardList = data
     )
   }
 
   openDialogChooseFile() {
     this.dialog.open(ImportFromFileDialogComponent);
+  }
+
+  selectFile(event: any) {
+    let name = Date.now().toString();
+    let file = event.target.files[0]
+    if (file != undefined) {
+      this.angularFireStorage.upload(name, file)
+        .snapshotChanges().pipe(
+        finalize(() => {
+          this.angularFireStorage.ref(name).getDownloadURL().subscribe(
+            (data) => {
+              this.avatar = data
+            }
+          )
+        })
+      ).subscribe();
+    } else {
+      this.avatar = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/profile.svg?alt=media&token=16bc5a31-510f-4250-bbfc-57d79f078710";
+    }
   }
 }

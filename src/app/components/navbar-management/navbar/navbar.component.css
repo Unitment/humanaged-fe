@@ -1,12 +1,125 @@
-.navbar {
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  background-color: #343A40;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+}
+
+li, a, button {
+  color: #edf0f1;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+header {
+  display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding: 10px 10px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
 }
 
-span {
-  padding-right: 10rem;
+.nav__link {
+  list-style: none;
 }
 
-a:visited {
-  text-decoration:none;
-  color: black;
+.nav__link li {
+  display: inline-block;
+  padding: 0 20px;
+}
+
+.nav__link li a {
+  transition: all 0.3s ease 0s;
+}
+
+.nav__link li a:hover {
+  color: #0088a9;
+}
+
+.login__btn button {
+  padding: 9px 25px;
+  background-color: rgba(0, 136, 169, 1);
+  border: none;
+  border-radius: 50px;
+  transition: all 0.3s ease 0s;
+}
+
+.login__btn button:hover {
+  background-color: rgba(0, 136, 169, 0.8);
+}
+
+.avatar {
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+#avatarBtn {
+  transition: all 0.3s ease 0s;
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+#avatarBtn:hover {
+  background: #474852;
+}
+
+.current__user {
+  position: relative;
+  display: inline-block;
+}
+
+/deep/ .mat-menu-content {
+  width: 250px;
+  padding: 0 !important;
+}
+
+.mat-menu-item {
+  transition: all 0.3s ease 0s;
+}
+
+.mat-menu-item:hover {
+  background-color: rgba(115, 115, 115, 0.8);
+}
+
+#user__info {
+  display: flex;
+  height: 100px;
+  color: white;
+  padding: 10px 20px;
+  align-items: center;
+  background-color: #24252A;
+}
+
+.user__detail {
+  display: flex;
+  margin-left: 20px;
+  flex-direction: column;
+}
+
+#user__name {
+  font-size: 17px;
+  background-color: #24252A;
+
+}
+
+#user__mail {
+  font-size: 14px;
+  background-color: #24252A;
+
+}
+
+#avatarDetail {
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  object-fit: contain;
 }

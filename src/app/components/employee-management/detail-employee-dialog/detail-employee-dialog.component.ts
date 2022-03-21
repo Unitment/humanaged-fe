@@ -1,6 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { Employee } from 'src/app/model/employee/Employee';
+import { EmployeeDetail } from 'src/app/model/employee/EmployeeDetail';
 import { DialogService } from 'src/app/services/dialog.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 
@@ -11,9 +15,10 @@ import { EmployeeService } from 'src/app/services/employee.service';
   styleUrls: ['./detail-employee-dialog.component.css']
 })
 export class DetailEmployeeDialogComponent implements OnInit {
-  employee!: Employee;
+  employee: EmployeeDetail;
 
   constructor(
+    private router: Router,
     private employeeService: EmployeeService,
     private dialogRef: MatDialogRef<DetailEmployeeDialogComponent>,
     private dialogService: DialogService,
@@ -27,13 +32,20 @@ export class DetailEmployeeDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+  onEditClick(id: string) {
+    this.onClose().subscribe(() => {
+          this.router.navigate(['/employee/update', id]);
+    });
+  }
+
   projectDetailClick(prjId: string) {
     this.onClose();
-
     this.dialogService.openProjectDetailDialog(prjId);
   }
 
-  onClose(){
+  onClose(): Observable<any>{
     this.dialogRef.close();
+    return this.dialogRef.afterClosed();
   }
 }

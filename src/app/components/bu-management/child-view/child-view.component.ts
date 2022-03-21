@@ -21,7 +21,7 @@ import {
 import {MatSnackBar} from "@angular/material/snack-bar";
 import { DialogService } from 'src/app/services/dialog.service';
 import {ProjectService} from "../../../services/project.service";
-
+import {AuthService} from "../../../auth/_services/auth.service";
 @Component({
   selector: 'app-child-view',
   templateUrl: './child-view.component.html',
@@ -43,9 +43,10 @@ export class ChildViewComponent implements OnInit {
   checkClosed: boolean = false;
   checkPending: boolean = false;
   showProJ = 2;
-  showMem = 1;
+  showMem = 2;
   showMemMap = new Map();
   textValue: string = '';
+  isAdmin:boolean = false;
   ops = [
     {value: 'a-to-z', viewValue: 'A to Z'},
     {value: 'z-to-a', viewValue: 'Z to A'},
@@ -61,6 +62,7 @@ export class ChildViewComponent implements OnInit {
     private matDialog: MatDialog,
     private snackBar: MatSnackBar,
     private dialogService: DialogService,
+    private authService: AuthService
   ) {
   }
 
@@ -70,7 +72,7 @@ export class ChildViewComponent implements OnInit {
     })
     this.getPMById(this.PMid);
     this.getprojectAndMember(this.PMid);
-    // this.getProjectByIdPM(this.PMid);
+    this.isAdmin = this.authService.isAdmin();
   }
 
   public getPMById(id: string): void {
@@ -117,7 +119,7 @@ export class ChildViewComponent implements OnInit {
         temp = '#C8DBBD';
         break;
       case 'CLOSED':
-        temp = '#8FA96E';
+        temp = '#98b573';
         break;
       case 'PENDING':
         temp = '#dce7ed';
@@ -131,7 +133,7 @@ export class ChildViewComponent implements OnInit {
   }
 
   public setFilterByState() {
-    // this.searchAccount();
+    this.snackBar.ngOnDestroy();
     if (!this.checkProcessing && !this.checkClosed && !this.checkPending) {
       if (this.textValue?.toString() !== '') {
         this.searchAccount();
@@ -143,20 +145,6 @@ export class ChildViewComponent implements OnInit {
         this.searchAccount();
       } else {
         this.displayProject = [];
-        // for(let i=0; i<this.displayProject.length;i++){
-        //   if (!this.checkProcessing && this.displayProject[i]?.project.state.toString() === 'PROCESSING') {
-        //     this.displayProject.splice(i,1);
-        //     i--;
-        //   }
-        //   if (!this.checkClosed && this.displayProject[i]?.project.state.toString() === 'CLOSED') {
-        //     this.displayProject.splice(i,1);
-        //     i--;
-        //   }
-        //   if (!this.checkPending && this.displayProject[i]?.project.state.toString() === 'PENDING') {
-        //     this.displayProject.splice(i,1);
-        //     i--;
-        //   }
-        // }
         this.projectAndMembers.forEach(value => {
           if (this.checkProcessing && value.project.state.toString() === 'PROCESSING') {
             this.displayProject.push(value);
@@ -168,12 +156,26 @@ export class ChildViewComponent implements OnInit {
             this.displayProject.push(value);
           }
         });
-        console.log('setFilterByState: ' + this.displayProject.length)
-
+        if (this.displayProject.length===0){
+          if (this.textValue.length>0){
+            this.snackBar.open("Do not have account: "+this.textValue,"Closed");
+          }else{
+            this.snackBar.open("Do not have Project with state: "+this.getState().toString(),"Closed");
+          }
+        }else{
+          // this.snackBar.ngOnDestroy();
+        }
       }
 
     }
-    this.changeClient(this.selectedValue);
+  }
+
+  public getState():string[]{
+    let returnValue = [];
+    if (this.checkProcessing) returnValue.push("Processing");
+    if (this.checkClosed) returnValue.push("Closed");
+    if (this.checkPending) returnValue.push("Pending");
+    return returnValue;
   }
 
   public changeClient(value: any) {
@@ -221,20 +223,38 @@ export class ChildViewComponent implements OnInit {
         );
       }
     });
-  }
+    }
 
-  removeEmployee(id: string) {
+  removeEmployeeFromProject(eid: string, pid: string) {
     this.dialogService.openConfirmDialog( {
       data: {
-        title: `Remove Employee ${id}`,
-        content: `Do you want to remove Employee ${id} from this project?`,
-        id: id
+        title: `Remove Employee ${eid}`,
+        content: `Do you want to remove Employee ${eid} from Project ${pid}?`,
+        id: eid
       }
     } as MatDialogConfig).afterClosed().subscribe(result => {
-      if(result){
-        this.pmService.deleteEmployeeInProject();
+      if(result) //if accept button clicked
+      {
+        this.pmService.deleteEmployeeInProject(eid, pid).subscribe(
+        (response) => {
+          console.log('delete ' + response);
+          //update hide deleted employee node
+          this.pmService.getMemberByProjectId(pid).subscribe(pm => {
+            let projectHaveDeletedEmployee = this.displayProject.find(
+              pAm => pAm.project.id == pid
+            )?.memberList;
+            console.log(projectHaveDeletedEmployee);
+
+            projectHaveDeletedEmployee?.splice(0, projectHaveDeletedEmployee.length, ...pm);
+            console.log(projectHaveDeletedEmployee, " add by ", pm);
+          })
+        },
+        (error) => {
+          this.snackBar.open(error.error.message, 'Error');
+          console.log(error);
+        });
       }
-    })
+    });
   }
 
   detailEmployee(id: string) {
@@ -257,18 +277,22 @@ export class ChildViewComponent implements OnInit {
   increaseShowProJ() {
     this.showProJ += 3;
   }
-
-  increaseShowMem() {
-    this.showMem += 1;
+  decreaseShowProJ() {
+    this.showProJ =2;
   }
+
   increaseShowMemValue(id:string):void{
     let showNum = this.showMemMap.get(id)+2;
     this.showMemMap.set(id,showNum);
     // return 2;
   }
+  decreaseShowMemValue(id: string) {
+    this.showMemMap.set(id,2);
+  }
 
   public searchAccount(): void {
-    if (this.textValue?.toString() === '') {
+    this.snackBar.ngOnDestroy();
+    if(this.textValue?.toString() ===''){
       this.setFilterByState();
     } else {
       this.displayProject = [];
@@ -302,7 +326,10 @@ export class ChildViewComponent implements OnInit {
           }
         }
       });
+      if(this.displayProject.length===0)
+        this.snackBar.open("Do not have account: "+this.textValue,"Closed");
     }
+
   }
 
   nodeColor(role: string):string {
@@ -317,4 +344,5 @@ export class ChildViewComponent implements OnInit {
     }
     return color;
   }
+
 }

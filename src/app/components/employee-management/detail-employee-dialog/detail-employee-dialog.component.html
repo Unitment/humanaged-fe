@@ -1,4 +1,4 @@
-<div class="dialog-container" cdk-focus-start>
+<div class="dialog-container" cdkFocusRegionstart>
   <button mat-icon-button class="close-button" (click)="onClose()">
     <mat-icon class="close-icon" color="warn">close</mat-icon>
   </button>
@@ -7,7 +7,12 @@
     <div class="emp-avatar-container">
       <div class="emp-avatar">
         <img
-          src="https://s3-alpha-sig.figma.com/img/6144/09cf/c919e02030294db39733fcb840d1ffc9?Expires=1646006400&Signature=AeauJl557joj5oYXaaTc0mkQmrfZDDz6u-QDhtpe5ym~vHnGTsvlaf~-rPNf8icIjvKH~Vgho-P6ji32aQpZRBnmu8hihbrKY1~iOfNWCiQxnl2BsF6a6pUlTsVziDDEdfx7P3hlNCbc8qQqn8ZHacqGgXIX7Zj5pHblCe4oea~2smnCrUspLlWgqv~BrcHRNYcTbzPj1mRUPlfy2~78ZpkuaHpZMKogd9yQaLcUCUn8PTtgHjQ0amZGArQhDcalLLofzsWZ1f9KPV18hLCDppvP3KKJgV0JfrwNby~FTq3cigMCFsQ4Boffphl~STNPksSwXpUr6KjnyJDHoupMMw__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA"
+          *ngIf="employee?.gender?.toString()==='MALE'"
+          src="{{employee?.avatar|| '\\assets\\images\\undraw_male_avatar_323b.svg'}}"
+          alt="">
+        <img
+          *ngIf="employee?.gender?.toString()==='FEMALE'"
+          src="{{employee?.avatar||'\\assets\\images\\undraw_female_avatar_w3jk.svg'}}"
           alt="">
       </div>
     </div>
@@ -24,8 +29,7 @@
     <div class="info info-label">Mail:</div>
     <div class="info info-data emp-mail">{{employee?.mail}}</div>
     <div class="info info-label">Address</div>
-    <div class="info info-data emp-adress">{{employee?.ward}}, {{employee?.district}}, {{employee?.province}}
-      , {{employee?.country}}</div>
+    <div class="info info-data emp-adress">{{employee?.wardName}}, {{employee?.districtName}}, {{employee?.provinceName}}, {{employee?.country}}</div>
     <div class="info info-label">Gender</div>
     <div class="info info-data emp-gender">{{employee?.gender}}</div>
     <div class="info info-label">Project</div>
@@ -38,5 +42,9 @@
         </li>
       </ul>
     </div>
+  </div>
+
+  <div id="edit-button">
+    <button mat-raised-button color="primary" (click)="onEditClick(employee.id)">Edit</button>
   </div>
 </div>

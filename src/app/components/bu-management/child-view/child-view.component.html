@@ -1,12 +1,12 @@
 <div class="ViewBody">
   <div class="div-left" style="float: left;">
     <div style="padding-top: 20px;">
-      <mat-drawer-container class="container" autosize>
-        <mat-drawer #drawer class="sidenav" mode="side">
+      <mat-drawer-container class="container" autosize style="height: 410px">
+        <mat-drawer #drawer class="sidenav" mode="side" style="width: 260px">
           <h3><b>Search Mem</b></h3>
           <form class="search-pm-form">
             <mat-form-field class="example-full-width" appearance="fill">
-              <mat-label>Member Username or Member role</mat-label>
+              <mat-label>Member Username</mat-label>
               <!--              <input name="searchMem" matInput [(ngModel)]="searchText">-->
               <input name="key" matInput (ngModelChange)="[textValue=key.value, searchAccount()]"
                      [(ngModel)]="searchText" #key="ngModel" ngModel>
@@ -39,7 +39,7 @@
 
         <div class="sidenav-content">
           <button class="button-show" type="button" mat-icon-button (click)="drawer.toggle()">
-            <i class="fa-solid fa-caret-right"></i>
+            <i class="fas fa-caret-right"></i>
           </button>
         </div>
       </mat-drawer-container>
@@ -51,16 +51,17 @@
       <ul>
         <li>
           <!-- start Node cha -->
-          <div class="node" click  [ngStyle]="{'background-color': nodeColor('PM')}">
+          <div class="node" click [ngStyle]="{'background-color': nodeColor('PM')}">
             <div class="node-mask node-padding" (click)="detailEmployee(PM.id)">
               <p>PM</p>
               <hr>
               <div class="avaAndName">
-                <img src="\assets\images\MeoBeo.jpg" alt="img2">
+                <img *ngIf="PM?.gender?.toString()==='MALE'" src="{{(PM?.avatar) || '\\assets\\images\\undraw_male_avatar_323b.svg' }}" alt="imgPM">
+                <img *ngIf="PM?.gender?.toString()==='FEMALE'" src="{{(PM?.avatar) || '\\assets\\images\\undraw_female_avatar_w3jk.svg' }}" alt="imgPM">
                 <div class="name">{{PM?.account?.accountName}}</div>
               </div>
-              <div class="oneButton">
-                <button mat-raised-button color="primary" (click)="$event.stopPropagation();">ADD Project</button>
+              <div *ngIf="isAdmin" class="oneButton">
+                <button mat-raised-button color="primary" (click)="$event.stopPropagation();" [routerLink]="['/project/create']" [queryParams]="{pm:PM?.account?.accountName}" >ADD Project</button>
               </div>
             </div>
           </div>
@@ -72,7 +73,8 @@
               <!-- node tầng 2 - 1 -->
               <li *ngFor="let pAm of displayProject | slice:0:showProJ; let i = index">
                 <div style="max-width: 315px; margin: auto;">
-                  <div class="node" (click)="detailProject(pAm.project.id)" [ngStyle]="{'background-color': checkProjectState(pAm.project)}"
+                  <div class="node" (click)="detailProject(pAm.project.id)"
+                       [ngStyle]="{'background-color': checkProjectState(pAm.project)}"
                        style=" margin: auto;">
                     <div class="node-mask node-padding">
                       <p>{{pAm.project.name}}</p>
@@ -80,20 +82,27 @@
                       <p class="description"><b>Description: </b>{{pAm.project.description}}</p>
                       <p class="description"><b>State: </b>{{pAm.project.state}}</p>
                       <p class="description"><b>Start date: </b>{{pAm.project.startDate | date: 'dd/MM/yyyy' }}</p>
-                      <div class="twoButton">
-                        <button mat-raised-button color="primary" (click)="addMemberToProject(pAm.project.id);$event.stopPropagation();"
+                      <div *ngIf="isAdmin" class="twoButton">
+                        <button mat-raised-button color="primary"
+                                (click)="addMemberToProject(pAm.project.id);$event.stopPropagation();"
                                 class="buttonLeft">Add
                           Mem
                         </button>
-                        <button mat-raised-button color="warn" (click)="removeProject(pAm.project);$event.stopPropagation();"
+                        <button mat-raised-button color="warn"
+                                (click)="removeProject(pAm.project);$event.stopPropagation();"
                                 class="buttonRight">
                           Remove
                         </button>
                       </div>
                     </div>
                   </div>
-                  <div *ngIf="i==(showProJ-1)  && i < displayProject.length-1" style="display: flex; float: right; margin-top: 50px; margin-left: 7px">
+                  <div *ngIf="i==(showProJ-1)  && i < displayProject.length-1"
+                       style="display: flex; float: right; margin-top: 50px; margin-left: 7px">
                     <button mat-stroked-button (click)="increaseShowProJ()">More</button>
+                  </div>
+                  <div *ngIf="(i>2)&&i === displayProject.length-1"
+                       style="display: flex; float: right; margin-top: 50px; margin-left: 7px">
+                    <button mat-stroked-button (click)="decreaseShowProJ()">Less</button>
                   </div>
                 </div>
 
@@ -101,7 +110,8 @@
                 <!-- <div *ngIf="getMemberByProjectId(prjId.projectID+'')"> -->
                 <div *ngIf="pAm.memberList.length>0">
                   <ul class="ulClass">
-                    <li *ngFor="let projectMember of pAm.memberList  | slice:0:showMemMap.get(pAm.project.id); let i=index">
+                    <li
+                      *ngFor="let projectMember of pAm.memberList  | slice:0:showMemMap.get(pAm.project.id); let i=index">
                       <div class="node"
                            [ngStyle]="{'background-color': nodeColor(projectMember.role)}"
                            (click)="detailEmployee(projectMember.employee.id)"
@@ -110,17 +120,25 @@
                           <p>{{projectMember.role}}</p>
                           <hr>
                           <div class="avaAndName">
-                            <img src="\assets\images\MeoBeo.jpg" alt="img2">
+                            <img *ngIf="projectMember?.employee?.gender?.toString()==='MALE'" src="{{(projectMember?.employee?.avatar) || '\\assets\\images\\undraw_male_avatar_323b.svg' }}" alt="imgPM">
+                            <img *ngIf="projectMember?.employee?.gender?.toString()==='FEMALE'" src="{{(projectMember?.employee?.avatar) || '\\assets\\images\\undraw_female_avatar_w3jk.svg' }}" alt="imgPM">
                             <div class="name">{{getAccountName(projectMember)}}</div>
                           </div>
-                          <div class="oneButton">
-                            <button mat-raised-button color="warn" (click)="removeEmployee(projectMember.employee.id);$event.stopPropagation();">Remove</button>
+                          <div *ngIf="isAdmin" class="oneButton">
+                            <button mat-raised-button color="warn"
+                                    (click)="removeEmployeeFromProject(projectMember.employee.id, pAm.project.id);$event.stopPropagation();">
+                              Remove
+                            </button>
                           </div>
                         </div>
                       </div>
                       <div *ngIf="i==(showMemMap.get(pAm.project.id)-1)  && (i < pAm.memberList.length-1)"
                            style="display: flex; float: right; margin-top: 30px; margin-left: 7px">
                         <button mat-stroked-button (click)="increaseShowMemValue(pAm.project.id)">More</button>
+                      </div>
+                      <div *ngIf="(i === pAm.memberList.length-1 && i > showMem)"
+                           style="display: flex; float: right; margin-top: 30px; margin-left: 7px">
+                        <button mat-stroked-button (click)="decreaseShowMemValue(pAm.project.id)">Less</button>
                       </div>
                     </li>
                   </ul>

@@ -1,11 +1,81 @@
-<p>user-info works!</p>
-<div>id: {{employee.id}}</div>
-<div>name: {{employee.name}}</div>
-<div>birthday: {{employee.birthday}}</div>
-<div>gender: {{employee.gender}}</div>
-<div>mail: {{employee.mail}}</div>
-<div>country: {{employee.country}}</div>
-<div>province: {{employee.province}}</div>
-<div>distric: {{employee.district}}</div>
-<div>ward: {{employee.ward}}</div>
-<div>status: {{employee.status}}</div>
+<div class="container">
+  <div class="main-body">
+        <div class="row gutters-sm">
+          <div class="col-md-4 mb-3">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex flex-column align-items-center text-center">
+                  <img src="https://www.elle.vn/wp-content/uploads/2022/03/09/471160/nhan-sac-nu-chinh-nu-phu-hen-ho-chon-cong-so-8-1024x1024.jpg" alt="Admin" class="rounded-circle" width="150">
+                  <div class="mt-3">
+                    <h4>{{employee.name}}</h4>
+                    <p class="text-secondary mb-1">{{employee.mail}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Full Name</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    {{employee.name}}
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Email</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                      {{employee.mail}}
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Phone</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    {{employee.phoneNumber}},
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Status</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    {{employee.status}}
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Address</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    {{employee.address}},{{employee.district}},{{employee.province}},{{employee.country}}
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <a
+                    class="btn btn-info "
+                    (click)="onEditClick(employee.id)"
+                    >
+                      Edit
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+  </div>

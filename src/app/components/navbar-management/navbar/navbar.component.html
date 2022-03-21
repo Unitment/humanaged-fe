@@ -1,24 +1,29 @@
-<mat-toolbar color="primary" class="navbar">
-  <div><a href=''>
-    <mat-icon aria-hidden="false" aria-label="Example home icon">home</mat-icon>
-  </a></div>
-  <div>
-    <span>
-      <button mat-button [matMenuTriggerFor]="menuManager">Manager</button>
-      <mat-menu #menuManager="matMenu">
-      <a mat-menu-item routerLink="/employee/table">Employee</a>
-      <a mat-menu-item routerLink="/project">Project</a>
-      </mat-menu>
-    </span>
-    <span>
-      <a mat-button routerLink='login'>Login</a>
-    </span>
-    <span>
-      <button mat-button [matMenuTriggerFor]="menuUser">Hello User</button>
-      <mat-menu #menuUser="matMenu">
-      <a mat-menu-item (click)="accountInfo()">User Information</a>
-      <a mat-menu-item (click)="logOutAccount()">LogOut </a>
-      </mat-menu>
-    </span>
-  </div>
-</mat-toolbar>
+<header>
+  <a class="" routerLink="/home">Humanaged</a>
+  <nav class="mr-5">
+    <ul class="nav__link">
+      <li><a routerLink="/employee/table">Employee</a></li>
+      <li><a routerLink="/project">Project</a></li>
+    </ul>
+  </nav>
+  <a class="current__user">
+    <button [matMenuTriggerFor]="menu" id="avatarBtn">
+      <img *ngIf="gender==='FEMALE'" [src]="avatar == null ? '/assets/images/undraw_female_avatar_w3jk.svg' : avatar" alt="avatar" class="avatar">
+      <img *ngIf="gender==='MALE'" [src]="avatar == null ? '/assets/images/undraw_male_avatar_323b.svg' : avatar" alt="avatar" class="avatar">
+    </button>
+    <mat-menu #menu="matMenu" xPosition="before">
+      <div id="user__info">
+        <img *ngIf="gender==='FEMALE'" [src]="avatar == null ? '/assets/images/undraw_female_avatar_w3jk.svg' : avatar" alt="avatar" id="avatarDetail">
+        <img *ngIf="gender==='MALE'" [src]="avatar == null ? '/assets/images/undraw_male_avatar_323b.svg' : avatar" alt="avatar" id="avatarDetail">
+
+        <div class="user__detail">
+          <div id="user__name">{{name}}</div>
+          <div id="user__mail">{{mail}}</div>
+        </div>
+      </div>
+      <mat-divider style="background-color: #92979a"></mat-divider>
+      <a mat-menu-item routerLink="/info">Manage account</a>
+      <a mat-menu-item (click)="logOut()">Sign out</a>
+    </mat-menu>
+  </a>
+</header>

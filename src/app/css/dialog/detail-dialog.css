@@ -41,7 +41,11 @@
 
 .emp-avatar img{
     width: 100%;
+    height: 100%;
     border-radius: 50%;
+    
+    object-fit: cover;
+    object-position: center;
 }
 
 .name-container{
@@ -64,6 +68,11 @@
 .sub-name{
     font-size: 20px;
     line-height: 30px;
+    text-align: center;
+    width: 200px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .vertical-line{
@@ -97,6 +106,7 @@
 .info-list li{
     display: flex;
     align-items: center;
+    cursor: pointer;
 
     border: #000000 solid;
     border-width: 0 0 1px 0;
@@ -135,5 +145,12 @@
 
     color: #57606a;
     border-color: #d0d7de;
+}
+
+#edit-button{
+    float: right;
+    position: absolute;
+    bottom: 0;
+    right: 0;
 }
 

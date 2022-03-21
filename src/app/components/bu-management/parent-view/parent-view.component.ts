@@ -8,9 +8,10 @@ import { BuService } from 'src/app/services/bu.service';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { ProjectMemberService } from 'src/app/services/project-member.service';
 import { Router } from '@angular/router';
-import { MatDialog } from "@angular/material/dialog";
+import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { DialogService } from 'src/app/services/dialog.service';
+import {AuthService} from "../../../auth/_services/auth.service";
 
 @Component({
   selector: 'app-parent-view',
@@ -26,6 +27,7 @@ export class ParentViewComponent implements OnInit {
   public displaySupports: Employee[] = [];
   public BUL: Employee;
   public BUName: string = '';
+  public isAdmin:boolean = false;
 
   showFiller = false;
   name: Account[] = [];
@@ -46,7 +48,8 @@ export class ParentViewComponent implements OnInit {
               private router: Router,
               private matDialog: MatDialog,
               private snackBar: MatSnackBar,
-              private dialogSerice: DialogService
+              private dialogService: DialogService,
+              private authService: AuthService
   ) {
   }
 
@@ -54,6 +57,7 @@ export class ParentViewComponent implements OnInit {
     this.getBU();
     this.getPM();
     this.getSupport();
+    this.isAdmin = this.authService.isAdmin();
   }
 
   public getBU(): void {
@@ -64,7 +68,6 @@ export class ParentViewComponent implements OnInit {
         this.BUName = this.businessUnits[0].name;
       },
       (error: HttpErrorResponse) => {
-        // alert(error.message);
         this.snackBar.open(error.message,'Close');
       }
     )
@@ -80,7 +83,6 @@ export class ParentViewComponent implements OnInit {
         });
         const expected = new Set();
         this.pmAccounts = this.pmAccounts.filter(item => !expected.has(JSON.stringify(item)) ? expected.add(JSON.stringify(item)) : false);
-        console.log(this.pmAccounts);
         this.displayPmAccounts = this.pmAccounts;
       },
       (error: HttpErrorResponse) => {
@@ -109,6 +111,7 @@ export class ParentViewComponent implements OnInit {
         this.displayPmAccounts.push(element);
       }
     });
+
   }
 
   public searchSupport(key: string): void {
@@ -125,48 +128,86 @@ export class ParentViewComponent implements OnInit {
       case 'pm':
         this.searchPM(this.textValue);
         this.searchSupport('*');
+        if(this.displayPmAccounts.length==0){
+          this.snackBar.open("Do not have PM with Account: \""+this.textValue+"\" in system","Closed");
+        }else{
+          this.snackBar.ngOnDestroy();
+        }
         break;
       case 'sp':
         this.searchSupport(this.textValue);
         this.searchPM('*');
+        if(this.displaySupports.length==0){
+          this.snackBar.open("Do not have Support with Account: \""+this.textValue+"\" in system","Closed");
+        }else{
+          this.snackBar.ngOnDestroy();
+        }
         break;
       case 'both':
         this.searchPM(this.textValue);
         this.searchSupport(this.textValue);
+        if(this.displayPmAccounts.length==0 && this.displaySupports.length==0){
+          this.snackBar.open("Do not have PM or Support \""+this.textValue+"\" in system", "Closed");
+        }else{
+          this.snackBar.ngOnDestroy();
+        }
         break;
     }
   }
 
+  public refreshSearch():string{
+    this.textValue = '';
+    this.searchAccount();
+    return 'Refresh';
+  }
   public changeClient(event: string) {
-    switch (event) {
-      case 'pm':
-        this.searchPM(this.textValue);
-        this.searchSupport('*');
-        break;
-      case 'sp':
-        this.searchSupport(this.textValue);
-        this.searchPM('*');
-        break;
-      case 'both':
-        this.searchPM(this.textValue);
-        this.searchSupport(this.textValue);
-        break;
-    }
+    this.selectedValue = event;
+    this.searchAccount();
   }
 
   detailEmployee(id: string) {
     console.log(id);
-    
-    this.dialogSerice.openEmployeeDetailDialog(id);
+
+    this.dialogService.openEmployeeDetailDialog(id);
+  }
+
+  removeEmployeeFromSupport(eid: String){
+    this.dialogService.openConfirmDialog( {
+      data: {
+        title: `Remove Employee ${eid}`,
+        content: `Do you want to remove Employee ${eid} from Support?`,
+        id: eid
+      }
+    } as MatDialogConfig).afterClosed().subscribe(result => {
+      if(result) //if accept button clicked
+      {
+        this.employeeService.removeEmployee(eid).subscribe(
+        (response) => {
+          console.log('delete ' + response);
+          //update hide deleted employee node
+          this.getSupport();
+        },
+        (error) => {
+          this.snackBar.open(error.error.message, 'Error');
+          console.log(error);
+        });
+      }
+    });
   }
 
   increaseShowPM(){
     this.showPM+=3;
   }
+  decreaseShowPM() {
+    this.showPM=2;
+  }
+
   increaseShowSP(){
     this.showSP+=3;
   }
-
+  decreaseShowSP() {
+    this.showSP=2;
+  }
   nodeColor(role:string):string {
     let color:string = '';
     switch (role) {
@@ -179,4 +220,5 @@ export class ParentViewComponent implements OnInit {
     }
     return color;
   }
+
 }

@@ -196,7 +196,7 @@ export class ParentViewComponent implements OnInit {
   }
 
   increaseShowPM(){
-    this.showPM+=3;
+    this.showPM+=1;
   }
   decreaseShowPM() {
     this.showPM=2;

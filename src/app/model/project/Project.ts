@@ -10,6 +10,7 @@ export interface Project {
   description: string;
   state: ProjectState;
   projectMembers: ProjectMember[];
+  isDelete: boolean;
   employeeInProjectList: EmployeeInProject[];
 }
 

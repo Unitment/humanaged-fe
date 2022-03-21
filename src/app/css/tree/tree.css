@@ -144,6 +144,8 @@
   .avaAndName {
     display: flex;
     align-items: center;
+    object-fit: cover;
+    object-position: center;
   }
 
   .name {

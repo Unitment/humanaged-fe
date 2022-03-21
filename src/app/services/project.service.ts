@@ -20,7 +20,7 @@ export class ProjectService {
 
   getAllProjects(): Observable<Project[]> {
     return this.http.get<Project[]>(
-      'http://localhost:8080/api/project/'
+      'http://localhost:8080/api/project/all'
     );
   }
 

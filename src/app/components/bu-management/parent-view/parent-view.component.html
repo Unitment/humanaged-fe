@@ -70,13 +70,17 @@
                   </div>
                 </div>
               </div>
-              <div *ngIf="i==(showPM-1) && i < displayPmAccounts.length-1"
-                   style="display: flex; float: right;margin-top: 30px; margin-left: 7px">
-                <button mat-stroked-button (click)="increaseShowPM()">More</button>
-              </div>
-              <div *ngIf="i === displayPmAccounts.length-1"
-                   style="display: flex; float: right;margin-top: 30px; margin-left: 7px">
-                <button mat-stroked-button (click)="decreaseShowPM()">Less</button>
+              <div style="display: flex; flex-direction: column; float: right; padding-left: 5px; padding-top: 20px">
+                  <button *ngIf="i==(showPM-1) && i < displayPmAccounts.length-1"
+                          style="margin-bottom: -15px"
+                          class="button-show" type="button" mat-icon-button (click)="increaseShowPM()">
+                    <i class="fa fa-angle-right"></i>
+                  </button>
+                  <button *ngIf=" i == displayPmAccounts.length-1 || (showPM-1===i && i >1)"
+                          style="margin-bottom: -15px"
+                          class="button-show" type="button" mat-icon-button (click)="decreaseShowPM()">
+                    <i class="fa fa-angle-left"></i>
+                  </button>
               </div>
             </li>
             <!-- Node support tầng 2 -->
@@ -107,13 +111,27 @@
                       </div>
                     </div>
                   </div>
-                  <div *ngIf="i==(showSP-1)  && i < displaySupports.length-1"
-                       style="display: flex; float: right; margin-top: 30px; margin-left: 7px">
-                    <button mat-stroked-button (click)="increaseShowSP()">More</button>
-                  </div>
-                  <div *ngIf="i === displaySupports.length-1"
-                       style="display: flex; float: right;margin-top: 30px; margin-left: 7px">
-                    <button mat-stroked-button (click)="decreaseShowSP()">Less</button>
+<!--                  <div style="display: flex; flex-direction: column; float: right">-->
+<!--                    <button *ngIf="i==(showSP-1)  && i < displaySupports.length-1"-->
+<!--                            class="button-show" type="button" mat-icon-button (click)="increaseShowSP()">-->
+<!--                      <i class="fa fa-angle-right"></i>-->
+<!--                    </button>-->
+<!--                    <button *ngIf="i>2||i === displaySupports.length-1"-->
+<!--                            class="button-show" type="button" mat-icon-button (click)="decreaseShowSP()">-->
+<!--                      <i class="fa fa-angle-left"></i>-->
+<!--                    </button>-->
+<!--                  </div>-->
+                  <div style="display: flex; flex-direction: column; float: right; padding-left: 5px; padding-top: 20px">
+                    <button *ngIf="i==(showSP-1) && i < displaySupports.length-1"
+                            style="margin-bottom: -15px"
+                            class="button-show" type="button" mat-icon-button (click)="increaseShowSP()">
+                      <i class="fa fa-angle-right"></i>
+                    </button>
+                    <button *ngIf=" (i == displaySupports.length-1 && i > 1) || (showSP-1===i && i >1)"
+                            style="margin-bottom: -15px"
+                            class="button-show" type="button" mat-icon-button (click)="decreaseShowSP()">
+                      <i class="fa fa-angle-left"></i>
+                    </button>
                   </div>
                 </li>
 

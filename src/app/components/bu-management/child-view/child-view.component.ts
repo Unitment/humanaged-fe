@@ -275,14 +275,14 @@ export class ChildViewComponent implements OnInit {
   }
 
   increaseShowProJ() {
-    this.showProJ += 3;
+    this.showProJ += 1;
   }
   decreaseShowProJ() {
     this.showProJ =2;
   }
 
   increaseShowMemValue(id:string):void{
-    let showNum = this.showMemMap.get(id)+2;
+    let showNum = this.showMemMap.get(id)+1;
     this.showMemMap.set(id,showNum);
     // return 2;
   }

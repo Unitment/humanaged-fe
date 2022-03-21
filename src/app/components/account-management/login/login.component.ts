@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('account',JSON.stringify(data))
         this.router.navigate([''])
       },
-      error=> {
+      error => {
         console.log("Error Occured")
         alert("Wrong Username Or Password, Please try again!!")
       }

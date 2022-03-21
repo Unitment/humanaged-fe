@@ -7,18 +7,20 @@ import {ProjectMember} from 'src/app/model/projectMember/ProjectMember';
 import {EmployeeService} from 'src/app/services/employee.service';
 import {ProjectMemberService} from 'src/app/services/project-member.service';
 import {ActivatedRoute, ParamMap} from '@angular/router';
-import {MatDialog} from "@angular/material/dialog";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../project-management/confirm-dialog/confirm-dialog.component";
 import {
   DetailEmployeeDialogComponent
-} from "../../employee-management/detail-employee/detail-employee-dialog/detail-employee-dialog.component";
+} from "../../employee-management/detail-employee-dialog/detail-employee-dialog.component";
 import {
   AddMemberToProjectComponent
 } from "../../project-management/add-member-to-project/add-member-to-project.component";
 import {
   DetailProjectDialogComponent
-} from "../../project-management/detail-project/detail-project-dialog/detail-project-dialog.component";
+} from "../../project-management/detail-project-dialog/detail-project-dialog.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
+import { DialogService } from 'src/app/services/dialog.service';
+import {ProjectService} from "../../../services/project.service";
 
 @Component({
   selector: 'app-child-view',
@@ -40,8 +42,9 @@ export class ChildViewComponent implements OnInit {
   checkProcessing: boolean = false;
   checkClosed: boolean = false;
   checkPending: boolean = false;
-  showProJ = 1;
-  showMem = 2;
+  showProJ = 2;
+  showMem = 1;
+  showMemMap = new Map();
   textValue: string = '';
   ops = [
     {value: 'a-to-z', viewValue: 'A to Z'},
@@ -53,9 +56,11 @@ export class ChildViewComponent implements OnInit {
   constructor(
     private empService: EmployeeService,
     private pmService: ProjectMemberService,
+    private projectService:ProjectService,
     private route: ActivatedRoute,
     private matDialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialogService: DialogService,
   ) {
   }
 
@@ -86,6 +91,9 @@ export class ChildViewComponent implements OnInit {
       (response: ProjectAndMember[]) => {
         this.projectAndMembers = response;
         this.displayProject = this.projectAndMembers;
+        this.displayProject.forEach(project => {
+          this.showMemMap.set(project.project.id,this.showMem);
+        })
         this.changeClient(this.selectedValue);
       },
       (error: HttpErrorResponse) => {
@@ -106,13 +114,13 @@ export class ChildViewComponent implements OnInit {
     let temp = ''
     switch (project.state.toString()) {
       case 'PROCESSING':
-        temp = '#BBFDB9';
+        temp = '#C8DBBD';
         break;
       case 'CLOSED':
-        temp = '#619360';
+        temp = '#8FA96E';
         break;
       case 'PENDING':
-        temp = 'white';
+        temp = '#dce7ed';
         break;
     }
     return temp;
@@ -185,20 +193,52 @@ export class ChildViewComponent implements OnInit {
     }
   }
 
-  removeProject(id: string) {
-    this.matDialog.open(ConfirmDialogComponent, {
-      data: id
+  // removeProject(project: Project) {
+  //   this.matDialog.open(ConfirmDialogComponent, {
+  //     data: project.id
+  //   })
+  // }
+  removeProject(project: Project) {
+    const dialogRef = this.matDialog.open(ConfirmDialogComponent, {
+      width: '450px',
+      data: {
+        name: project.name,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result?.name === project.name) {
+        this.projectService.deleteProject(project).subscribe(
+          (data) => {
+            console.log(data);
+          },
+          (error) => {
+            this.snackBar.open(error.error.message, 'OK');
+            console.log(error);
+          },
+          () => {
+            this.ngOnInit();
+          }
+        );
+      }
+    });
+  }
+
+  removeEmployee(id: string) {
+    this.dialogService.openConfirmDialog( {
+      data: {
+        title: `Remove Employee ${id}`,
+        content: `Do you want to remove Employee ${id} from this project?`,
+        id: id
+      }
+    } as MatDialogConfig).afterClosed().subscribe(result => {
+      if(result){
+        this.pmService.deleteEmployeeInProject();
+      }
     })
   }
 
   detailEmployee(id: string) {
-    this.matDialog.open(DetailEmployeeDialogComponent, {
-      height: "668px",
-      width: "1125px",
-      minHeight: "668px",
-      minWidth: "1125px",
-      data: {empId: id}
-    })
+    this.dialogService.openEmployeeDetailDialog(id);
   }
 
   addMemberToProject(projectId: string) {
@@ -206,17 +246,12 @@ export class ChildViewComponent implements OnInit {
       height: "300px",
       width: "350px",
       data: projectId
-    })
+    }).afterClosed().subscribe( ()=> this.ngOnInit());
+
   }
 
-  projectDetails(id: string) {
-    this.matDialog.open(DetailProjectDialogComponent, {
-      height: "668px",
-      width: "1125px",
-      minHeight: "668px",
-      minWidth: "1125px",
-      data: {prjId: id}
-    });
+  detailProject(id: string) {
+    this.dialogService.openProjectDetailDialog(id);
   }
 
   increaseShowProJ() {
@@ -225,6 +260,11 @@ export class ChildViewComponent implements OnInit {
 
   increaseShowMem() {
     this.showMem += 1;
+  }
+  increaseShowMemValue(id:string):void{
+    let showNum = this.showMemMap.get(id)+2;
+    this.showMemMap.set(id,showNum);
+    // return 2;
   }
 
   public searchAccount(): void {
@@ -263,5 +303,18 @@ export class ChildViewComponent implements OnInit {
         }
       });
     }
+  }
+
+  nodeColor(role: string):string {
+    let color:string = '';
+    switch (role) {
+      case 'PM': color = '#99A3A4';
+        break;
+      case 'LEADER': color = '#F2D06B';
+        break;
+      case 'MEMBER': color = '#F2ECCE';
+        break;
+    }
+    return color;
   }
 }

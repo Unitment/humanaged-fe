@@ -1,0 +1,29 @@
+table {
+  width: 100%;
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.project-table-heading {
+  margin-top: 25px;
+  font-weight: 500px;
+  font-size: 3.2em;
+}
+
+.project-table-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.project-table-top-btn {
+  padding: 0 15px;
+}
+
+.mat-form-field {
+  margin: 0;
+  font-size: 14px;
+  width: 500px;
+}
+

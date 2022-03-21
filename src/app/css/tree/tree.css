@@ -10,9 +10,10 @@
   .ViewBody {
     /* cái align item này cân luôn cả chiều dọc  */
     align-items: center;
-    background: white;
+    /*background: white;*/
     font-family: Poppins, sans-serif;
     margin: 0;
+    background-color: #f5f5f5;
   }
 
   .tree {
@@ -102,18 +103,18 @@
   }
 
   .node {
-    border: var(--border);
+    /*border: var(--border);*/
     display: inline-grid;
     text-decoration-line: none;
     border-radius: 5px;
     transition: 0.5s;
-    width: 27vh;
-    min-width: 190px;
-    min-height: 120px;
+    width: 10vw;
+    min-width: 170px;
+    min-height: 90px;
   }
 
   .node-padding {
-    padding: 10px;
+    padding:3px 10px 1px 10px;
   }
 
   .node-mask {
@@ -148,7 +149,7 @@
   .name {
     width: 116px;
     margin: auto;
-    font-size: medium;
+    font-size: small;
     font-weight: 500;
 
     overflow: hidden;
@@ -169,7 +170,7 @@
   } */
 
   .oneButton {
-    padding-top: 8px;
+    padding-bottom: 8px;
     width: 50%;
     margin: auto;
     display: none;
@@ -184,20 +185,23 @@
     bottom: 50%;
     right: 5%;
   }
-  
+
   .buttonRight {
     top: 50%;
     left: 3%;
   }
 
   .twoButton {
-    padding: 0;
-    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 8px;
     width: 150px;
     margin: auto;
     display: none;
   }
-
+button{
+  line-height: 25px;
+  padding: 2px 7px;
+}
   .node:hover .twoButton {
     display: inline-flex;
   }
@@ -211,12 +215,12 @@
   }
 
   p {
-    margin-bottom: 10px;
+    margin-bottom: 2px;
   }
 
   .description {
     color: #666;
-    font-size: 14px;
+    font-size: 11px;
     text-align: left;
     padding-top: 5px;
     margin-bottom: 5px;
@@ -249,7 +253,7 @@
     /* display: block; */
     height: 100%;
     align-items: center;
-
+    background-color: #f5f5f5;
   }
 
   .sidenav {
@@ -257,7 +261,7 @@
     width: 250px;
     border: var(--border);
   }
-  
+
   .button-show {
     padding: 0;
     font-size: 25px;

@@ -6,6 +6,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {EmployeeService} from "../../../services/employee.service";
 import {LocationService} from "../../../services/location.service";
 import {ImportFromFileDialogComponent} from "./import-from-file-dialog/import-from-file-dialog.component";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -25,7 +26,8 @@ export class CreateEmployeeComponent implements OnInit {
               private employeeService: EmployeeService,
               private locationService: LocationService,
               private snackBar: MatSnackBar,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private route: Router) {
   }
 
   ngOnInit(): void {
@@ -33,7 +35,7 @@ export class CreateEmployeeComponent implements OnInit {
         name: ['', Validators.required],
         gender: ['', Validators.required],
         birthday: ['', Validators.required],
-        phoneNumber: ['', [Validators.required, Validators.pattern("(\\d{3}) (\\d{3})( \\d{2}){2}")]],
+        phoneNumber: ['', [Validators.required, Validators.pattern("(\\d{3}) (\\d{3})( \\d{4})")]],
         mail: ['', [Validators.required, Validators.email]],
         province: ['', Validators.required],
         district: ['', Validators.required],
@@ -57,7 +59,7 @@ export class CreateEmployeeComponent implements OnInit {
           duration: 3000,
           panelClass: ['mat-toolbar', 'mat-primary']
         }))
-      this.form.reset();
+      this.route.navigateByUrl("/employee/table");
     } else {
       this.snackBar.open("Please fill form correctly", "", {
         duration: 3000,

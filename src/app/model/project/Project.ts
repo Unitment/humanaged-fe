@@ -9,6 +9,7 @@ export interface Project {
   endDate: Date;
   description: string;
   state: ProjectState;
+  createdDate: Date;
   projectMembers: ProjectMember[];
   employeeInProjectList: EmployeeInProject[];
 }

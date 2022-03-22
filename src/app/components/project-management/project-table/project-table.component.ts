@@ -10,7 +10,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from 'src/app/services/dialog.service';
-import {AuthService} from "../../../auth/_services/auth.service";
+import { log } from 'console';
+import { AuthService } from 'src/app/auth/_services/auth.service';
 
 @Component({
   selector: 'app-project-table',
@@ -32,7 +33,7 @@ export class ProjectTableComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.projectService.getAllProjects().subscribe(
       (data) => {
-        this.projects = data;
+        this.projects = data.sort((a, b) => +b.createdDate - +a.createdDate);
         this.dataSource = new MatTableDataSource(this.projects);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;

@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from 'src/app/services/dialog.service';
+import {AuthService} from "../../../auth/_services/auth.service";
 
 @Component({
   selector: 'app-project-table',
@@ -17,11 +18,15 @@ import { DialogService } from 'src/app/services/dialog.service';
   styleUrls: ['./project-table.component.css'],
 })
 export class ProjectTableComponent implements OnInit, AfterViewInit {
+
+  isAdmin=false;
+
   constructor(
     private projectService: ProjectService,
     private router: Router,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
+    private authService:AuthService,
     private dialogService: DialogService
   ) {}
   ngOnInit(): void {
@@ -31,6 +36,10 @@ export class ProjectTableComponent implements OnInit, AfterViewInit {
         this.dataSource = new MatTableDataSource(this.projects);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.isAdmin=this.authService.isAdmin();
+        if (!this.authService.isAdmin()) {
+          this.displayedColumns = ['id','name','startDate','endDate','state'];
+        }
       },
       (error) => console.log(error),
       () => {}

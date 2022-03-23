@@ -3,9 +3,8 @@ import { Router } from '@angular/router';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { AuthService } from 'src/app/auth/_services/auth.service'
 import { Employee } from "../../../model/employee/Employee";
-import { MatSort, Sort } from '@angular/material/sort';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { EmpFilter } from 'src/app/model/employee/EmpFilter';
 import { MatPaginator } from '@angular/material/paginator';
 import { DialogService } from 'src/app/services/dialog.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -44,7 +43,7 @@ export class EmployeeTableComponent implements OnInit {
     this._service.employeeTable().subscribe(
       data=>{
         console.log(data);
-        const sortedData = this.employeeSort(data);
+        // const sortedData = this.employeeSort(data);
         this.empData.push(...data);
         this.isLoaded=true;
         this.dataSource.paginator = this.paginator;
@@ -61,7 +60,8 @@ export class EmployeeTableComponent implements OnInit {
       data => {
         // console.log(this.empData.map(x => x.createdAt));
         this.empData.unshift(data);
-        this.dataSource = new MatTableDataSource(this.empData)
+        this.dataSource = new MatTableDataSource(this.empData);
+        this.dataSource.paginator=this.paginator;
       }
     )
 
@@ -114,7 +114,6 @@ export class EmployeeTableComponent implements OnInit {
         this._service.removeEmployee(id).subscribe(
         (response) => {
           console.log('delete ' + response);
-          
           let index = this.dataSource.data.findIndex(e => e.id == id);
           this.dataSource.data.splice(index, 1);
           this.dataSource._updateChangeSubscription();

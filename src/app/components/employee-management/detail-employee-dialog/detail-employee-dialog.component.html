@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <div id="edit-button">
+  <div id="edit-button" *ngIf="isAdmin">
     <button mat-raised-button color="primary" (click)="onEditClick(employee.id)">Edit</button>
   </div>
 </div>

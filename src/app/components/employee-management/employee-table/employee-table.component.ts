@@ -52,7 +52,7 @@ export class EmployeeTableComponent implements OnInit {
         console.log(this.paginator)
         console.log(this.sort)
         if (this.authService.isAdmin()) {
-        this.displayedColumns = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','status','accountName','action'];
+         this.displayedColumns = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','status','accountName','action'];
         }
       }
     )

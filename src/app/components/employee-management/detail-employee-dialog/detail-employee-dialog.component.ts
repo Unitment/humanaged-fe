@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { AuthService } from 'src/app/auth/_services/auth.service';
 import { Employee } from 'src/app/model/employee/Employee';
 import { EmployeeDetail } from 'src/app/model/employee/EmployeeDetail';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -16,17 +17,21 @@ import { EmployeeService } from 'src/app/services/employee.service';
 })
 export class DetailEmployeeDialogComponent implements OnInit {
   employee: EmployeeDetail;
+  isAdmin: boolean;
 
   constructor(
     private router: Router,
     private employeeService: EmployeeService,
     private dialogRef: MatDialogRef<DetailEmployeeDialogComponent>,
     private dialogService: DialogService,
+    private authService: AuthService,
     @Inject(MAT_DIALOG_DATA) public data: { empId: string }) 
   {
     this.employeeService.getDetailEmployee(data.empId).subscribe(e => {
       this.employee = e
     });
+
+    this.isAdmin = authService.isAdmin();
   }
 
   ngOnInit(): void {

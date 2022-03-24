@@ -10,18 +10,13 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {ConfirmDialogComponent} from "../../project-management/confirm-dialog/confirm-dialog.component";
 import {
-  DetailEmployeeDialogComponent
-} from "../../employee-management/detail-employee-dialog/detail-employee-dialog.component";
-import {
   AddMemberToProjectComponent
 } from "../../project-management/add-member-to-project/add-member-to-project.component";
-import {
-  DetailProjectDialogComponent
-} from "../../project-management/detail-project-dialog/detail-project-dialog.component";
 import {MatSnackBar} from "@angular/material/snack-bar";
-import { DialogService } from 'src/app/services/dialog.service';
+import {DialogService} from 'src/app/services/dialog.service';
 import {ProjectService} from "../../../services/project.service";
 import {AuthService} from "../../../auth/_services/auth.service";
+
 @Component({
   selector: 'app-child-view',
   templateUrl: './child-view.component.html',
@@ -46,7 +41,7 @@ export class ChildViewComponent implements OnInit {
   showMem = 2;
   showMemMap = new Map();
   textValue: string = '';
-  isAdmin:boolean = false;
+  isAdmin: boolean = false;
   ops = [
     {value: 'a-to-z', viewValue: 'A to Z'},
     {value: 'z-to-a', viewValue: 'Z to A'},
@@ -57,7 +52,7 @@ export class ChildViewComponent implements OnInit {
   constructor(
     private empService: EmployeeService,
     private pmService: ProjectMemberService,
-    private projectService:ProjectService,
+    private projectService: ProjectService,
     private route: ActivatedRoute,
     private matDialog: MatDialog,
     private snackBar: MatSnackBar,
@@ -94,7 +89,7 @@ export class ChildViewComponent implements OnInit {
         this.projectAndMembers = response;
         this.displayProject = this.projectAndMembers;
         this.displayProject.forEach(project => {
-          this.showMemMap.set(project.project.id,this.showMem);
+          this.showMemMap.set(project.project.id, this.showMem);
         })
         this.changeClient(this.selectedValue);
       },
@@ -156,13 +151,13 @@ export class ChildViewComponent implements OnInit {
             this.displayProject.push(value);
           }
         });
-        if (this.displayProject.length===0){
-          if (this.textValue.length>0){
-            this.snackBar.open("Do not have account: "+this.textValue,"Closed");
-          }else{
-            this.snackBar.open("Do not have Project with state: "+this.getState().toString(),"Closed");
+        if (this.displayProject.length === 0) {
+          if (this.textValue.length > 0) {
+            this.snackBar.open("Do not have account: " + this.textValue, "Closed");
+          } else {
+            this.snackBar.open("Do not have Project with state: " + this.getState().toString(), "Closed");
           }
-        }else{
+        } else {
           // this.snackBar.ngOnDestroy();
         }
       }
@@ -170,7 +165,7 @@ export class ChildViewComponent implements OnInit {
     }
   }
 
-  public getState():string[]{
+  public getState(): string[] {
     let returnValue = [];
     if (this.checkProcessing) returnValue.push("Processing");
     if (this.checkClosed) returnValue.push("Closed");
@@ -223,36 +218,36 @@ export class ChildViewComponent implements OnInit {
         );
       }
     });
-    }
+  }
 
   removeEmployeeFromProject(eid: string, pid: string) {
-    this.dialogService.openConfirmDialog( {
+    this.dialogService.openConfirmDialog({
       data: {
         title: `Remove Employee ${eid}`,
         content: `Do you want to remove Employee ${eid} from Project ${pid}?`,
         id: eid
       }
     } as MatDialogConfig).afterClosed().subscribe(result => {
-      if(result) //if accept button clicked
+      if (result) //if accept button clicked
       {
         this.pmService.deleteEmployeeInProject(eid, pid).subscribe(
-        (response) => {
-          console.log('delete ' + response);
-          //update hide deleted employee node
-          this.pmService.getMemberByProjectId(pid).subscribe(pm => {
-            let projectHaveDeletedEmployee = this.displayProject.find(
-              pAm => pAm.project.id == pid
-            )?.memberList;
-            console.log(projectHaveDeletedEmployee);
+          (response) => {
+            console.log('delete ' + response);
+            //update hide deleted employee node
+            this.pmService.getMemberByProjectId(pid).subscribe(pm => {
+              let projectHaveDeletedEmployee = this.displayProject.find(
+                pAm => pAm.project.id == pid
+              )?.memberList;
+              console.log(projectHaveDeletedEmployee);
 
-            projectHaveDeletedEmployee?.splice(0, projectHaveDeletedEmployee.length, ...pm);
-            console.log(projectHaveDeletedEmployee, " add by ", pm);
-          })
-        },
-        (error) => {
-          this.snackBar.open(error.error.message, 'Error');
-          console.log(error);
-        });
+              projectHaveDeletedEmployee?.splice(0, projectHaveDeletedEmployee.length, ...pm);
+              console.log(projectHaveDeletedEmployee, " add by ", pm);
+            })
+          },
+          (error) => {
+            this.snackBar.open(error.error.message, 'Error');
+            console.log(error);
+          });
       }
     });
   }
@@ -263,10 +258,10 @@ export class ChildViewComponent implements OnInit {
 
   addMemberToProject(projectId: string) {
     this.matDialog.open(AddMemberToProjectComponent, {
-      height: "300px",
-      width: "350px",
+      height: "330px",
+      width: "450px",
       data: projectId
-    }).afterClosed().subscribe( ()=> this.ngOnInit());
+    }).afterClosed().subscribe(() => this.ngOnInit());
 
   }
 
@@ -277,22 +272,24 @@ export class ChildViewComponent implements OnInit {
   increaseShowProJ() {
     this.showProJ += 1;
   }
+
   decreaseShowProJ() {
-    this.showProJ =2;
+    this.showProJ = 2;
   }
 
-  increaseShowMemValue(id:string):void{
-    let showNum = this.showMemMap.get(id)+1;
-    this.showMemMap.set(id,showNum);
+  increaseShowMemValue(id: string): void {
+    let showNum = this.showMemMap.get(id) + 1;
+    this.showMemMap.set(id, showNum);
     // return 2;
   }
+
   decreaseShowMemValue(id: string) {
-    this.showMemMap.set(id,2);
+    this.showMemMap.set(id, 2);
   }
 
   public searchAccount(): void {
     this.snackBar.ngOnDestroy();
-    if(this.textValue?.toString() ===''){
+    if (this.textValue?.toString() === '') {
       this.setFilterByState();
     } else {
       this.displayProject = [];
@@ -326,20 +323,23 @@ export class ChildViewComponent implements OnInit {
           }
         }
       });
-      if(this.displayProject.length===0)
-        this.snackBar.open("Do not have account: "+this.textValue,"Closed");
+      if (this.displayProject.length === 0)
+        this.snackBar.open("Do not have account: " + this.textValue, "Closed");
     }
 
   }
 
-  nodeColor(role: string):string {
-    let color:string = '';
+  nodeColor(role: string): string {
+    let color: string = '';
     switch (role) {
-      case 'PM': color = '#99A3A4';
+      case 'PM':
+        color = '#99A3A4';
         break;
-      case 'LEADER': color = '#F2D06B';
+      case 'LEADER':
+        color = '#F2D06B';
         break;
-      case 'MEMBER': color = '#F2ECCE';
+      case 'MEMBER':
+        color = '#F2ECCE';
         break;
     }
     return color;

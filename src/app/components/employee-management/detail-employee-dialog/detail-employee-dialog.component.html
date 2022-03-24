@@ -35,8 +35,14 @@
     <div class="info info-label">Project</div>
     <div class="info info-data info-list emp-projects">
       <ul>
-        <li *ngFor="let pm of employee?.projectMembers" (click)="projectDetailClick(pm.project.id)">
-          <div class="info-list-item emp-project"><a>{{pm.project.name}}</a>
+        <li 
+          *ngFor="let pm of employee?.projectMembers" 
+          class="info-list-item" 
+          [ngClass]="{'item-off': pm.project.state == 'CLOSED'}"
+          (click)="projectDetailClick(pm.project.id)"
+        >
+          <div class="item-name emp-project">
+            <a class="m-1">{{pm.project.name}}</a>
           </div>
           <div class="label emp-project-role">{{pm.role}}</div>
         </li>

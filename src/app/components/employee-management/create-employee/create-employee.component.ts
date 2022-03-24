@@ -24,7 +24,10 @@ export class CreateEmployeeComponent implements OnInit {
   provinceList: Array<any> = [];
   districtList: Array<any> = [];
   wardList: Array<any> = [];
-  avatar: string = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/profile.svg?alt=media&token=16bc5a31-510f-4250-bbfc-57d79f078710";
+  avatar: string = "";
+  DEFAULT_DISPLAY_AVATAR = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/profile.svg?alt=media&token=16bc5a31-510f-4250-bbfc-57d79f078710";
+  MALE_AVATAR = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/undraw_male_avatar_323b.svg?alt=media&token=faa92c25-0f68-4f5d-95ce-5505e120e85d";
+  FEMALE_AVATAR = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/undraw_female_avatar_w3jk.svg?alt=media&token=ce9acefb-a1bb-4285-9c91-ad02212d9e6f";
 
   constructor(private formBuilder: FormBuilder,
               private employeeService: EmployeeService,
@@ -57,12 +60,20 @@ export class CreateEmployeeComponent implements OnInit {
 
   saveEmployee() {
     if (this.form.valid) {
+      if (this.avatar == '') {
+        if (this.form.value.gender == 'MALE') {
+          this.avatar = this.MALE_AVATAR;
+        } else if (this.form.value.gender == 'FEMALE') {
+          this.avatar = this.FEMALE_AVATAR;
+        } else {
+          this.avatar = this.DEFAULT_DISPLAY_AVATAR;
+        }
+      } else {
+        this.uploadImage()
+      }
       this.form.value.avatar = this.avatar;
-      let createdAt = new Date();
-      this.employeeService.saveEmployee(this.form.value).subscribe(
-        // () => undefined,
-        // () => undefined,
 
+      this.employeeService.saveEmployee(this.form.value).subscribe(
         (data) => {
           this.employeeService.employeeSubject.next(data);
           this.snackBar.open("Add Successful", "OK", {
@@ -82,6 +93,7 @@ export class CreateEmployeeComponent implements OnInit {
   getDistrict(code: any) {
     this.locationService.getDistrictByProvince(code).subscribe(
       (data: any) => {
+        console.log('get new districts')
         this.districtList = data;
         this.wardList = []
       }
@@ -90,7 +102,10 @@ export class CreateEmployeeComponent implements OnInit {
 
   getWard(code: any) {
     this.locationService.getWardByDistrict(code).subscribe(
-      (data: any) => this.wardList = data
+      (data: any) => {
+        console.log('get new wards')
+        this.wardList = data
+      }
     )
   }
 
@@ -99,21 +114,25 @@ export class CreateEmployeeComponent implements OnInit {
   }
 
   selectFile(event: any) {
-    let name = Date.now().toString();
     let file = event.target.files[0]
     if (file != undefined) {
-      this.angularFireStorage.upload(name, file)
-        .snapshotChanges().pipe(
-        finalize(() => {
-          this.angularFireStorage.ref(name).getDownloadURL().subscribe(
-            (data) => {
-              this.avatar = data
-            }
-          )
-        })
-      ).subscribe();
+      this.avatar = file;
     } else {
-      this.avatar = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/profile.svg?alt=media&token=16bc5a31-510f-4250-bbfc-57d79f078710";
+      this.avatar = "";
     }
+  }
+
+  uploadImage() {
+    let name = Date.now().toString();
+    this.angularFireStorage.upload(name, this.avatar)
+      .snapshotChanges().pipe(
+      finalize(() => {
+        this.angularFireStorage.ref(name).getDownloadURL().subscribe(
+          (data) => {
+            this.avatar = data
+          }
+        )
+      })
+    ).subscribe();
   }
 }

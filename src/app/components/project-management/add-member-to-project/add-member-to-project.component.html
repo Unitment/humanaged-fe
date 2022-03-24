@@ -1,13 +1,33 @@
 <h2 class="text-center">Add Member to Project</h2>
 <div class="row">
   <div class="col-12">
-    <ng-multiselect-dropdown
-      [placeholder]="'Choose account'"
-      [settings]="dropdownSettings"
-      [data]="dropdowns"
-      [(ngModel)]="filteredEmployee"
-      (onSelect)="onItemSelect()">
-    </ng-multiselect-dropdown>
+    <mat-form-field class="account-selection">
+      <mat-label>Find account</mat-label>
+      <mat-chip-list #chipList aria-label="Account selection">
+        <mat-chip *ngFor="let employee of employees | slice: 0 : 3" (removed)="remove(employee)">
+          {{employee.account.accountName}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip>
+        <mat-chip *ngIf="employees.length > 3">
+          + {{employees.length - 3}}
+        </mat-chip>
+      </mat-chip-list>
+      <input
+        #employeeInput
+        placeholder="Find account"
+        [formControl]="employeeCtrl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        class="mt-2">
+      <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let employee of filteredEmployee | async" [value]="employee">
+          {{employee.account.accountName}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
   </div>
 </div>
 
@@ -15,20 +35,23 @@
   <div class="col-12">
     <mat-form-field>
       <mat-label>Role</mat-label>
-      <mat-select [(ngModel)]="roleChose">
-        <mat-option *ngFor="let role of roleList" [value]="role"
-                    [textContent]="role"></mat-option>
+      <mat-select [(ngModel)]="roleChose" required>
+        <mat-option [value]="member" [textContent]="member"></mat-option>
+        <mat-option *ngIf="!isProjectHasLeader && employees.length <= 1" [value]="leader"
+                    [textContent]="leader"></mat-option>
       </mat-select>
     </mat-form-field>
   </div>
 </div>
 
-<div class="row mt-5 d-flex justify-content-around">
+<div class="row mt-4 d-flex justify-content-around">
   <div class="col-3">
     <button mat-raised-button [mat-dialog-close]="true">Cancel</button>
   </div>
   <div class="col-3">
-    <button mat-raised-button color="primary" (click)="addMember()" cdkFocusInitial>Add</button>
+    <button [disabled]="employees.length==0" mat-raised-button color="primary" (click)="addMember()" cdkFocusInitial>
+      Add
+    </button>
   </div>
 </div>
 

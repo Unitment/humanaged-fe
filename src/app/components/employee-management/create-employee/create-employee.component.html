@@ -25,7 +25,7 @@
                 <div id="preview-wrapper">
                   <div id="preview" (click)="avatarIp.click()">
                     <img
-                      [src]="avatar"
+                      [src]="avatar==''? DEFAULT_DISPLAY_AVATAR : avatar"
                       alt="" id="avatar__preview">
                   </div>
                 </div>
@@ -91,9 +91,8 @@
           <div class="row">
             <mat-form-field class="col-4">
               <mat-label>Province</mat-label>
-              <mat-select formControlName="province">
-                <mat-option *ngFor="let province of provinceList" [value]="province.name"
-                            (onSelectionChange)="getDistrict(province.id)">{{province.name}}</mat-option>
+              <mat-select formControlName="province" (selectionChange)="getDistrict($event.value.id)">
+                <mat-option *ngFor="let province of provinceList" [value]="province">{{province.name}}</mat-option>
               </mat-select>
               <mat-error *ngIf="form.get('province')?.hasError('required') && form.get('province')?.touched">
                 Province is required
@@ -101,9 +100,9 @@
             </mat-form-field>
             <mat-form-field class="col-4">
               <mat-label>District</mat-label>
-              <mat-select formControlName="district">
-                <mat-option *ngFor="let district of districtList" [value]="district.name"
-                            (onSelectionChange)="getWard(district.id)">{{district.name}}</mat-option>
+              <mat-select formControlName="district" (selectionChange)="getWard($event.value.id)">
+                <mat-option *ngFor="let district of districtList"
+                            [value]="district">{{district.prefix + ' ' + district.name}}</mat-option>
               </mat-select>
               <mat-error *ngIf="form.get('district')?.hasError('required') && form.get('district')?.touched">
                 District is required
@@ -112,7 +111,7 @@
             <mat-form-field class="col-4">
               <mat-label>Ward</mat-label>
               <mat-select formControlName="ward">
-                <mat-option *ngFor="let ward of wardList" [value]="ward.name">{{ward.name}}</mat-option>
+                <mat-option *ngFor="let ward of wardList" [value]="ward">{{ward.prefix + ' ' + ward.name}}</mat-option>
               </mat-select>
               <mat-error *ngIf="form.get('ward')?.hasError('required') && form.get('ward')?.touched">
                 Ward is required
@@ -141,6 +140,5 @@
         </div>
       </mat-card-actions>
     </mat-card>
-
   </form>
 </div>

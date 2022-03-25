@@ -146,6 +146,7 @@ export class UpdateEmployeeComponent implements OnInit {
     let file = event.target.files[0]
     if (file != undefined) {
       this.avatar = file;
+      this.uploadImage()
     } else {
       this.avatar = '';
     }

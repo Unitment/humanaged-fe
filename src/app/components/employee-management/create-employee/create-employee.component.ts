@@ -58,7 +58,6 @@ export class CreateEmployeeComponent implements OnInit {
   saveEmployee() {
     if (this.form.valid) {
       this.form.value.avatar = this.avatar;
-      let createdAt = new Date();
       this.employeeService.saveEmployee(this.form.value).subscribe(
           // () => undefined,
           // () => undefined,

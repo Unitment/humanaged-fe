@@ -16,9 +16,10 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import {AccountManagementRoutingModule} from '../../routing/account-management-routing.module';
-
+import {EditUserInfoComponent} from "./edit-user-info/edit-user-info.component"
 import {LoginComponent} from "./login/login.component";
 import {UserInfoComponent} from './user-info/user-info.component';
+
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 
@@ -27,6 +28,7 @@ import {MatListModule} from '@angular/material/list';
   declarations: [
     LoginComponent,
     UserInfoComponent,
+    EditUserInfoComponent
   ],
   imports: [
     CommonModule,

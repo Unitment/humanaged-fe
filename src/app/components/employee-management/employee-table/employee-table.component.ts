@@ -50,8 +50,8 @@ export class EmployeeTableComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.isAdmin=this.authService.isAdmin();
-        console.log(this.paginator)
-        console.log(this.sort)
+        // console.log(this.paginator)
+        // console.log(this.sort)
         if (this.authService.isAdmin()) {
         this.displayedColumns = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','status','accountName','action'];
         }
@@ -63,7 +63,8 @@ export class EmployeeTableComponent implements OnInit {
       data => {
         // console.log(this.empData.map(x => x.createdAt));
         this.empData.unshift(data);
-        this.dataSource = new MatTableDataSource(this.empData)
+        this.dataSource = new MatTableDataSource(this.empData);
+        this.dataSource.paginator=this.paginator;
       }
     )
 

@@ -5,7 +5,20 @@
             <div class="card">
               <div class="card-body">
                 <div class="d-flex flex-column align-items-center text-center">
-                  <img [src]="ava==null ? './src/assets/images/profile.svg' : ava" alt="avatar" class="rounded-circle" width="150" height="150">
+                    <div class="row"  class="rounded-circle" width="150" height="150">
+                      <div class="col-12">
+                        <input type="file" name="image" id="image" accept="image/*" (change)="selectFile($event)"
+                               style="display: none" #avatarIp/>
+                        <div id="preview-wrapper">
+                          <div id="preview" (click)="avatarIp.click()">
+                            <img
+                              [src]="ava==''? DEFAULT_DISPLAY_AVATAR : ava"
+                              alt="" id="avatar__preview">
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <!-- <img [src]="ava==null ?  'assets/images/profile.svg' : ava" alt="avatar" class="rounded-circle" width="150" height="150"> -->
                   <!-- <img [src]="'https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/1647511730255?alt=media&token=1c02a135-d041-47c7-b32c-2be03b496b2b'" alt="avatar" class="rounded-circle" width="150"> -->
                   <div class="mt-3">
                     <h4>{{employee.name}}</h4>
@@ -15,7 +28,8 @@
               </div>
             </div>
           </div>
-          <div class="col-md-8">
+          <form class="col-md-8" (ngSubmit)="saveInfo()" >
+          <div>
             <div class="card mb-3">
               <div class="card-body">
                 <div class="row">
@@ -23,7 +37,7 @@
                     <h6 class="mb-0">Full Name</h6>
                   </div>
                   <div class="col-sm-9 text-secondary">
-                    {{employee.name}}
+                    <input type="text" [value]="employee.name" name="name" [(ngModel)]="employee.name">
                   </div>
                 </div>
                 <hr>
@@ -32,11 +46,11 @@
                     <h6 class="mb-0">Email</h6>
                   </div>
                   <div class="col-sm-9 text-secondary" >
-                      {{employee.mail}}
+                    <input type="text" [value]="employee.mail" name="mail" [(ngModel)]="employee.mail" >
                   </div>
                 </div>
                 <hr>
-                 <div class="row">
+                <div class="row">
                   <div class="col-sm-3">
                     <h6 class="mb-0">Phone</h6>
                   </div>
@@ -59,20 +73,21 @@
                     <h6 class="mb-0">Address</h6>
                   </div>
                   <div class="col-sm-9 text-secondary">
-                    {{user.address}},{{employee.district}},{{employee.province}},{{employee.country}}
+                    {{employee.address}},{{employee.district}},{{employee.province}},{{employee.country}}
                   </div>
                 </div>
-                <hr>
+
                 <div class="row">
                   <div class="col-sm-12">
-                    <a routerLink="/edit" class="btn btn-info">
-                      Edit
-                    </a>
+                    <button class="btn btn-info">
+                      Save
+                      </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </form>
         </div>
 
       </div>

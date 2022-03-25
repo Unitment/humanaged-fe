@@ -42,7 +42,11 @@
 
               <hr>
               <div class="avaAndName">
-                <img src="\assets\images\MeoBeo.jpg" alt="img2">
+                <img
+                  [src]="BUL?.avatar ? BUL.avatar
+                  : BUL?.gender?.toString() === 'FEMALE' ? 'assets/images/undraw_female_avatar_w3jk.svg'
+                  : 'assets/images/undraw_male_avatar_323b.svg'"
+                  alt="">
                 <div class="name">{{BUL?.account?.accountName}}</div>
               </div>
 

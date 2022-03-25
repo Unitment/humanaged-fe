@@ -3,7 +3,6 @@ import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {HttpClientModule} from '@angular/common/http'
-
 import {BuManagementModule} from './components/bu-management/bu-management.module';
 import {EmployeeManagementModule} from './components/employee-management/employee-management.module';
 import {ProjectManagementModule} from './components/project-management/project-management.module';
@@ -55,7 +54,7 @@ export const MY_DATE_FORMATS = {
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFirestoreModule,
     FontAwesomeModule,
-    AppRoutingModule,
+    AppRoutingModule
 
   ],
   providers: [

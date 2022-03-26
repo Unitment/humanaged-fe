@@ -108,7 +108,10 @@ export class UpdateEmployeeComponent implements OnInit {
       }
       this.form.value.avatar = this.avatar;
       this.employeeService.updateEmployee(this.form.value).subscribe(
-        data => console.log(data),
+        data => {
+          console.log(data);
+          this.employeeService.employeeSubject.next(data);
+        },
         () => undefined,
         () => this.snackBar.open("Update Successful", "OK", {
           duration: 3000,

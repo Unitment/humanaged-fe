@@ -23,7 +23,7 @@ export interface Employee {
   account: Account,
   businessUnit: BusinessUnit,
   status: Status,
-  createdAt:string;
+  modifiedDate:string;
   delete: boolean,
   projectMembers: ProjectMember[]
 }

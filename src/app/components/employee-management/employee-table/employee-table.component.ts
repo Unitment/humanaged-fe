@@ -43,8 +43,9 @@ export class EmployeeTableComponent implements OnInit {
     this._service.employeeTable().subscribe(
       data=>{
         console.log(data);
-        // const sortedData = this.employeeSort(data);
-        this.empData.push(...data);
+        let sortedData = this.employeeSort(data);
+        console.log(sortedData)
+        this.empData.push(...sortedData);
         this.isLoaded=true;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -82,7 +83,7 @@ export class EmployeeTableComponent implements OnInit {
   }
 
   employeeSort(empData:Employee[] ) {
-    return empData.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt))
+    return empData.sort((a, b) => Date.parse(b.modifiedDate) - Date.parse(a.modifiedDate))
   }
 
 

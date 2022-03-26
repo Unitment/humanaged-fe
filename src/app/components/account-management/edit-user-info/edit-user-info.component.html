@@ -37,7 +37,7 @@
                     <h6 class="mb-0">Phone</h6>
                   </div>
                   <div class="col-sm-9 text-secondary">
-                    <input type="text" [value]="employee.phoneNumber" name="phoneNumber" [(ngModel)]="employee.phoneNumber" formControlName="phoneNumber">
+                    <input matInput type="text" [value]="employee.phoneNumber" name="phoneNumber" [(ngModel)]="employee.phoneNumber" formControlName="phoneNumber">
                   </div>
                 </div>
                 <hr>
@@ -46,7 +46,7 @@
                     <h6 class="mb-0">Address</h6>
                   </div>
                   <div class="col-sm-9 text-secondary">
-                    <input type="text" [value]="employee.address" name="address" [(ngModel)]="employee.address" formControlName="address">
+                    <input matInput type="text" [value]="employee.address" name="address" [(ngModel)]="employee.address" formControlName="address">
                   </div>
                 </div>
                 <hr>
@@ -55,10 +55,19 @@
                     <h6 class="mb-0">Gender</h6>
                   </div>
                   <div class="col-sm-9 text-secondary">
-                        <select [value]="employee.gender" name="gender" [(ngModel)]="employee.gender" formControlName="gender">
-                        <option value="MALE">Male</option>
-                        <option value="FEMALE">Female</option>
-                    </select>
+                        <mat-select [value]="employee.gender" name="gender" [(ngModel)]="employee.gender" formControlName="gender">
+                        <mat-option value="MALE">Male</mat-option>
+                        <mat-option value="FEMALE">Female</mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Birthday</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    <input matInput type="date" [value]="employee.birthday" name="birthday" [(ngModel)]="employee.birthday" formControlName="birthday">
                   </div>
                 </div>
                 <hr>
@@ -67,9 +76,32 @@
                     <h6 class="mb-0">Province</h6>
                   </div>
                   <div class="col-sm-9 text-secondary">
-                        <mat-select formControlName="province" [compareWith]="compareLocation"
+                        <mat-select [value]="employee.province" name="province" [(ngModel)]="employee.province" formControlName="province" [compareWith]="compareLocation"
                                 (selectionChange)="getDistrict($event.value.id)">
                         <mat-option *ngFor="let province of provinceList" [value]="province">{{province.name}}</mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">District</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                        <mat-select [value]="employee.district" name="district" [(ngModel)]="employee.district" formControlName="district" [compareWith]="compareLocation"
+                                (selectionChange)="getWard($event.value.id)">
+                        <mat-option *ngFor="let district of districtList" [value]="district">{{district.name}}</mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Ward</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                        <mat-select [value]="employee.ward" name="ward" [(ngModel)]="employee.ward" formControlName="ward" [compareWith]="compareLocation">>
+                        <mat-option *ngFor="let ward of wardList" [value]="ward">{{ward.name}}</mat-option>
                     </mat-select>
                   </div>
                 </div>

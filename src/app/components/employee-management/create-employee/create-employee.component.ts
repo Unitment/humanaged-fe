@@ -93,7 +93,7 @@ export class CreateEmployeeComponent implements OnInit {
   getDistrict(code: any) {
     this.locationService.getDistrictByProvince(code).subscribe(
       (data: any) => {
-        console.log('get new districts')
+        console.log(data)
         this.districtList = data;
         this.wardList = []
       }

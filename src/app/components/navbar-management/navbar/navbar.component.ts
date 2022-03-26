@@ -39,6 +39,7 @@ export class NavbarComponent implements OnInit {
 
   logOut() {
     this.authService.signOut(this.username);
+    localStorage.removeItem('accountInfo')
     this.router.navigateByUrl("/login").then(() => window.location.reload());
   }
 

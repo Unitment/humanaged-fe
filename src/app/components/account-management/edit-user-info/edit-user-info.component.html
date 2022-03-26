@@ -1,0 +1,91 @@
+<div class="container">
+  <div class="main-body">
+        <div class="row gutters-sm">
+          <div class="col-md-4 mb-3">
+            <div class="card">
+              <div class="card-body">
+                <div class="d-flex flex-column align-items-center text-center">
+                    <div class="row"  class="rounded-circle" width="150" height="150">
+                      <div class="col-12">
+                        <input type="file" name="image" id="image" accept="image/*" (change)="selectFile($event)"
+                               style="display: none" #avatarIp/>
+                        <div id="preview-wrapper">
+                          <div id="preview" (click)="avatarIp.click()">
+                            <img
+                              [src]="ava==null? DEFAULT_DISPLAY_AVATAR : ava"
+                              alt="" id="avatar__preview">
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <!-- <img [src]="ava==null ?  'assets/images/profile.svg' : ava" alt="avatar" class="rounded-circle" width="150" height="150"> -->
+                  <!-- <img [src]="'https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/1647511730255?alt=media&token=1c02a135-d041-47c7-b32c-2be03b496b2b'" alt="avatar" class="rounded-circle" width="150"> -->
+                  <div class="mt-3">
+                    <h4>{{employee.name}}</h4>
+                    <p class="text-secondary mb-1">{{employee.mail}}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <form class="col-md-8" [formGroup]="form" (ngSubmit)="saveInfo()" >
+          <div>
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Phone</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    <input type="text" [value]="employee.phoneNumber" name="phoneNumber" [(ngModel)]="employee.phoneNumber" formControlName="phoneNumber">
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Address</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    <input type="text" [value]="employee.address" name="address" [(ngModel)]="employee.address" formControlName="address">
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Gender</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                        <select [value]="employee.gender" name="gender" [(ngModel)]="employee.gender" formControlName="gender">
+                        <option value="MALE">Male</option>
+                        <option value="FEMALE">Female</option>
+                    </select>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Province</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                        <mat-select formControlName="province" [compareWith]="compareLocation"
+                                (selectionChange)="getDistrict($event.value.id)">
+                        <mat-option *ngFor="let province of provinceList" [value]="province">{{province.name}}</mat-option>
+                    </mat-select>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <button class="btn btn-info">
+                      Save
+                      </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+        </div>
+
+      </div>
+  </div>

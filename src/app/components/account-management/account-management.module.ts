@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatIconModule} from '@angular/material/icon';
 import {MatBadgeModule} from '@angular/material/badge';
@@ -14,19 +13,20 @@ import {MatInputModule} from '@angular/material/input';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {HttpClientModule} from '@angular/common/http';
-import {FormsModule} from '@angular/forms';
+import {FormsModule,ReactiveFormsModule} from '@angular/forms';
 import {AccountManagementRoutingModule} from '../../routing/account-management-routing.module';
-
 import {LoginComponent} from "./login/login.component";
 import {UserInfoComponent} from './user-info/user-info.component';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
+import {EditUserInfoComponent} from './edit-user-info/edit-user-info.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
     UserInfoComponent,
+    EditUserInfoComponent,
   ],
   imports: [
     CommonModule,
@@ -46,7 +46,8 @@ import {MatListModule} from '@angular/material/list';
     MatSelectModule,
     MatMenuModule,
     MatDividerModule,
-    MatListModule
+    MatListModule,
+    ReactiveFormsModule
   ],
   exports: [
     LoginComponent

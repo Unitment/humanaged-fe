@@ -39,7 +39,7 @@ export const MY_DATE_FORMATS = {
   declarations: [
     AppComponent,
     ForbiddenComponent,
-    PageNotFoundComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

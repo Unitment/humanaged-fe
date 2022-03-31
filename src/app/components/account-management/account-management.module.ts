@@ -16,10 +16,12 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule,ReactiveFormsModule} from '@angular/forms';
 import {AccountManagementRoutingModule} from '../../routing/account-management-routing.module';
 import {LoginComponent} from "./login/login.component";
+import {ForgotPasswordComponent} from "./forgot-password/forgot-password.component";
 import {UserInfoComponent} from './user-info/user-info.component';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
 import {EditUserInfoComponent} from './edit-user-info/edit-user-info.component';
+import {ResetPasswordComponent} from "./reset-password/reset-password.component";
 
 
 @NgModule({
@@ -27,6 +29,8 @@ import {EditUserInfoComponent} from './edit-user-info/edit-user-info.component';
     LoginComponent,
     UserInfoComponent,
     EditUserInfoComponent,
+    ForgotPasswordComponent,
+    ResetPasswordComponent
   ],
   imports: [
     CommonModule,

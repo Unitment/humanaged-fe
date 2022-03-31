@@ -20,4 +20,16 @@ export class AccountService {
   public accountInfo(account: Account): Observable<any> {
     return this.http.post<any>(`${this.apiServerUrl}/account/info`, account);
   }
+
+  public createTokenReset(accountName: String): Observable<String> {
+    return this.http.put<any>(`${this.apiServerUrl}/account/reset/${accountName}`, null);
+  }
+
+  public getAccountByTokenReset(token: String): Observable<Account> {
+    return this.http.get<any>(`${this.apiServerUrl}/account/token/${token}`);
+  }
+  public updatePassword(account: Account): Observable<Account> {
+    return this.http.put<Account>(`${this.apiServerUrl}/account/change-password`,account);
+  }
+  // public resetPassword(account:Account):
 }

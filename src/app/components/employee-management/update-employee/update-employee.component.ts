@@ -110,14 +110,15 @@ export class UpdateEmployeeComponent implements OnInit {
       this.employeeService.updateEmployee(this.form.value).subscribe(
         data => {
           console.log(data);
-          this.employeeService.employeeSubject.next(data);
         },
         () => undefined,
         () => this.snackBar.open("Update Successful", "OK", {
           duration: 3000,
           panelClass: ['mat-toolbar', 'mat-primary']
         }))
-      this.route.navigateByUrl('employee/table');
+        setTimeout(()=> {
+        this.route.navigateByUrl('employee/table');
+        },50)
     } else {
       this.snackBar.open("Please fill form correctly", "OK", {
         duration: 3000,

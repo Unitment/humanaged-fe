@@ -122,14 +122,9 @@ export class EditUserInfoComponent implements OnInit {
       } else {
         this.uploadImage()
       }
-
       this.employeeService.updateEmployee(this.form.value).subscribe(
         data => {
-          this.employeeService.getEmployeeById(this.form.value.id).subscribe(
-            data => {
-              localStorage.setItem('accountInfo',JSON.stringify(data));
-            }
-          )
+          localStorage.setItem('accountInfo',JSON.stringify(data))
         },
         () => undefined,
         () => this.snackBar.open("Update Successful", "OK", {
@@ -137,8 +132,8 @@ export class EditUserInfoComponent implements OnInit {
           panelClass: ['mat-toolbar', 'mat-primary']
         }))
         setTimeout(() => {
-          this.router.navigateByUrl('employee/table');
-        }, 30);
+          this.router.navigateByUrl('account/info');
+        }, 50);
     } else {
       console.log(this.form.value)
       this.snackBar.open("Please fill form correctly", "", {

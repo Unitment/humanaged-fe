@@ -25,12 +25,6 @@ export class UserInfoComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    this.employeeService.accountSubject.subscribe(
-      data => {
-        console.log(data);
-        localStorage.setItem('accountInfo',JSON.stringify(data))
-      }
-    )
     const accountInfo = localStorage.getItem('accountInfo');
     this.employee = accountInfo ? JSON.parse(accountInfo) : null;
     console.log(this.employee);

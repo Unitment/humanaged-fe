@@ -51,7 +51,7 @@ export class EmployeeTableComponent implements OnInit, OnDestroy {
         data => {
           let sortedData = this.employeeSort(data);
           this.empData.push(...sortedData);
-          console.log('man', [...this.empData]);
+          // console.log('man', [...this.empData]);
           this.isLoaded=true;
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -63,15 +63,16 @@ export class EmployeeTableComponent implements OnInit, OnDestroy {
       )
     )
 
-
-
-
-
+    this._service.employeeSubject.subscribe(
+      data => {
+      this.empData.unshift(data);
+      this.dataSource = new MatTableDataSource(this.empData);
+      this.dataSource.paginator=this.paginator;
+      }
+    )
 
 
     this.dataSourceFilters.filterPredicate = function (record,filter) {
-      // return record.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
-      // debugger;
       var map = new Map(JSON.parse(filter));
       let isMatch = false;
       for(let [key,value] of map){

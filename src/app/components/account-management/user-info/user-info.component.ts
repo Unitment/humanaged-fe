@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Account } from 'src/app/model/account/Account';
 import { Employee } from 'src/app/model/employee/Employee';
 import { AccountService } from 'src/app/services/account.service';
+import { EmployeeService } from 'src/app/services/employee.service';
 
 
 @Component({
@@ -15,7 +16,7 @@ export class UserInfoComponent implements OnInit {
   private cdr: ChangeDetectorRef;
   constructor(
     private router: Router,
-    private loginService : AccountService
+    private employeeService : EmployeeService
   ) { }
 
   account: Account = {
@@ -24,8 +25,15 @@ export class UserInfoComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    this.employeeService.accountSubject.subscribe(
+      data => {
+        console.log(data);
+        localStorage.setItem('accountInfo',JSON.stringify(data))
+      }
+    )
     const accountInfo = localStorage.getItem('accountInfo');
     this.employee = accountInfo ? JSON.parse(accountInfo) : null;
+    console.log(this.employee);
   }
 
   onEditClick(id: string) {

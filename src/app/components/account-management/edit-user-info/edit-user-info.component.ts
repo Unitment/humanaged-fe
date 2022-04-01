@@ -80,7 +80,7 @@ export class EditUserInfoComponent implements OnInit {
     (data: Employee) => {
       this.ava = data.avatar == null ? '' : data.avatar;
       this.form.setValue({
-        id: data.id,
+          id: data.id,
           name: data.name,
           gender: data.gender,
           birthday: data.birthday,
@@ -95,14 +95,14 @@ export class EditUserInfoComponent implements OnInit {
           status: data.status,
           avatar: this.ava
       });
-      console.log(data)
+      // console.log(data)
     }
   )
 
 
 
     // this.ava = ava ? JSON.parse(ava) : null;
-    console.log(this.employee);
+    // console.log(this.employee);
     // this.cdr.markForCheck();
   }
 
@@ -112,21 +112,19 @@ export class EditUserInfoComponent implements OnInit {
     if (this.form.valid) {
       if (this.ava == '' || this.ava == this.MALE_AVATAR || this.ava == this.FEMALE_AVATAR) {
         if (this.form.value.gender == 'MALE') {
-          console.log("male")
           this.ava = this.MALE_AVATAR;
         } else if (this.form.value.gender == 'FEMALE') {
-          console.log("female")
           this.ava = this.FEMALE_AVATAR;
+          console.log(this.ava)
         } else {
           this.ava = this.DEFAULT_DISPLAY_AVATAR;
         }
       } else {
         this.uploadImage()
       }
+
       this.employeeService.updateEmployee(this.form.value).subscribe(
         data => {
-          console.log(data)
-          this.employeeService.employeeSubject.next(data)
           this.employeeService.getEmployeeById(this.form.value.id).subscribe(
             data => {
               localStorage.setItem('accountInfo',JSON.stringify(data));
@@ -138,7 +136,9 @@ export class EditUserInfoComponent implements OnInit {
           duration: 3000,
           panelClass: ['mat-toolbar', 'mat-primary']
         }))
-      this.router.navigateByUrl('employee/table');
+        setTimeout(() => {
+          this.router.navigateByUrl('employee/table');
+        }, 30);
     } else {
       console.log(this.form.value)
       this.snackBar.open("Please fill form correctly", "", {

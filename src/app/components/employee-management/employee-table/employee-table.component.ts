@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { EmployeeService } from 'src/app/services/employee.service';
 import { AuthService } from 'src/app/auth/_services/auth.service'
@@ -9,17 +9,21 @@ import { MatPaginator } from '@angular/material/paginator';
 import { DialogService } from 'src/app/services/dialog.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogConfig } from '@angular/material/dialog';
+import { ThisReceiver } from '@angular/compiler';
+import { Subscription } from 'rxjs/internal/Subscription';
 @Component({
   selector: 'app-employee-table',
   templateUrl: './employee-table.component.html',
   styleUrls: ['./employee-table.component.css']
 })
-export class EmployeeTableComponent implements OnInit {
+export class EmployeeTableComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
 
   empData: Employee[] = [];
+  empData1: Employee[] = [];
+
 
   dataSource = new MatTableDataSource(this.empData);
   dataSourceFilters = new MatTableDataSource(this.empData);
@@ -30,41 +34,40 @@ export class EmployeeTableComponent implements OnInit {
   isLoaded=false;
   isAdmin=false;
 
+  private subscription = new Subscription();
+
   constructor(
     private router: Router,
     private _service : EmployeeService,
     private dialogService:DialogService,
     private authService:AuthService,
     private cdr:ChangeDetectorRef,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {}
 
   ngOnInit(): void {
-    this._service.employeeTable().subscribe(
-      data=>{
-        console.log(data);
-        let sortedData = this.employeeSort(data);
-        console.log(sortedData)
-        this.empData.push(...sortedData);
-        this.isLoaded=true;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.isAdmin=this.authService.isAdmin();
-        // console.log(this.paginator)
-        // console.log(this.sort)
-        if (this.authService.isAdmin()) {
-         this.displayedColumns = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','status','accountName','action'];
+    this.subscription.add(
+      this._service.employeeTable().subscribe(
+        data => {
+          let sortedData = this.employeeSort(data);
+          this.empData.push(...sortedData);
+          console.log('man', [...this.empData]);
+          this.isLoaded=true;
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.isAdmin=this.authService.isAdmin();
+          if (this.authService.isAdmin()) {
+           this.displayedColumns = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','status','accountName','action'];
+          }
         }
-      }
+      )
     )
-    this._service.employeeSubject.subscribe(
-      data => {
-        // console.log(this.empData.map(x => x.createdAt));
-        this.empData.unshift(data);
-        this.dataSource = new MatTableDataSource(this.empData);
-        this.dataSource.paginator=this.paginator;
-      }
-    )
+
+
+
+
+
+
 
     this.dataSourceFilters.filterPredicate = function (record,filter) {
       // return record.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase());
@@ -81,6 +84,11 @@ export class EmployeeTableComponent implements OnInit {
 
   ngAfterViewInit() {
   }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
+
 
   employeeSort(empData:Employee[] ) {
     return empData.sort((a, b) => Date.parse(b.modifiedDate) - Date.parse(a.modifiedDate))

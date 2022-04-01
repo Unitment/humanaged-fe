@@ -79,6 +79,8 @@ export class EditUserInfoComponent implements OnInit {
   this.employeeService.getEmployeeById(this.employee.id).subscribe(
     (data: Employee) => {
       this.ava = data.avatar == null ? '' : data.avatar;
+      this.getDistrict(data.province?.id);
+      this.getWard(data.district?.id);
       this.form.setValue({
           id: data.id,
           name: data.name,
@@ -133,7 +135,7 @@ export class EditUserInfoComponent implements OnInit {
         }))
         setTimeout(() => {
           this.router.navigateByUrl('account/info');
-        }, 50);
+        }, 70);
     } else {
       console.log(this.form.value)
       this.snackBar.open("Please fill form correctly", "", {

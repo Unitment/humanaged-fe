@@ -12,9 +12,6 @@ import {
 } from './create-employee/import-from-file-dialog/import-from-file-dialog.component';
 import {ImportErrorDialogComponent} from './create-employee/import-error-dialog/import-error-dialog.component';
 import {EmployeeTableComponent} from './employee-table/employee-table.component'
-import {MatFormFieldModule} from "@angular/material/form-field";
-import {MatOptionModule} from "@angular/material/core";
-import {MatSelectModule} from "@angular/material/select";
 import {MaterialModule} from "../material/material.module";
 import {ReactiveFormsModule} from "@angular/forms";
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
@@ -33,9 +30,6 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
     CommonModule,
     EmployeeManagementRoutingModule,
     MatDialogModule,
-    MatFormFieldModule,
-    MatOptionModule,
-    MatSelectModule,
     MaterialModule,
     ReactiveFormsModule,
     FontAwesomeModule,

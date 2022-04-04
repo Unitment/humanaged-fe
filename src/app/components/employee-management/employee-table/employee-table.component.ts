@@ -24,11 +24,9 @@ export class EmployeeTableComponent implements OnInit, OnDestroy {
 
 
   empData: Employee[] = [];
-  empData1: Employee[] = [];
 
 
   dataSource = new MatTableDataSource(this.empData);
-  dataSourceFilters = new MatTableDataSource(this.empData);
   displayedColumns: string[] = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','status','accountName'];
 
   // displayedColumns: string[] = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','district','ward','address','status','accountName','action'];
@@ -79,15 +77,6 @@ export class EmployeeTableComponent implements OnInit, OnDestroy {
       return columnValue;
     }
 
-    this.dataSourceFilters.filterPredicate = function (record,filter) {
-      var map = new Map(JSON.parse(filter));
-      let isMatch = false;
-      for(let [key,value] of map){
-        isMatch = (value=="All") || (record[key as keyof Employee] == value) || (record.account.accountName==value);
-        if(!isMatch) return false;
-      }
-      return isMatch;
-    }
 }
 
   ngAfterViewInit() {

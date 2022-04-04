@@ -10,7 +10,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DialogService } from 'src/app/services/dialog.service';
-import { log } from 'console';
 import { AuthService } from 'src/app/auth/_services/auth.service';
 
 @Component({
@@ -37,6 +36,8 @@ export class ProjectTableComponent implements OnInit, AfterViewInit {
         this.dataSource = new MatTableDataSource(this.projects);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        console.log(this.sort);
+        
         this.isAdmin=this.authService.isAdmin();
         if (!this.authService.isAdmin()) {
           this.displayedColumns = ['id','name','startDate','endDate','state'];
@@ -46,6 +47,8 @@ export class ProjectTableComponent implements OnInit, AfterViewInit {
       () => {}
     );
   }
+
+  
 
   projects: Array<Project> = [];
   displayedColumns: string[] = [
@@ -141,7 +144,7 @@ export class ProjectTableComponent implements OnInit, AfterViewInit {
     });
   }
 
-  openProjectDetailDialog(id: string){
+  detailProject(id: string){
     this.dialogService.openProjectDetailDialog(id);
   }
 }

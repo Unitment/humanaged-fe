@@ -56,8 +56,8 @@
               <p>PM</p>
               <hr>
               <div class="avaAndName">
-                <img *ngIf="PM?.gender?.toString()==='MALE'" src="{{(PM?.avatar) || '\\assets\\images\\undraw_male_avatar_323b.svg' }}" alt="imgPM">
-                <img *ngIf="PM?.gender?.toString()==='FEMALE'" src="{{(PM?.avatar) || '\\assets\\images\\undraw_female_avatar_w3jk.svg' }}" alt="imgPM">
+                <img *ngIf="PM.avatar" alt="imgPM">
+                <img *ngIf="PM.avatar" alt="imgPM">
                 <div class="name">{{PM?.account?.accountName}}</div>
               </div>
               <div *ngIf="isAdmin" class="oneButton">

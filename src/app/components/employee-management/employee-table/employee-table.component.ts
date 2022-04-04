@@ -9,7 +9,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { DialogService } from 'src/app/services/dialog.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogConfig } from '@angular/material/dialog';
-import { ThisReceiver } from '@angular/compiler';
 import { Subscription } from 'rxjs/internal/Subscription';
 @Component({
   selector: 'app-employee-table',
@@ -103,6 +102,7 @@ export class EmployeeTableComponent implements OnInit, OnDestroy {
       this.dataSource.paginator.firstPage();
     }
   }
+
   detailEmployee(id: string) {
     this.dialogService.openEmployeeDetailDialog(id);
   }

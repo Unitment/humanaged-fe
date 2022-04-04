@@ -46,19 +46,16 @@ export class UpdateEmployeeComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.formBuilder.group({
         id: [],
-        name: ['', Validators.required],
+        name: {value: null, disabled: true},
         gender: ['', Validators.required],
         birthday: ['', Validators.required],
         phoneNumber: ['', [Validators.required, Validators.pattern("(\\d{3}) (\\d{3})( \\d{4})")]],
-        mail: ['', [Validators.required, Validators.email]],
+        mail: {value: null, disabled: true},
         province: ['', Validators.required],
         district: ['', Validators.required],
         ward: ['', Validators.required],
         address: ['', Validators.required],
-        account: [],
-        country: [],
-        status: [],
-        avatar: ['']
+        avatar: []
       }
     )
 
@@ -82,9 +79,6 @@ export class UpdateEmployeeComponent implements OnInit {
           district: data.district,
           ward: data.ward,
           address: data.address,
-          account: data.account,
-          country: data.country,
-          status: data.status,
           avatar: this.avatar
         });
       }

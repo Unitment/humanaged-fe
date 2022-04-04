@@ -18,6 +18,8 @@ import { Subscription } from 'rxjs/internal/Subscription';
 export class EmployeeTableComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('empTbSortWithObject') empTbSortWithObject = new MatSort();
+
 
 
   empData: Employee[] = [];
@@ -30,7 +32,6 @@ export class EmployeeTableComponent implements OnInit, OnDestroy {
 
   // displayedColumns: string[] = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','district','ward','address','status','accountName','action'];
 
-  isLoaded=false;
   isAdmin=false;
 
   private subscription = new Subscription();
@@ -50,11 +51,11 @@ export class EmployeeTableComponent implements OnInit, OnDestroy {
         data => {
           let sortedData = this.employeeSort(data);
           this.empData.push(...sortedData);
-          // console.log('man', [...this.empData]);
-          this.isLoaded=true;
           this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+          // this.dataSource.sort = this.sort;
+          this.dataSource.sort = this.empTbSortWithObject;
           console.log(this.sort);
+          console.log(this.paginator);
           this.isAdmin=this.authService.isAdmin();
           if (this.authService.isAdmin()) {
            this.displayedColumns = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','status','accountName','action'];
@@ -71,12 +72,17 @@ export class EmployeeTableComponent implements OnInit, OnDestroy {
       }
     )
 
+    this.dataSource.sortingDataAccessor = (row:Employee,columnName:string) : string => {
+      if(columnName=="accountName") return row.account.accountName;
+      var columnValue = row[columnName as keyof Employee] as string;
+      return columnValue;
+    }
 
     this.dataSourceFilters.filterPredicate = function (record,filter) {
       var map = new Map(JSON.parse(filter));
       let isMatch = false;
       for(let [key,value] of map){
-        isMatch = (value=="All") || (record[key as keyof Employee] == value);
+        isMatch = (value=="All") || (record[key as keyof Employee] == value) || (record.account.accountName==value);
         if(!isMatch) return false;
       }
       return isMatch;
@@ -107,7 +113,7 @@ export class EmployeeTableComponent implements OnInit, OnDestroy {
       this.dataSource.paginator.firstPage();
     }
   }
-  
+
   detailEmployee(id: string) {
     this.dialogService.openEmployeeDetailDialog(id);
   }

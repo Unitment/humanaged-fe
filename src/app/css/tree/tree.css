@@ -144,6 +144,9 @@
   .avaAndName {
     display: flex;
     align-items: center;
+  }
+
+  .avaAndName img{
     object-fit: cover;
     object-position: center;
   }

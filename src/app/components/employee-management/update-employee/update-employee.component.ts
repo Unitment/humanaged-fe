@@ -67,7 +67,7 @@ export class UpdateEmployeeComponent implements OnInit {
       data => this.provinceList = data
     )
 
-    this.employeeService.getEmployeeById(this.activatedRoute.snapshot.params['id']).subscribe(
+    this.employeeService.getUpdateEmployee(this.activatedRoute.snapshot.params['id']).subscribe(
       (data: Employee) => {
         this.avatar = data.avatar == null ? '' : data.avatar;
         this.getDistrict(data.province?.id);

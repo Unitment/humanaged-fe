@@ -28,7 +28,11 @@ export class EmployeeService {
   }
 
   public getDetailEmployee(empId: string): Observable<EmployeeDetail> {
-    return this.http.get<EmployeeDetail>(`${this.API_EMPLOYEE}/detail/${empId}`);
+    return this.http.get<EmployeeDetail>(`${this.API_EMPLOYEE}/${empId}/detail`);
+  }
+
+  public getUpdateEmployee(empId: string): Observable<Employee> {
+    return this.http.get<Employee>(`${this.API_EMPLOYEE}/${empId}/update`);
   }
 
   public getSupports(): Observable<Employee[]> {

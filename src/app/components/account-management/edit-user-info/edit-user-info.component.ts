@@ -136,7 +136,7 @@ export class EditUserInfoComponent implements OnInit {
         }))
         setTimeout(() => {
           this.router.navigateByUrl('account/info');
-        }, 100);
+        }, 200);
     } else {
       console.log(this.form.value)
       this.snackBar.open("Please fill form correctly", "", {

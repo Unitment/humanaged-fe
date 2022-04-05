@@ -1,14 +1,16 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Account} from '../model/account/Account';
 import {environment} from 'src/environments/environment';
+import { Employee } from '../model/employee/Employee';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
   private apiServerUrl = environment.apiBaseUrl;
+  public accountSubject=new Subject<Employee>();
 
   constructor(private http: HttpClient) {
   }

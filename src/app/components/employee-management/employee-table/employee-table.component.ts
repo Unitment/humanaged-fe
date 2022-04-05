@@ -50,10 +50,7 @@ export class EmployeeTableComponent implements OnInit, OnDestroy {
           let sortedData = this.employeeSort(data);
           this.empData.push(...sortedData);
           this.dataSource.paginator = this.paginator;
-          // this.dataSource.sort = this.sort;
           this.dataSource.sort = this.empTbSortWithObject;
-          console.log(this.sort);
-          console.log(this.paginator);
           this.isAdmin=this.authService.isAdmin();
           if (this.authService.isAdmin()) {
            this.displayedColumns = ['id', 'name', 'birthday','gender','phoneNo','mail','country','province','status','accountName','action'];
@@ -72,6 +69,7 @@ export class EmployeeTableComponent implements OnInit, OnDestroy {
 
     this.dataSource.sortingDataAccessor = (row:Employee,columnName:string) : string => {
       if(columnName=="accountName") return row.account.accountName;
+      if (columnName=="province") return row.province.name;
       var columnValue = row[columnName as keyof Employee] as string;
       return columnValue;
     }

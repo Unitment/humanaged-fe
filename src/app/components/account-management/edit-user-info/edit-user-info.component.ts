@@ -43,7 +43,7 @@ export class EditUserInfoComponent implements OnInit {
   districtList: Array<any> = [];
   wardList: Array<any> = [];
   form: FormGroup;
-  ava:string;
+  avatar:string;
   MALE_AVATAR = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/undraw_male_avatar_323b.svg?alt=media&token=faa92c25-0f68-4f5d-95ce-5505e120e85d";
   FEMALE_AVATAR = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/undraw_female_avatar_w3jk.svg?alt=media&token=ce9acefb-a1bb-4285-9c91-ad02212d9e6f";
   DEFAULT_DISPLAY_AVATAR = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/profile.svg?alt=media&token=16bc5a31-510f-4250-bbfc-57d79f078710";
@@ -78,7 +78,7 @@ export class EditUserInfoComponent implements OnInit {
 
   this.employeeService.getEmployeeById(this.employee.id).subscribe(
     (data: Employee) => {
-      this.ava = data.avatar == null ? '' : data.avatar;
+      this.avatar = data.avatar == null ? '' : data.avatar;
       this.getDistrict(data.province?.id);
       this.getWard(data.district?.id);
       this.form.setValue({
@@ -95,7 +95,7 @@ export class EditUserInfoComponent implements OnInit {
           account: data.account,
           country: data.country,
           status: data.status,
-          avatar: this.ava
+          avatar: this.avatar
       });
       // console.log(data)
     }
@@ -112,18 +112,19 @@ export class EditUserInfoComponent implements OnInit {
 
   saveInfo() {
     if (this.form.valid) {
-      if (this.ava == '' || this.ava == this.MALE_AVATAR || this.ava == this.FEMALE_AVATAR) {
+      if (this.avatar == '' || this.avatar == this.MALE_AVATAR || this.avatar == this.FEMALE_AVATAR) {
         if (this.form.value.gender == 'MALE') {
-          this.ava = this.MALE_AVATAR;
+          this.avatar = this.MALE_AVATAR;
         } else if (this.form.value.gender == 'FEMALE') {
-          this.ava = this.FEMALE_AVATAR;
-          console.log(this.ava)
+          this.avatar = this.FEMALE_AVATAR;
+          console.log(this.avatar)
         } else {
-          this.ava = this.DEFAULT_DISPLAY_AVATAR;
+          this.avatar = this.DEFAULT_DISPLAY_AVATAR;
         }
       } else {
         this.uploadImage()
       }
+      this.form.value.avatar=this.avatar;
       this.employeeService.updateEmployee(this.form.value).subscribe(
         data => {
           localStorage.setItem('accountInfo',JSON.stringify(data))
@@ -148,12 +149,12 @@ export class EditUserInfoComponent implements OnInit {
 
   uploadImage() {
     let name = Date.now().toString();
-    this.angularFireStorage.upload(name, this.ava)
+    this.angularFireStorage.upload(name, this.avatar)
       .snapshotChanges().pipe(
       finalize(() => {
         this.angularFireStorage.ref(name).getDownloadURL().subscribe(
           (data) => {
-            this.ava = data
+            this.avatar = data
           }
         )
       })
@@ -163,9 +164,9 @@ export class EditUserInfoComponent implements OnInit {
   selectFile(event: any) {
     let file = event.target.files[0]
     if (file != undefined) {
-      this.ava = file;
+      this.avatar = file;
     } else {
-      this.ava = '';
+      this.avatar = '';
     }
   }
 

@@ -13,6 +13,8 @@ import {
   ImportFromFileDialogComponent
 } from "../create-employee/import-from-file-dialog/import-from-file-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import { TokenStorageService } from 'src/app/auth/_services/token-storage.service';
+import { AccountService } from 'src/app/services/account.service';
 
 
 @Component({
@@ -37,10 +39,12 @@ export class UpdateEmployeeComponent implements OnInit {
               private locationService: LocationService,
               private snackBar: MatSnackBar,
               private activatedRoute: ActivatedRoute,
-              private location: Location,
+              private accountService: AccountService,
               private route: Router,
               private angularFireStorage: AngularFireStorage,
-              private dialog: MatDialog) {
+              private dialog: MatDialog,
+              private tokenStorageService: TokenStorageService
+    ) {
   }
 
   ngOnInit(): void {
@@ -109,7 +113,10 @@ export class UpdateEmployeeComponent implements OnInit {
       this.form.value.avatar = this.avatar;
       this.employeeService.updateEmployee(this.form.value).subscribe(
         data => {
-          console.log(data);
+          if (data.id===this.tokenStorageService.getUser().id) {
+            this.accountService.accountSubject.next(data);
+            localStorage.setItem('accountInfo',JSON.stringify(data));
+          }
         },
         () => undefined,
         () => this.snackBar.open("Update Successful", "OK", {

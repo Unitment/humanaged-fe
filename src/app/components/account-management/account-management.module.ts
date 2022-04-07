@@ -20,7 +20,6 @@ import {ForgotPasswordComponent} from "./forgot-password/forgot-password.compone
 import {UserInfoComponent} from './user-info/user-info.component';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatListModule} from '@angular/material/list';
-import {EditUserInfoComponent} from './edit-user-info/edit-user-info.component';
 import {ResetPasswordComponent} from "./reset-password/reset-password.component";
 
 
@@ -28,7 +27,6 @@ import {ResetPasswordComponent} from "./reset-password/reset-password.component"
   declarations: [
     LoginComponent,
     UserInfoComponent,
-    EditUserInfoComponent,
     ForgotPasswordComponent,
     ResetPasswordComponent
   ],

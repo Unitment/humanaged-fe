@@ -6,6 +6,7 @@ import {TokenStorageService} from "../../../auth/_services/token-storage.service
 import {EventBusService} from "../../../auth/_event/event-bus.service";
 import {Subscription} from "rxjs";
 import { Employee } from 'src/app/model/employee/Employee';
+import { EmployeeService } from 'src/app/services/employee.service';
 
 @Component({
   selector: 'app-navbar',
@@ -26,14 +27,18 @@ export class NavbarComponent implements OnInit {
     private accountService: AccountService,
     private cdr:ChangeDetectorRef,
     private authService: AuthService,
-    private tokenStorageService: TokenStorageService,
+    private employeeService: EmployeeService,
     private eventBusService: EventBusService) {
   }
 
   ngOnInit(): void {
-    const accountInfo = localStorage.getItem('accountInfo');
-    this.employee = accountInfo ? JSON.parse(accountInfo) : null;
-    this.accountService.accountSubject.subscribe(
+    this.employeeService.getCurrentAccountEmployee().subscribe(
+      data => {
+        this.employee=data;
+      }
+    )
+
+    this.accountService.currentAccountEmployee.subscribe(
       data => {
         this.employee=data;
       }

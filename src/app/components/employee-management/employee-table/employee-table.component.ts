@@ -49,6 +49,7 @@ export class EmployeeTableComponent implements OnInit, OnDestroy {
         data => {
           let sortedData = this.employeeSort(data);
           this.empData.push(...sortedData);
+          console.log(sortedData);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.empTbSortWithObject;
           this.isAdmin=this.authService.isAdmin();
@@ -80,7 +81,7 @@ export class EmployeeTableComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscription.unsubscribe();
+    // this.subscription.unsubscribe();
   }
 
 

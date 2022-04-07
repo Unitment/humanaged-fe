@@ -16,6 +16,7 @@ export class UserInfoComponent implements OnInit {
   private cdr: ChangeDetectorRef;
   constructor(
     private router: Router,
+    private accountService: AccountService,
     private employeeService : EmployeeService
   ) { }
 
@@ -28,6 +29,11 @@ export class UserInfoComponent implements OnInit {
     const accountInfo = localStorage.getItem('accountInfo');
     this.employee = accountInfo ? JSON.parse(accountInfo) : null;
     console.log(this.employee);
+    this.accountService.accountSubject.subscribe(
+      data => {
+        this.employee=data;
+      }
+    )
   }
 
   onEditClick(id: string) {

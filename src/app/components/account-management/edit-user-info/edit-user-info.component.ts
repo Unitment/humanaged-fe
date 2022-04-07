@@ -25,7 +25,7 @@ export class EditUserInfoComponent implements OnInit {
     private activatedRoute : ActivatedRoute,
     private employeeService:EmployeeService,
     private cdr: ChangeDetectorRef,
-    private tokenStorageService: TokenStorageService,
+    private accountService: AccountService,
     private snackBar : MatSnackBar,
     private locationService: LocationService,
     private formBuilder:FormBuilder,
@@ -43,7 +43,8 @@ export class EditUserInfoComponent implements OnInit {
   districtList: Array<any> = [];
   wardList: Array<any> = [];
   form: FormGroup;
-  avatar:string;
+  avatarFile: File;
+  avatar: string;
   MALE_AVATAR = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/undraw_male_avatar_323b.svg?alt=media&token=faa92c25-0f68-4f5d-95ce-5505e120e85d";
   FEMALE_AVATAR = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/undraw_female_avatar_w3jk.svg?alt=media&token=ce9acefb-a1bb-4285-9c91-ad02212d9e6f";
   DEFAULT_DISPLAY_AVATAR = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/profile.svg?alt=media&token=16bc5a31-510f-4250-bbfc-57d79f078710";
@@ -53,8 +54,8 @@ export class EditUserInfoComponent implements OnInit {
   ngOnInit(): void {
   // this.user=this.tokenStorageService.getUser();
   // this.ava=this.user.avatar;
+  this.employee.id = this.activatedRoute.snapshot.params['id'];
   const accountInfo = localStorage.getItem('accountInfo');
-  this.employee = accountInfo ? JSON.parse(accountInfo) : null;
   this.form = this.formBuilder.group({
     id: [],
     name: [],
@@ -66,36 +67,29 @@ export class EditUserInfoComponent implements OnInit {
     district: ['', Validators.required],
     ward: ['', Validators.required],
     address: ['', Validators.required],
-    account: [],
-    country: [],
-    status: [],
-    avatar: ['']
   })
 
   this.locationService.getAllProvince().subscribe(
     data => this.provinceList = data
   )
 
-  this.employeeService.getEmployeeById(this.employee.id).subscribe(
+  this.employeeService.getUpdateEmployee(this.employee.id).subscribe(
     (data: Employee) => {
-      this.avatar = data.avatar == null ? '' : data.avatar;
-      this.getDistrict(data.province?.id);
-      this.getWard(data.district?.id);
+      this.employee = data;
+      this.avatar = this.employee.avatar == null ? '' : this.employee.avatar;
+      this.getDistrict(this.employee.province?.id);
+      this.getWard(this.employee.district?.id);
       this.form.setValue({
-          id: data.id,
-          name: data.name,
-          gender: data.gender,
-          birthday: data.birthday,
-          phoneNumber: data.phoneNumber,
-          mail: data.mail,
-          province: data.province,
-          district: data.district,
-          ward: data.ward,
-          address: data.address,
-          account: data.account,
-          country: data.country,
-          status: data.status,
-          avatar: this.avatar
+          id: this.employee.id,
+          name: this.employee.name,
+          gender: this.employee.gender,
+          birthday: this.employee.birthday,
+          phoneNumber: this.employee.phoneNumber,
+          mail: this.employee.mail,
+          province: this.employee.province,
+          district: this.employee.district,
+          ward: this.employee.ward,
+          address: this.employee.address,
       });
       // console.log(data)
     }
@@ -122,12 +116,11 @@ export class EditUserInfoComponent implements OnInit {
           this.avatar = this.DEFAULT_DISPLAY_AVATAR;
         }
       } else {
-        this.uploadImage()
+        if(this.avatarFile) this.uploadImage();
       }
-      this.form.value.avatar=this.avatar;
       this.employeeService.updateEmployee(this.form.value).subscribe(
         data => {
-          localStorage.setItem('accountInfo',JSON.stringify(data))
+          this.accountService.changAccountInfo(data);
         },
         () => undefined,
         () => this.snackBar.open("Update Successful", "OK", {
@@ -148,13 +141,23 @@ export class EditUserInfoComponent implements OnInit {
 
 
   uploadImage() {
+    console.log("upload");
+    
     let name = Date.now().toString();
-    this.angularFireStorage.upload(name, this.avatar)
+    this.angularFireStorage.upload(name, this.avatarFile)
       .snapshotChanges().pipe(
       finalize(() => {
         this.angularFireStorage.ref(name).getDownloadURL().subscribe(
           (data) => {
-            this.avatar = data
+            this.employeeService.updateEmployeeAvatar(this.form.value.id, data)
+              .subscribe(data => {
+                console.log(data);
+                this.accountService.changAccountInfo({avatar: data});
+                this.snackBar.open("Avatar Uploaded", "OK", {
+                  duration: 3000,
+                  panelClass: ['mat-toolbar', 'mat-primary']
+                });
+              });
           }
         )
       })
@@ -162,9 +165,19 @@ export class EditUserInfoComponent implements OnInit {
   }
 
   selectFile(event: any) {
-    let file = event.target.files[0]
+    let file: File = event.target.files[0]
     if (file != undefined) {
-      this.avatar = file;
+      var fileReader = new FileReader();
+
+      fileReader.onload = () => {
+        console.log("load");
+        
+        this.avatar = fileReader.result as string;
+      };
+
+      fileReader.readAsDataURL(file);
+
+      this.avatarFile = file;
     } else {
       this.avatar = '';
     }

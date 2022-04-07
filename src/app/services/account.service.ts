@@ -10,7 +10,7 @@ import { Employee } from '../model/employee/Employee';
 })
 export class AccountService {
   private apiServerUrl = environment.apiBaseUrl;
-  public accountSubject=new Subject<Employee>();
+  public currentAccountEmployee=new Subject<Employee>();
 
   constructor(private http: HttpClient) {
   }

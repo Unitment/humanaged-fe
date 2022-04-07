@@ -2,6 +2,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {environment} from 'src/environments/environment';
+import { TokenStorageService } from '../auth/_services/token-storage.service';
 import {Employee} from '../model/employee/Employee';
 import { EmployeeDetail } from '../model/employee/EmployeeDetail';
 
@@ -12,7 +13,7 @@ export class EmployeeService {
   private API_EMPLOYEE = environment.apiBaseUrl + "/employee";
   public employeeSubject=new Subject<any>();
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private tokenStorageService: TokenStorageService) {
   }
 
   public getAllEmployee(): Observable<Array<Employee>> {
@@ -65,5 +66,9 @@ export class EmployeeService {
 
   public removeEmployee(id: String) : Observable<Employee> {
     return this.http.delete<Employee>(this.API_EMPLOYEE + "/" + id)
+  }
+
+  public getCurrentAccountEmployee(): Observable<Employee>{
+    return this.getEmployeeById(this.tokenStorageService.getUser().id)
   }
 }

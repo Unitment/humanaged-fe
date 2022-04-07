@@ -108,8 +108,7 @@ export class UpdateEmployeeComponent implements OnInit {
       this.employeeService.updateEmployee(this.form.value).subscribe(
         data => {
           if (data.id===this.tokenStorageService.getUser().id) {
-            this.accountService.accountSubject.next(data);
-            localStorage.setItem('accountInfo',JSON.stringify(data));
+            this.accountService.currentAccountEmployee.next(data);
           }
         },
         () => undefined,

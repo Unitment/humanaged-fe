@@ -77,11 +77,12 @@
               <div class="row">
                 <mat-form-field class="col-12">
                   <mat-label>Mail</mat-label>
-                  <input matInput placeholder="Type mail" formControlName="mail">
-                  <mat-error *ngIf="form.get('mail')?.hasError('required') && form.get('mail')?.touched">
+                  <input matInput placeholder="Type mail" formControlName="personalMail">
+                  <mat-error
+                    *ngIf="form.get('personalMail')?.hasError('required') && form.get('personalMail')?.touched">
                     Mail is required
                   </mat-error>
-                  <mat-error *ngIf="form.get('mail')?.hasError('email') && form.get('mail')?.dirty">
+                  <mat-error *ngIf="form.get('personalMail')?.hasError('email') && form.get('personalMail')?.dirty">
                     Please enter correct mail
                   </mat-error>
                 </mat-form-field>

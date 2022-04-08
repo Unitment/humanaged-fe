@@ -1,16 +1,14 @@
 import {Injectable} from '@angular/core';
-import {Observable, Subject} from 'rxjs';
+import {Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {Account} from '../model/account/Account';
 import {environment} from 'src/environments/environment';
-import { Employee } from '../model/employee/Employee';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
   private apiServerUrl = environment.apiBaseUrl;
-  public currentAccountEmployee=new Subject<Employee>();
 
   constructor(private http: HttpClient) {
   }
@@ -30,8 +28,10 @@ export class AccountService {
   public getAccountByTokenReset(token: String): Observable<Account> {
     return this.http.get<any>(`${this.apiServerUrl}/account/token/${token}`);
   }
+
   public updatePassword(account: Account): Observable<Account> {
-    return this.http.put<Account>(`${this.apiServerUrl}/account/change-password`,account);
+    return this.http.put<Account>(`${this.apiServerUrl}/account/change-password`, account);
   }
+
   // public resetPassword(account:Account):
 }

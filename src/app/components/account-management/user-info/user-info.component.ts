@@ -1,15 +1,15 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute, Router } from '@angular/router';
-import { finalize } from 'rxjs/operators';
-import { TokenStorageService } from 'src/app/auth/_services/token-storage.service';
-import { Account } from 'src/app/model/account/Account';
-import { Employee } from 'src/app/model/employee/Employee';
-import { AccountService } from 'src/app/services/account.service';
-import { EmployeeService } from 'src/app/services/employee.service';
-import { LocationService } from 'src/app/services/location.service';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {AngularFireStorage} from '@angular/fire/compat/storage';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {ActivatedRoute, Router} from '@angular/router';
+import {finalize} from 'rxjs/operators';
+import {Employee} from 'src/app/model/employee/Employee';
+import {AccountService} from 'src/app/services/account.service';
+import {EmployeeService} from 'src/app/services/employee.service';
+import {LocationService} from 'src/app/services/location.service';
+import {AuthService} from "../../../auth/_services/auth.service";
+import {AuthStorageService} from "../../../auth/_services/auth-storage.service";
 
 
 @Component({
@@ -31,7 +31,6 @@ export class UserInfoComponent implements OnInit {
   DEFAULT_DISPLAY_AVATAR = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/profile.svg?alt=media&token=16bc5a31-510f-4250-bbfc-57d79f078710";
 
 
-
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -40,19 +39,14 @@ export class UserInfoComponent implements OnInit {
     private locationService: LocationService,
     private formBuilder: FormBuilder,
     private angularFireStorage: AngularFireStorage,
-    private accountService:AccountService
-  ) { }
-
+    private accountService: AccountService,
+    private authService: AuthService,
+    private authStorageService: AuthStorageService
+  ) {
+  }
 
 
   ngOnInit(): void {
-
-    this.employeeService.getCurrentAccountEmployee().subscribe(
-      data => {
-        this.employee = data;
-      }
-    )
-    console.log(this.employee)
 
     this.form = this.formBuilder.group({
       id: [],
@@ -87,7 +81,8 @@ export class UserInfoComponent implements OnInit {
           gender: data.gender,
           birthday: data.birthday,
           phoneNumber: data.phoneNumber,
-          mail: data.mail,
+          personalMail: data.personalMail,
+          companyMail: data.companyMail,
           province: data.province,
           district: data.district,
           ward: data.ward,
@@ -97,7 +92,7 @@ export class UserInfoComponent implements OnInit {
           status: data.status,
           avatar: this.avatar
         });
-        // console.log(data)
+        console.log(this.form.value)
       }
     )
   }
@@ -119,7 +114,7 @@ export class UserInfoComponent implements OnInit {
       this.form.value.avatar = this.avatar;
       this.employeeService.updateEmployee(this.form.value).subscribe(
         data => {
-          this.accountService.currentAccountEmployee.next(data);
+          this.authStorageService.observeUser(data);
         },
         () => undefined,
         () => this.snackBar.open("Update Successful", "OK", {
@@ -139,19 +134,18 @@ export class UserInfoComponent implements OnInit {
     }
   }
 
-
   uploadImage() {
     let name = Date.now().toString();
     this.angularFireStorage.upload(name, this.avatar)
       .snapshotChanges().pipe(
-        finalize(() => {
-          this.angularFireStorage.ref(name).getDownloadURL().subscribe(
-            (data) => {
-              this.avatar = data
-            }
-          )
-        })
-      ).subscribe();
+      finalize(() => {
+        this.angularFireStorage.ref(name).getDownloadURL().subscribe(
+          (data) => {
+            this.avatar = data
+          }
+        )
+      })
+    ).subscribe();
   }
 
   editInfo() {
@@ -174,7 +168,6 @@ export class UserInfoComponent implements OnInit {
   getDistrict(code: any) {
     this.locationService.getDistrictByProvince(code).subscribe(
       (data: any) => {
-        console.log("get new district list")
         this.districtList = data;
         this.wardList = [];
       }
@@ -184,7 +177,6 @@ export class UserInfoComponent implements OnInit {
   getWard(code: any) {
     this.locationService.getWardByDistrict(code).subscribe(
       (data: any) => {
-        console.log("get new ward list")
         this.wardList = data
       }
     )

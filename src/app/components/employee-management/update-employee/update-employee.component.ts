@@ -6,15 +6,15 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {EmployeeService} from "../../../services/employee.service";
 import {LocationService} from "../../../services/location.service";
 import {Employee} from "../../../model/employee/Employee";
-import {Location} from "@angular/common";
 import {finalize} from "rxjs/operators";
 import {AngularFireStorage} from "@angular/fire/compat/storage";
 import {
   ImportFromFileDialogComponent
 } from "../create-employee/import-from-file-dialog/import-from-file-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
-import { TokenStorageService } from 'src/app/auth/_services/token-storage.service';
-import { AccountService } from 'src/app/services/account.service';
+import {AuthStorageService} from 'src/app/auth/_services/auth-storage.service';
+import {AccountService} from 'src/app/services/account.service';
+import {AuthService} from "../../../auth/_services/auth.service";
 
 
 @Component({
@@ -30,6 +30,7 @@ export class UpdateEmployeeComponent implements OnInit {
   districtList: Array<any> = [];
   wardList: Array<any> = [];
   avatar: string = "";
+  avatarUrl: string | ArrayBuffer | null = "";
   MALE_AVATAR = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/undraw_male_avatar_323b.svg?alt=media&token=faa92c25-0f68-4f5d-95ce-5505e120e85d";
   FEMALE_AVATAR = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/undraw_female_avatar_w3jk.svg?alt=media&token=ce9acefb-a1bb-4285-9c91-ad02212d9e6f";
   DEFAULT_DISPLAY_AVATAR = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/profile.svg?alt=media&token=16bc5a31-510f-4250-bbfc-57d79f078710";
@@ -43,18 +44,20 @@ export class UpdateEmployeeComponent implements OnInit {
               private route: Router,
               private angularFireStorage: AngularFireStorage,
               private dialog: MatDialog,
-              private tokenStorageService: TokenStorageService
-    ) {
+              private tokenStorageService: AuthStorageService,
+              private authService: AuthService
+  ) {
   }
 
   ngOnInit(): void {
     this.form = this.formBuilder.group({
         id: [],
-        name: {value: null, disabled: true},
+        name: [],
         gender: ['', Validators.required],
         birthday: ['', Validators.required],
         phoneNumber: ['', [Validators.required, Validators.pattern("(\\d{3}) (\\d{3})( \\d{4})")]],
-        mail: {value: null, disabled: true},
+        personalMail: ['', [Validators.required, Validators.email]],
+        companyMail: [''],
         province: ['', Validators.required],
         district: ['', Validators.required],
         ward: ['', Validators.required],
@@ -70,6 +73,7 @@ export class UpdateEmployeeComponent implements OnInit {
     this.employeeService.getUpdateEmployee(this.activatedRoute.snapshot.params['id']).subscribe(
       (data: Employee) => {
         this.avatar = data.avatar == null ? '' : data.avatar;
+        this.avatarUrl = this.avatar;
         this.getDistrict(data.province?.id);
         this.getWard(data.district?.id)
         this.form.setValue({
@@ -78,7 +82,8 @@ export class UpdateEmployeeComponent implements OnInit {
           gender: data.gender,
           birthday: data.birthday,
           phoneNumber: data.phoneNumber,
-          mail: data.mail,
+          personalMail: data.personalMail,
+          companyMail: data.companyMail,
           province: data.province,
           district: data.district,
           ward: data.ward,
@@ -93,10 +98,8 @@ export class UpdateEmployeeComponent implements OnInit {
     if (this.form.valid) {
       if (this.avatar == '' || this.avatar == this.MALE_AVATAR || this.avatar == this.FEMALE_AVATAR) {
         if (this.form.value.gender == 'MALE') {
-          console.log("male")
           this.avatar = this.MALE_AVATAR;
         } else if (this.form.value.gender == 'FEMALE') {
-          console.log("female")
           this.avatar = this.FEMALE_AVATAR;
         } else {
           this.avatar = this.DEFAULT_DISPLAY_AVATAR;
@@ -107,8 +110,8 @@ export class UpdateEmployeeComponent implements OnInit {
       this.form.value.avatar = this.avatar;
       this.employeeService.updateEmployee(this.form.value).subscribe(
         data => {
-          if (data.id===this.tokenStorageService.getUser().id) {
-            this.accountService.currentAccountEmployee.next(data);
+          if (data.id === this.tokenStorageService.getUser().id) {
+            this.tokenStorageService.observeUser(data);
           }
         },
         () => undefined,
@@ -116,9 +119,9 @@ export class UpdateEmployeeComponent implements OnInit {
           duration: 3000,
           panelClass: ['mat-toolbar', 'mat-primary']
         }))
-        setTimeout(()=> {
+      setTimeout(() => {
         this.route.navigateByUrl('employee/table');
-        },50)
+      }, 50)
     } else {
       this.snackBar.open("Please fill form correctly", "OK", {
         duration: 3000,
@@ -130,7 +133,6 @@ export class UpdateEmployeeComponent implements OnInit {
   getDistrict(code: any) {
     this.locationService.getDistrictByProvince(code).subscribe(
       (data: any) => {
-        console.log("get new district list")
         this.districtList = data;
         this.wardList = [];
       }
@@ -140,7 +142,6 @@ export class UpdateEmployeeComponent implements OnInit {
   getWard(code: any) {
     this.locationService.getWardByDistrict(code).subscribe(
       (data: any) => {
-        console.log("get new ward list")
         this.wardList = data
       }
     )

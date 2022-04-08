@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
 import {LoginResponse} from "../payload/LoginResponse";
-import {TokenStorageService} from "./token-storage.service";
+import {AuthStorageService} from "./auth-storage.service";
 
 const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
@@ -18,7 +18,7 @@ export class AuthService {
   private API_LOGOUT = environment.apiBaseUrl + "/logout";
   private API_REFRESH_TOKEN = environment.apiBaseUrl + "/refreshtoken";
 
-  constructor(private httpClient: HttpClient, private tokenStorageService: TokenStorageService) {
+  constructor(private httpClient: HttpClient, private tokenStorageService: AuthStorageService) {
   }
 
   login(username: string, password: string): Observable<LoginResponse> {
@@ -48,6 +48,7 @@ export class AuthService {
   isLogged() {
     return this.tokenStorageService.getToken() != null;
   }
+
   isAdmin() {
     return this.tokenStorageService.getUser().authorities[0].authority == "ROLE_ADMIN";
   }

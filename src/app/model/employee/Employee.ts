@@ -3,9 +3,9 @@ import {Gender} from "./Gender";
 import {Status} from "./Status";
 import {ProjectMember} from "../projectMember/ProjectMember";
 import {BusinessUnit} from "../businessUnit/BusinessUnit";
-import { Province } from "../address/Province";
-import { District } from "../address/District";
-import { Ward } from "../address/Ward";
+import {Province} from "../address/Province";
+import {District} from "../address/District";
+import {Ward} from "../address/Ward";
 
 export interface Employee {
   id: string,
@@ -13,7 +13,8 @@ export interface Employee {
   gender: Gender,
   birthday: Date,
   phoneNumber: string,
-  mail: string,
+  companyMail: string,
+  personalMail: string,
   avatar: string,
   address: string,
   country: string,
@@ -23,7 +24,7 @@ export interface Employee {
   account: Account,
   businessUnit: BusinessUnit,
   status: Status,
-  modifiedDate:string;
+  modifiedDate: string;
   delete: boolean,
   projectMembers: ProjectMember[]
 }

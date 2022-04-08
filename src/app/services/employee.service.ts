@@ -2,18 +2,18 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 import {environment} from 'src/environments/environment';
-import { TokenStorageService } from '../auth/_services/token-storage.service';
+import {AuthStorageService} from '../auth/_services/auth-storage.service';
 import {Employee} from '../model/employee/Employee';
-import { EmployeeDetail } from '../model/employee/EmployeeDetail';
+import {EmployeeDetail} from '../model/employee/EmployeeDetail';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
   private API_EMPLOYEE = environment.apiBaseUrl + "/employee";
-  public employeeSubject=new Subject<any>();
+  public employeeSubject = new Subject<any>();
 
-  constructor(private http: HttpClient, private tokenStorageService: TokenStorageService) {
+  constructor(private http: HttpClient, private tokenStorageService: AuthStorageService) {
   }
 
   public getAllEmployee(): Observable<Array<Employee>> {
@@ -64,11 +64,11 @@ export class EmployeeService {
     return this.http.get<Employee[]>(this.API_EMPLOYEE);
   }
 
-  public removeEmployee(id: String) : Observable<Employee> {
+  public removeEmployee(id: String): Observable<Employee> {
     return this.http.delete<Employee>(this.API_EMPLOYEE + "/" + id)
   }
 
-  public getCurrentAccountEmployee(): Observable<Employee>{
+  public getCurrentAccountEmployee(): Observable<Employee> {
     return this.getEmployeeById(this.tokenStorageService.getUser().id)
   }
 }

@@ -1,11 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-import { Account } from 'src/app/model/account/Account';
-import { Employee } from 'src/app/model/employee/Employee';
-import { AccountService } from 'src/app/services/account.service';
-import { EmployeeService } from 'src/app/services/employee.service';
 import {AuthService} from "../../../auth/_services/auth.service";
-import {TokenStorageService} from "../../../auth/_services/token-storage.service";
+import {AuthStorageService} from "../../../auth/_services/auth-storage.service";
+import {EmployeeService} from "../../../services/employee.service";
 
 @Component({
   selector: 'app-login',
@@ -17,16 +14,14 @@ export class LoginComponent implements OnInit {
   isUsernameFocus = false;
   isPasswordFocus = false;
   isIncorrectUser = false;
-  employee:Employee;
 
   constructor(private router: Router,
               private authService: AuthService,
-              private tokenStorageService: TokenStorageService,
-              private employeeService:EmployeeService) {
+              private tokenStorageService: AuthStorageService,
+              private employeeService: EmployeeService) {
   }
 
   ngOnInit(): void {
-    // this.accountInfo(this.tokenStorageService.getUser().id)
   }
 
   login(username: string, password: string) {
@@ -35,7 +30,6 @@ export class LoginComponent implements OnInit {
         this.tokenStorageService.saveToken(data.accessToken)
         this.tokenStorageService.saveRefreshToken(data.refreshToken)
         this.tokenStorageService.saveUser(data.user)
-        // this.accountInfo(this.tokenStorageService.getUser().id)
         this.router.navigateByUrl("/home").then(() => window.location.reload())
       },
       error => {
@@ -46,13 +40,4 @@ export class LoginComponent implements OnInit {
       () => undefined
     )
   }
-
-  // accountInfo(id:string) {
-  //   this.employeeService.getEmployeeById(id).subscribe(
-  //     data => {
-  //       this.employee=data;
-  //       localStorage.setItem('accountInfo',JSON.stringify(data));
-  //     }
-  //   )
-  // }
 }

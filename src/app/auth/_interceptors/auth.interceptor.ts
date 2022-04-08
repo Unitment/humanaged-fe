@@ -7,7 +7,7 @@ import {
   HttpInterceptor,
   HttpRequest
 } from "@angular/common/http";
-import {TokenStorageService} from "../_services/token-storage.service";
+import {AuthStorageService} from "../_services/auth-storage.service";
 import {BehaviorSubject, Observable, throwError} from "rxjs";
 import {AuthService} from "../_services/auth.service";
 import {catchError, filter, switchMap, take} from "rxjs/operators";
@@ -18,7 +18,7 @@ export class AuthInterceptor implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(private tokenService: TokenStorageService, private authService: AuthService) {
+  constructor(private tokenService: AuthStorageService, private authService: AuthService) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

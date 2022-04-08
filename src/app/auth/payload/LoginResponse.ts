@@ -9,7 +9,8 @@ class User {
   id: string
   name: string
   avatar: string
-  mail: string
+  personalMail: string
+  companyMail: string
   username: string
   authorities: [
     {

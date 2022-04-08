@@ -20,7 +20,6 @@ import {finalize} from "rxjs/operators";
 export class CreateEmployeeComponent implements OnInit {
   form: FormGroup;
 
-
   provinceList: Array<any> = [];
   districtList: Array<any> = [];
   wardList: Array<any> = [];
@@ -44,7 +43,7 @@ export class CreateEmployeeComponent implements OnInit {
         gender: ['', Validators.required],
         birthday: ['', Validators.required],
         phoneNumber: ['', [Validators.required, Validators.pattern("(\\d{3}) (\\d{3})( \\d{4})")]],
-        mail: ['', [Validators.required, Validators.email]],
+        personalMail: ['', [Validators.required, Validators.email]],
         province: ['', Validators.required],
         district: ['', Validators.required],
         ward: ['', Validators.required],

@@ -36,7 +36,7 @@
               <div class="row">
                 <mat-form-field class="col-12">
                   <mat-label>Name</mat-label>
-                  <input matInput placeholder="Type name" formControlName="name">
+                  <input matInput placeholder="Type name" formControlName="name" readonly>
                   <mat-error *ngIf="form.get('name')?.hasError('required') && form.get('name')?.touched">
                     Name is required
                   </mat-error>
@@ -76,14 +76,21 @@
               </div>
               <div class="row">
                 <mat-form-field class="col-12">
-                  <mat-label>Mail</mat-label>
-                  <input matInput placeholder="Type mail" formControlName="mail">
-                  <mat-error *ngIf="form.get('mail')?.hasError('required') && form.get('mail')?.touched">
-                    Mail is required
+                  <mat-label>Personal Mail</mat-label>
+                  <input matInput placeholder="Type mail" formControlName="personalMail">
+                  <mat-error
+                    *ngIf="form.get('personalMail')?.hasError('required') && form.get('personalMail')?.touched">
+                    Personal Mail is required
                   </mat-error>
-                  <mat-error *ngIf="form.get('mail')?.hasError('email') && form.get('mail')?.dirty">
+                  <mat-error *ngIf="form.get('personalMail')?.hasError('email') && form.get('personalMail')?.dirty">
                     Please enter correct mail
                   </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="row">
+                <mat-form-field class="col-12">
+                  <mat-label>Company Mail</mat-label>
+                  <input matInput formControlName="companyMail" readonly>
                 </mat-form-field>
               </div>
             </div>

@@ -8,15 +8,15 @@
   </nav>
   <a class="current__user">
     <button [matMenuTriggerFor]="menu" id="avatarBtn">
-      <img [src]="employee.avatar" alt="avatar" class="avatar">
+      <img [src]="user?.avatar" alt="avatar" class="avatar">
     </button>
     <mat-menu #menu="matMenu" xPosition="before">
       <div id="user__info">
-        <img [src]="employee.avatar" alt="avatar" id="avatarDetail">
+        <img [src]="user?.avatar" alt="avatar" id="avatarDetail">
 
         <div class="user__detail">
-          <div id="user__name">{{employee.name}}</div>
-          <div id="user__mail">{{employee.mail}}</div>
+          <div style="overflow-wrap: break-word" id="user__name">{{user.name}}</div>
+          <div class="text-truncate" style="max-width: 150px" id="user__mail">{{user.companyMail}}</div>
         </div>
       </div>
       <mat-divider style="background-color: #92979a"></mat-divider>

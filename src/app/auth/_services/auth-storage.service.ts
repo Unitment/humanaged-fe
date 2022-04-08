@@ -1,4 +1,6 @@
 import {Injectable} from '@angular/core';
+import {Subject} from "rxjs";
+import {Employee} from "../../model/employee/Employee";
 
 const JWT_KEY = "auth-jwt";
 const USER_KEY = "auth-user";
@@ -7,9 +9,12 @@ const REFRESH_TOKEN_KEY = "auth-refresh-token";
 @Injectable({
   providedIn: 'root'
 })
-export class TokenStorageService {
+export class AuthStorageService {
+
+  public loggedUser = new Subject<Employee>();
 
   constructor() {
+    this.loggedUser.subscribe(data => this.updateUser(data))
   }
 
   saveToken(token: string) {
@@ -45,5 +50,20 @@ export class TokenStorageService {
       return JSON.parse(user);
     }
     return {};
+  }
+
+  public observeUser(employee: Employee) {
+    this.loggedUser.next(employee);
+  }
+
+  private updateUser(employee: Employee) {
+    const user = this.getUser();
+    if (user) {
+      user.name = employee.name;
+      user.avatar = employee.avatar;
+      user.personalMail = employee.personalMail;
+      user.gender = employee.gender;
+    }
+    this.saveUser(user);
   }
 }

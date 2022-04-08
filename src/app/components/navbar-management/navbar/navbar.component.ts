@@ -21,7 +21,7 @@ export class NavbarComponent implements OnInit {
   avatar: string | null;
   gender:string;
   eventBusSub: Subscription;
-  employee:Employee;
+  employee: Employee;
   constructor(
     private router: Router,
     private accountService: AccountService,

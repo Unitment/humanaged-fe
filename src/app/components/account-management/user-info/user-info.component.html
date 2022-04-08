@@ -6,16 +6,15 @@
               <div class="card-body">
                 <div class="d-flex flex-column align-items-center text-center">
                     <div class="row"  class="rounded-circle" width="150" height="150">
-                      <div class="col-12">
-                        <button mat-icon-button class="position-absolute bg-dark" (click)="true">
-                          <mat-icon color="accent">edit</mat-icon>
-                        </button>
-                      
+                      <div class="col-12">                      
                         <input type="file" name="image" id="image" accept="image/*" (change)="selectFile($event)"
-                               style="display: none" #avatarIp [disabled]="true"/>
-                        <div id="preview-wrapper">
-                          <div id="preview" (click)="avatarIp.click()">
-                            <img id="avatar__preview" [src]="employee.avatar" alt="Admin">
+                               style="display: none" #avatarIp/>
+                        <div id="preview-wrapper" class="position-relative">
+                          <button mat-icon-button class="position-absolute bg-dark" id="edit-image-button" (click)="avatarIp.click()" [hidden]="!isEdit">
+                            <mat-icon color="accent">camera_alt</mat-icon>
+                          </button>
+                          <div id="preview">
+                            <img id="avatar__preview" [src]="avatarPreviewUrl" alt="Admin">
                           </div>
                         </div>
                       </div>
@@ -23,8 +22,8 @@
                   <!-- <img [src]="ava==null ?  'assets/images/profile.svg' : ava" alt="avatar" class="rounded-circle" width="150" height="150"> -->
                   <!-- <img [src]="'https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/1647511730255?alt=media&token=1c02a135-d041-47c7-b32c-2be03b496b2b'" alt="avatar" class="rounded-circle" width="150"> -->
                   <div class="mt-3">
-                    {{employee.name}}
-                    <p class="text-secondary mb-1">{{employee.mail}}</p>
+                    {{employee?.name}}
+                    <p class="text-secondary mb-1">{{employee?.mail}}</p>
                   </div>
                 </div>
               </div>

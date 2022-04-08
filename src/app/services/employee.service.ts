@@ -48,10 +48,10 @@ export class EmployeeService {
     return this.http.put<Employee>(this.API_EMPLOYEE, employee);
   }
 
-  public updateEmployeeAvatar(empId: string, avatar: string): Observable<string> {
+  public updateEmployeeAvatar(empId: string, avatar: string): Observable<Employee> {
     console.log("params: ", avatar);
     
-    return this.http.put(`${this.API_EMPLOYEE}/${empId}/avatar`, avatar, {responseType: 'text'});
+    return this.http.put<Employee>(`${this.API_EMPLOYEE}/${empId}/avatar`, avatar);
   }
 
   public getEmployeeById(id: string): Observable<Employee> {

@@ -25,7 +25,8 @@ export class UserInfoComponent implements OnInit {
   districtList: Array<any> = [];
   wardList: Array<any> = [];
   form: FormGroup;
-  avatar: string;
+  avatarFile: File | null;
+  avatarPreviewUrl: string;
   MALE_AVATAR = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/undraw_male_avatar_323b.svg?alt=media&token=faa92c25-0f68-4f5d-95ce-5505e120e85d";
   FEMALE_AVATAR = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/undraw_female_avatar_w3jk.svg?alt=media&token=ce9acefb-a1bb-4285-9c91-ad02212d9e6f";
   DEFAULT_DISPLAY_AVATAR = "https://firebasestorage.googleapis.com/v0/b/humanaged-d9db7.appspot.com/o/profile.svg?alt=media&token=16bc5a31-510f-4250-bbfc-57d79f078710";
@@ -48,16 +49,21 @@ export class UserInfoComponent implements OnInit {
   ngOnInit(): void {
 
     this.employeeService.getCurrentAccountEmployee().subscribe(
+      data => {        
+        this.employee = data;
+      }
+    );
+
+    this.accountService.currentAccountEmployee.subscribe(
       data => {
         this.employee = data;
       }
-    )
-    console.log(this.employee)
+    );
 
     this.form = this.formBuilder.group({
       id: [],
-      name: [],
-      accountName: [],
+      name: [{value: null, disabled: true}],
+      accountName: [{value: null, disabled: true}],
       gender: ['', Validators.required],
       birthday: ['', Validators.required],
       phoneNumber: ['', [Validators.required, Validators.pattern("(\\d{3}) (\\d{3})( \\d{4})")]],
@@ -66,10 +72,7 @@ export class UserInfoComponent implements OnInit {
       district: ['', Validators.required],
       ward: ['', Validators.required],
       address: ['', Validators.required],
-      account: [],
-      country: [],
-      status: [],
-      avatar: ['']
+      account: []
     })
     this.locationService.getAllProvince().subscribe(
       data => this.provinceList = data
@@ -77,7 +80,7 @@ export class UserInfoComponent implements OnInit {
 
     this.employeeService.getCurrentAccountEmployee().subscribe(
       (data: Employee) => {
-        this.avatar = data.avatar == null ? '' : data.avatar;
+        this.avatarPreviewUrl = data.avatar == null ? '' : data.avatar;
         this.getDistrict(data.province?.id);
         this.getWard(data.district?.id);
         this.form.setValue({
@@ -93,9 +96,6 @@ export class UserInfoComponent implements OnInit {
           ward: data.ward,
           address: data.address,
           account: data.account,
-          country: data.country,
-          status: data.status,
-          avatar: this.avatar
         });
         // console.log(data)
       }
@@ -104,19 +104,22 @@ export class UserInfoComponent implements OnInit {
 
   saveInfo() {
     if (this.form.valid) {
-      if (this.avatar == '' || this.avatar == this.MALE_AVATAR || this.avatar == this.FEMALE_AVATAR) {
+      if (this.avatarPreviewUrl == '' || this.avatarPreviewUrl == this.MALE_AVATAR || this.avatarPreviewUrl == this.FEMALE_AVATAR) {
         if (this.form.value.gender == 'MALE') {
-          this.avatar = this.MALE_AVATAR;
+          this.avatarPreviewUrl = this.MALE_AVATAR;
         } else if (this.form.value.gender == 'FEMALE') {
-          this.avatar = this.FEMALE_AVATAR;
-          console.log(this.avatar)
+          this.avatarPreviewUrl = this.FEMALE_AVATAR;
+          console.log(this.avatarPreviewUrl)
         } else {
-          this.avatar = this.DEFAULT_DISPLAY_AVATAR;
+          this.avatarPreviewUrl = this.DEFAULT_DISPLAY_AVATAR;
         }
       } else {
-        this.uploadImage()
+        if(this.avatarFile) {
+          this.uploadImage();
+          this.avatarPreviewUrl = this.employee.avatar;
+        }
       }
-      this.form.value.avatar = this.avatar;
+      this.form.value.avatar = this.avatarPreviewUrl;
       this.employeeService.updateEmployee(this.form.value).subscribe(
         data => {
           this.accountService.currentAccountEmployee.next(data);
@@ -142,12 +145,29 @@ export class UserInfoComponent implements OnInit {
 
   uploadImage() {
     let name = Date.now().toString();
-    this.angularFireStorage.upload(name, this.avatar)
+    this.angularFireStorage.upload(name, this.avatarFile)
       .snapshotChanges().pipe(
         finalize(() => {
           this.angularFireStorage.ref(name).getDownloadURL().subscribe(
             (data) => {
-              this.avatar = data
+              this.avatarPreviewUrl = data;
+
+              this.employeeService.updateEmployeeAvatar(this.employee.id, this.avatarPreviewUrl).subscribe(
+                data => {
+                  this.accountService.currentAccountEmployee.next(data);
+                  
+                  this.snackBar.open("Avatar Uploaded", "OK", {
+                    duration: 1000,
+                    panelClass: ['mat-toolbar', 'mat-primary']
+                  })
+                },
+                error => {
+                  this.snackBar.open("Avatar Upload Fail!\n" + error, "OK", {
+                    duration: 1000,
+                    panelClass: ['mat-toolbar', 'mat-primary']
+                  })
+                }
+              )
             }
           )
         })
@@ -165,9 +185,17 @@ export class UserInfoComponent implements OnInit {
   selectFile(event: any) {
     let file = event.target.files[0]
     if (file != undefined) {
-      this.avatar = file;
+      var fileReader = new FileReader();
+
+      fileReader.onload = () => {
+        this.avatarPreviewUrl = fileReader.result as string;
+        this.avatarFile = file;
+      }
+
+      fileReader.readAsDataURL(file);
     } else {
-      this.avatar = '';
+      this.avatarPreviewUrl = this.employee.avatar;
+      this.avatarFile = null;
     }
   }
 
